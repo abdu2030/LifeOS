@@ -22,6 +22,7 @@ export function JournalEditor({ isSaving, onSave }: JournalEditorProps) {
   const [status, setStatus] = useState('')
   const [shouldEncrypt, setShouldEncrypt] = useState(true)
   const [tags, setTags] = useState<string[]>([])
+  const [editorHtml, setEditorHtml] = useState('')
   const editor = useEditor({
     content: '',
     extensions: [
@@ -30,6 +31,9 @@ export function JournalEditor({ isSaving, onSave }: JournalEditorProps) {
         placeholder: 'Write what happened, what you felt, and what you want to remember...',
       }),
     ],
+    onUpdate: ({ editor: updatedEditor }) => {
+      setEditorHtml(updatedEditor.getHTML())
+    },
   })
 
   useEffect(() => () => editor?.destroy(), [editor])
@@ -39,7 +43,7 @@ export function JournalEditor({ isSaving, onSave }: JournalEditorProps) {
       return
     }
 
-    const body = editor.getHTML()
+    const body = editorHtml || editor.getHTML()
     const isEncrypted = shouldEncrypt && passphrase.length >= 8
 
     if (shouldEncrypt && passphrase.length < 8) {
@@ -150,7 +154,7 @@ export function JournalEditor({ isSaving, onSave }: JournalEditorProps) {
 
       <EditorContent className="journal-editor" editor={editor} />
 
-      <MoodAnalysis entryText={editor?.getHTML() ?? ''} onApplyScore={setMoodScore} />
+      <MoodAnalysis entryText={editorHtml} onApplyScore={setMoodScore} />
 
       {status ? <p className="auth-success">{status}</p> : null}
 

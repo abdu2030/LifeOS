@@ -13,13 +13,20 @@ export function MoodAnalysis({ entryText, onApplyScore }: MoodAnalysisProps) {
   const [analysis, setAnalysis] = useState<MoodAnalysisResult | null>(null)
   const [error, setError] = useState('')
   const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const plainText = stripHtml(entryText)
+  const canAnalyze = plainText.length > 0
 
   async function handleAnalyze() {
+    if (!canAnalyze) {
+      setError('Write something in the journal before analyzing mood.')
+      return
+    }
+
     setError('')
     setIsAnalyzing(true)
 
     try {
-      const result = await analyzeMood(stripHtml(entryText))
+      const result = await analyzeMood(plainText)
       setAnalysis(result)
       onApplyScore(result.score)
     } catch (analysisError) {
@@ -39,7 +46,7 @@ export function MoodAnalysis({ entryText, onApplyScore }: MoodAnalysisProps) {
 
       <button
         className="primary-action compact-action"
-        disabled={isAnalyzing}
+        disabled={isAnalyzing || !canAnalyze}
         onClick={handleAnalyze}
         type="button"
       >
