@@ -23,9 +23,11 @@ import {
   Sparkles,
   Target,
 } from 'lucide-react'
-import type { ComponentType, ReactNode } from 'react'
+import type { ComponentType } from 'react'
 
 import { focusTasks, habitDays, habitHeatmap, navItems, reminders } from './features/dashboard/data/dashboardData'
+import { Avatar } from './shared/components/Avatar'
+import { DashboardCardHeader as CardHeader } from './shared/components/DashboardCardHeader'
 
 function App() {
   return (
@@ -377,35 +379,6 @@ function App() {
   )
 }
 
-function CardHeader({
-  children,
-  icon: Icon,
-  label,
-  tone,
-}: {
-  children?: ReactNode
-  icon: ComponentType<{ size?: number }>
-  label: string
-  tone: string
-}) {
-  return (
-    <header className="card-header">
-      <div className="card-title">
-        <span className={`card-icon ${tone}`}>
-          <Icon size={17} />
-        </span>
-        <strong>{label}</strong>
-      </div>
-      <div className="card-actions">
-        {children}
-        <button className="icon-action" type="button" aria-label={`${label} options`}>
-          <MoreVertical size={17} />
-        </button>
-      </div>
-    </header>
-  )
-}
-
 function MiniLineChart() {
   return (
     <div className="mini-chart" aria-label="Balance trend">
@@ -447,21 +420,6 @@ function MiniLineChart() {
         <span>May 15</span>
         <span>May 22</span>
       </div>
-    </div>
-  )
-}
-
-function Avatar({ compact = false }: { compact?: boolean }) {
-  return (
-    <div className={compact ? 'avatar portrait top-avatar' : 'avatar portrait'} aria-label="Arjun Patel">
-      <span className="avatar-hair" />
-      <span className="avatar-face" />
-      <span className="avatar-ear left" />
-      <span className="avatar-ear right" />
-      <span className="avatar-eye left" />
-      <span className="avatar-eye right" />
-      <span className="avatar-smile" />
-      <span className="avatar-shirt" />
     </div>
   )
 }
