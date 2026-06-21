@@ -49,3 +49,9 @@ export function signOut() {
 export function getCurrentSession() {
   return supabase.auth.getSession()
 }
+
+export function subscribeToAuthChanges(
+  onChange: Parameters<typeof supabase.auth.onAuthStateChange>[0],
+) {
+  return supabase.auth.onAuthStateChange(onChange)
+}
