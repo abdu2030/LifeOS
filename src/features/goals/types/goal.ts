@@ -1,4 +1,4 @@
-export type GoalStatus = 'not_started' | 'in_progress' | 'completed' | 'paused' | 'cancelled'
+export type GoalStatus = 'at_risk' | 'complete' | 'not_started' | 'off_track' | 'on_track'
 
 export type Goal = {
   createdAt: string

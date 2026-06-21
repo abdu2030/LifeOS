@@ -12,7 +12,7 @@ type GoalListProps = {
   onUpdate: (goalId: string, input: GoalInput) => Promise<unknown>
 }
 
-const goalStatuses: GoalStatus[] = ['not_started', 'in_progress', 'completed', 'paused', 'cancelled']
+const goalStatuses: GoalStatus[] = ['on_track', 'at_risk', 'off_track', 'not_started', 'complete']
 
 export function GoalList({
   error,
@@ -76,7 +76,7 @@ export function GoalList({
                 onUpdate(goal.id, {
                   description: goal.description ?? '',
                   parentGoalId: goal.parentGoalId,
-                  progress: event.target.value === 'completed' ? 100 : goal.progress,
+                  progress: event.target.value === 'complete' ? 100 : goal.progress,
                   status: event.target.value as GoalStatus,
                   targetDate: goal.targetDate,
                   title: goal.title,

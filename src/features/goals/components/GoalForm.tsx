@@ -8,14 +8,14 @@ type GoalFormProps = {
   onSubmit: (input: GoalInput) => Promise<unknown>
 }
 
-const goalStatuses: GoalStatus[] = ['not_started', 'in_progress', 'completed', 'paused']
+const goalStatuses: GoalStatus[] = ['on_track', 'at_risk', 'off_track', 'not_started', 'complete']
 
 export function GoalForm({ goals, isSubmitting, onSubmit }: GoalFormProps) {
   const [description, setDescription] = useState('')
   const [formError, setFormError] = useState('')
   const [parentGoalId, setParentGoalId] = useState('')
   const [progress, setProgress] = useState('0')
-  const [status, setStatus] = useState<GoalStatus>('in_progress')
+  const [status, setStatus] = useState<GoalStatus>('on_track')
   const [targetDate, setTargetDate] = useState('')
   const [title, setTitle] = useState('')
 
@@ -35,21 +35,25 @@ export function GoalForm({ goals, isSubmitting, onSubmit }: GoalFormProps) {
       return
     }
 
-    await onSubmit({
-      description,
-      parentGoalId: parentGoalId || null,
-      progress: parsedProgress,
-      status,
-      targetDate: targetDate || null,
-      title: title.trim(),
-    })
+    try {
+      await onSubmit({
+        description,
+        parentGoalId: parentGoalId || null,
+        progress: parsedProgress,
+        status,
+        targetDate: targetDate || null,
+        title: title.trim(),
+      })
 
-    setDescription('')
-    setParentGoalId('')
-    setProgress('0')
-    setStatus('in_progress')
-    setTargetDate('')
-    setTitle('')
+      setDescription('')
+      setParentGoalId('')
+      setProgress('0')
+      setStatus('on_track')
+      setTargetDate('')
+      setTitle('')
+    } catch (error) {
+      setFormError(error instanceof Error ? error.message : 'Unable to save goal.')
+    }
   }
 
   return (
