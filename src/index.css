@@ -1081,6 +1081,67 @@ kbd {
   font-size: 18px;
 }
 
+.finance-widget,
+.finance-widget-empty {
+  display: grid;
+  gap: 12px;
+  align-content: center;
+  min-height: 100%;
+}
+
+.finance-widget-empty {
+  justify-items: center;
+  text-align: center;
+}
+
+.finance-widget-empty svg {
+  color: var(--blue);
+}
+
+.finance-widget-empty span,
+.finance-widget-balance span {
+  color: var(--muted);
+}
+
+.finance-widget-balance {
+  display: grid;
+  gap: 4px;
+}
+
+.finance-widget-balance strong {
+  font-size: 32px;
+  letter-spacing: -0.04em;
+}
+
+.finance-widget-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.finance-widget-stat-grid span {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 9px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 10px;
+  color: var(--muted);
+  background: rgba(15, 23, 42, 0.44);
+  font-size: 12px;
+}
+
+.finance-widget-stat-grid svg {
+  color: var(--blue);
+}
+
+.finance-widget-stat-grid strong {
+  overflow: hidden;
+  color: var(--text);
+  font-size: 14px;
+  text-overflow: ellipsis;
+}
+
 .widget-gallery {
   position: sticky;
   top: 14px;

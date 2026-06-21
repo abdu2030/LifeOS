@@ -1,5 +1,5 @@
+import { FinanceWidget } from '../../finance/components/FinanceWidget'
 import {
-  FinanceOverviewWidget,
   GoalsOverviewWidget,
   HabitTrackerWidget,
   JournalMoodWidget,
@@ -17,7 +17,7 @@ export const widgetRegistry: Record<WidgetId, WidgetDefinition> = {
     description: 'Balance, income, expense, and spending category summary.',
     category: 'Finance',
     defaultLayout: { i: 'finance-overview', x: 0, y: 0, w: 4, h: 5, minW: 3, minH: 3 },
-    component: FinanceOverviewWidget,
+    component: FinanceWidget,
   },
   'habit-tracker': {
     id: 'habit-tracker',
