@@ -1,4 +1,5 @@
 import { HabitForm } from '../components/HabitForm'
+import { HabitHeatmap } from '../components/HabitHeatmap'
 import { HabitList } from '../components/HabitList'
 import { useHabits } from '../hooks/useHabits'
 
@@ -24,6 +25,8 @@ export function HabitsPage() {
           <p>Track daily check-ins, streaks, and freeze tokens from one focused workspace.</p>
         </div>
       </div>
+
+      <HabitHeatmap habits={habits} />
 
       <div className="habits-layout-grid">
         <HabitForm isSubmitting={isCreating} onSubmit={createHabit} />

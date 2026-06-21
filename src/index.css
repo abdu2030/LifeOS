@@ -1288,6 +1288,28 @@ kbd {
   align-items: start;
 }
 
+.habit-heatmap-panel {
+  overflow: hidden;
+}
+
+.habit-d3-heatmap {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+}
+
+.habit-d3-heatmap rect {
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.habit-d3-heatmap rect:hover {
+  opacity: 0.82;
+  transform: scale(1.08);
+}
+
 .habit-form {
   align-self: start;
 }
