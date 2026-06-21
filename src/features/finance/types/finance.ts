@@ -27,3 +27,18 @@ export type FinanceCategory = {
   type: TransactionType
   color: string
 }
+
+export type CsvTransactionRow = Record<string, string>
+
+export type CsvColumnMapping = {
+  amount: string
+  category: string
+  description: string
+  occurredOn: string
+  type: string
+}
+
+export type CsvImportResult = {
+  rejectedRows: number
+  transactions: TransactionInput[]
+}

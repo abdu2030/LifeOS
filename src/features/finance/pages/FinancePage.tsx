@@ -3,9 +3,11 @@ import { CashflowLineChart } from '../components/charts/CashflowLineChart'
 import { CategoryPieChart } from '../components/charts/CategoryPieChart'
 import { DailySpendingBarChart } from '../components/charts/DailySpendingBarChart'
 import { TransactionTypeBarChart } from '../components/charts/TransactionTypeBarChart'
+import { CSVImporter } from '../components/CSVImporter'
 import { TransactionForm } from '../components/TransactionForm'
 import { TransactionList } from '../components/TransactionList'
 import { useTransactions } from '../hooks/useTransactions'
+import type { TransactionInput } from '../types/finance'
 
 export function FinancePage() {
   const {
@@ -17,6 +19,10 @@ export function FinancePage() {
     isLoading,
     transactions,
   } = useTransactions()
+
+  async function handleImport(transactionsToImport: TransactionInput[]) {
+    await Promise.all(transactionsToImport.map((transaction) => createTransaction(transaction)))
+  }
 
   return (
     <section className="finance-page">
@@ -38,6 +44,7 @@ export function FinancePage() {
       <div className="finance-layout-grid">
         <TransactionForm isSubmitting={isCreating} onSubmit={createTransaction} />
         <CategoryManager />
+        <CSVImporter onImport={handleImport} />
         <TransactionList
           error={error}
           isDeleting={isDeleting}
