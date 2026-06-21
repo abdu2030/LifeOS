@@ -1,6 +1,7 @@
 import { getTodayFocusTasks } from '../../tasks/services/taskService'
 import { getHabitHeatmapSummary } from '../../habits/services/habitService'
-import { navItems, reminders } from '../data/dashboardData'
+import { getUpcomingReminders } from '../../planner/services/plannerService'
+import { navItems } from '../data/dashboardData'
 
 export function getDashboardOverview() {
   const habitSummary = getHabitHeatmapSummary()
@@ -10,6 +11,6 @@ export function getDashboardOverview() {
     habitDays: habitSummary.days,
     habitHeatmap: habitSummary.heatmap,
     navItems,
-    reminders,
+    reminders: getUpcomingReminders(),
   }
 }
