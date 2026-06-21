@@ -1543,17 +1543,17 @@ kbd {
 
 .mood-analysis-result {
   display: grid;
-  gap: 14px;
-  padding: 14px;
+  gap: 16px;
+  padding: 18px;
   border: 1px solid rgba(148, 163, 184, 0.13);
-  border-radius: 18px;
-  background: rgba(15, 23, 42, 0.34);
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.28);
 }
 
 .mood-analysis-result__main {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: 16px;
+  gap: 18px;
   align-items: center;
 }
 
@@ -1565,17 +1565,24 @@ kbd {
 .mood-analysis-result__copy > span {
   color: var(--muted);
   font-size: 12px;
-  font-weight: 850;
+  font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+.mood-analysis-result__copy > strong {
+  display: block;
+  color: #f8fafc;
+  font-size: 18px;
+  line-height: 1.2;
 }
 
 .mood-analysis-result__copy p {
   margin: 0;
   max-width: 54ch;
-  color: #dbeafe;
-  font-size: 15px;
-  line-height: 1.55;
+  color: #bfdbfe;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .mood-analysis-result__chips {
@@ -1639,8 +1646,8 @@ kbd {
 }
 
 .mood-ring-full--compact {
-  width: 96px;
-  height: 96px;
+  width: 88px;
+  height: 88px;
 }
 
 .mood-ring-full--compact circle {
@@ -1648,15 +1655,11 @@ kbd {
 }
 
 .mood-ring-full--compact strong {
-  font-size: 24px;
+  font-size: 23px;
 }
 
 .mood-ring-full--compact span {
-  max-width: 72px;
-  overflow: hidden;
-  text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: none;
 }
 
 .journal-widget,

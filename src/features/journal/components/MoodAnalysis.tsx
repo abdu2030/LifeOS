@@ -60,6 +60,9 @@ export function MoodAnalysis({ entryText, onApplyScore }: MoodAnalysisProps) {
             <MoodRingFull label={analysis.label} score={analysis.score} size="compact" />
             <div className="mood-analysis-result__copy">
               <span>AI readout</span>
+              <strong>
+                {analysis.label} mood · {analysis.score.toFixed(1)}/10
+              </strong>
               <p>{analysis.summary}</p>
             </div>
           </div>
