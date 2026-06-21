@@ -15,13 +15,13 @@ import {
   Lock,
   Maximize2,
   PenLine,
-  SlidersHorizontal,
   Smile,
   Sparkles,
   Target,
 } from 'lucide-react'
 import type { ComponentType } from 'react'
 
+import { DashboardGreeting } from '../components/DashboardGreeting'
 import { DashboardSidebar } from '../components/DashboardSidebar'
 import { DashboardTopbar } from '../components/DashboardTopbar'
 import { useDashboardOverview } from '../hooks/useDashboardOverview'
@@ -37,16 +37,7 @@ export function DashboardPage() {
       <section className="workspace">
         <DashboardTopbar />
 
-        <section className="greeting-row">
-          <div>
-            <h2>Good morning, Arjun! <span aria-hidden="true">{'\u{1F44B}'}</span></h2>
-            <p>Here's what's happening in your life today.</p>
-          </div>
-          <button className="customize-button" type="button">
-            <SlidersHorizontal size={18} />
-            Customize Dashboard
-          </button>
-        </section>
+        <DashboardGreeting />
 
         <section className="dashboard-grid" aria-label="LifeOS dashboard">
           <article className="card finance-card">
