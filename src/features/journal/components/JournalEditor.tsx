@@ -4,6 +4,8 @@ import StarterKit from '@tiptap/starter-kit'
 import { Bold, Heading2, Italic, List, Save } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
+import { EncryptionBadge } from './EncryptionBadge'
+import { encryptText } from '../services/encryptionService'
 import type { JournalEntryInput } from '../types/journal'
 
 type JournalEditorProps = {
@@ -14,7 +16,9 @@ type JournalEditorProps = {
 export function JournalEditor({ isSaving, onSave }: JournalEditorProps) {
   const [title, setTitle] = useState('')
   const [moodScore, setMoodScore] = useState(7)
+  const [passphrase, setPassphrase] = useState('')
   const [status, setStatus] = useState('')
+  const [shouldEncrypt, setShouldEncrypt] = useState(true)
   const editor = useEditor({
     content: '',
     extensions: [
@@ -32,13 +36,22 @@ export function JournalEditor({ isSaving, onSave }: JournalEditorProps) {
       return
     }
 
+    const body = editor.getHTML()
+    const isEncrypted = shouldEncrypt && passphrase.length >= 8
+
+    if (shouldEncrypt && passphrase.length < 8) {
+      setStatus('Use at least 8 characters for encrypted entries.')
+      return
+    }
+
     await onSave({
-      body: editor.getHTML(),
+      body: isEncrypted ? await encryptText(body, passphrase) : body,
+      isEncrypted,
       moodScore,
       title,
     })
 
-    setStatus('Journal entry saved.')
+    setStatus(isEncrypted ? 'Encrypted journal entry saved.' : 'Journal entry saved.')
   }
 
   return (
@@ -69,6 +82,30 @@ export function JournalEditor({ isSaving, onSave }: JournalEditorProps) {
           value={moodScore}
         />
       </label>
+
+      <div className="journal-encryption-row">
+        <EncryptionBadge isEncrypted={shouldEncrypt} />
+        <label>
+          <input
+            checked={shouldEncrypt}
+            onChange={(event) => setShouldEncrypt(event.target.checked)}
+            type="checkbox"
+          />
+          Encrypt this entry
+        </label>
+      </div>
+
+      {shouldEncrypt ? (
+        <label className="auth-field">
+          Encryption passphrase
+          <input
+            onChange={(event) => setPassphrase(event.target.value)}
+            placeholder="At least 8 characters"
+            type="password"
+            value={passphrase}
+          />
+        </label>
+      ) : null}
 
       <div className="journal-toolbar" aria-label="Editor formatting">
         <button

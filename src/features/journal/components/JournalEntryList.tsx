@@ -1,4 +1,5 @@
 import type { JournalEntry } from '../types/journal'
+import { EncryptionBadge } from './EncryptionBadge'
 
 type JournalEntryListProps = {
   entries: JournalEntry[]
@@ -28,7 +29,7 @@ export function JournalEntryList({ entries, error, isLoading }: JournalEntryList
               <strong>{entry.title || 'Untitled entry'}</strong>
               <time>{new Date(entry.entryAt).toLocaleDateString()}</time>
             </div>
-            <span>{entry.isEncrypted ? 'Encrypted' : 'Plain text'}</span>
+            <EncryptionBadge isEncrypted={entry.isEncrypted} />
             {entry.moodScore !== null ? <b>{entry.moodScore}/10</b> : null}
           </article>
         ))}
