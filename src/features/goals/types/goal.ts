@@ -25,3 +25,33 @@ export type GoalInput = {
 export type GoalTreeNode = Goal & {
   children: GoalTreeNode[]
 }
+
+export type GoalMilestone = {
+  completed: boolean
+  createdAt: string
+  dueDate: string | null
+  goalId: string
+  id: string
+  title: string
+  updatedAt: string
+  userId: string
+}
+
+export type GoalMilestoneInput = {
+  dueDate?: string | null
+  goalId: string
+  title: string
+}
+
+export type GoalHabitLink = {
+  createdAt: string
+  goalId: string
+  habit: {
+    color: string
+    id: string
+    name: string
+  } | null
+  habitId: string
+  id: string
+  userId: string
+}

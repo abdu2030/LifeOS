@@ -8,6 +8,8 @@ type GoalTreeLayout = 'linear' | 'radial'
 
 type GoalTreeViewProps = {
   goals: GoalTreeNode[]
+  onSelectGoal?: (goalId: string) => void
+  selectedGoalId?: string | null
 }
 
 type TreeDatum = {
@@ -26,7 +28,7 @@ type TreePoint = {
 
 const defaultSize = { height: 460, width: 920 }
 
-export function GoalTreeView({ goals }: GoalTreeViewProps) {
+export function GoalTreeView({ goals, onSelectGoal, selectedGoalId }: GoalTreeViewProps) {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const svgRef = useRef<SVGSVGElement | null>(null)
   const viewportRef = useRef<SVGGElement | null>(null)
@@ -71,10 +73,12 @@ export function GoalTreeView({ goals }: GoalTreeViewProps) {
   const treeData = useMemo(() => toTreeDatum(goals, collapsedIds), [collapsedIds, goals])
   const renderedTree = useMemo(() => buildRenderedTree(treeData, layout, size), [layout, size, treeData])
 
-  function toggleNode(nodeId: string) {
+  function handleNodeClick(nodeId: string) {
     if (nodeId === 'lifeos-goals-root') {
       return
     }
+
+    onSelectGoal?.(nodeId)
 
     setCollapsedIds((currentIds) => {
       const nextIds = new Set(currentIds)
@@ -138,10 +142,18 @@ export function GoalTreeView({ goals }: GoalTreeViewProps) {
                 <g
                   className="goal-tree-node"
                   key={node.data.id}
-                  onClick={() => toggleNode(node.data.id)}
+                  onClick={() => handleNodeClick(node.data.id)}
                   style={{ transform: `translate(${node.point.x}px, ${node.point.y}px)` }}
                 >
-                  <circle className={node.children.length ? 'has-children' : ''} r={node.radius} />
+                  <circle
+                    className={[
+                      node.children.length ? 'has-children' : '',
+                      selectedGoalId === node.data.id ? 'selected' : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                    r={node.radius}
+                  />
                   <text dy="-0.25em">{node.data.title}</text>
                   <text className="goal-tree-node-meta" dy="1.15em">
                     {node.data.progress}% · {formatStatus(node.data.status)}

@@ -1790,6 +1790,11 @@ kbd {
   fill: rgba(124, 58, 237, 0.92);
 }
 
+.goal-tree-node circle.selected {
+  stroke: #f8fafc;
+  stroke-width: 3;
+}
+
 .goal-tree-node text {
   max-width: 120px;
   fill: #eff6ff;
@@ -1829,6 +1834,148 @@ kbd {
   gap: 12px;
 }
 
+.goal-detail-panel {
+  gap: 18px;
+}
+
+.goal-detail-empty {
+  min-height: 180px;
+  align-content: center;
+}
+
+.goal-detail-hero,
+.goal-detail-metrics {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.goal-detail-score {
+  display: grid;
+  min-width: 118px;
+  justify-items: end;
+}
+
+.goal-detail-score strong {
+  color: var(--text);
+  font-size: 36px;
+  line-height: 1;
+}
+
+.goal-detail-score span,
+.goal-detail-metrics span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.goal-detail-metrics {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.goal-detail-metrics span {
+  padding: 6px 10px;
+  border: 1px solid rgba(96, 165, 250, 0.15);
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.1);
+  color: #bfdbfe;
+}
+
+.goal-detail-section {
+  display: grid;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.goal-detail-section h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 18px;
+}
+
+.goal-detail-section p {
+  margin: 4px 0 0;
+}
+
+.milestone-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(140px, 0.35fr) auto;
+  gap: 10px;
+}
+
+.milestone-form input,
+.goal-habit-linker select {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 12px;
+  color: var(--text);
+  background: rgba(15, 23, 42, 0.72);
+}
+
+.milestone-form button {
+  padding: 0 16px;
+  border: 0;
+  border-radius: 12px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  font-weight: 850;
+}
+
+.milestone-list,
+.goal-linked-habits {
+  display: grid;
+  gap: 8px;
+}
+
+.milestone-row,
+.goal-linked-habit {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.25);
+}
+
+.milestone-row.complete strong {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.milestone-row button,
+.goal-linked-habit button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 10px;
+  color: #bfdbfe;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.milestone-row span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.goal-linked-habit {
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+}
+
+.goal-linked-habit > span {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+}
+
 .goal-list {
   display: grid;
   gap: 10px;
@@ -1845,13 +1992,24 @@ kbd {
   background: rgba(15, 23, 42, 0.24);
 }
 
+.goal-row.selected {
+  border-color: rgba(96, 165, 250, 0.38);
+  background: rgba(37, 99, 235, 0.12);
+}
+
 .goal-row-copy {
   min-width: 0;
 }
 
-.goal-row-copy strong {
+.goal-row-copy button {
   display: block;
+  padding: 0;
+  border: 0;
   color: var(--text);
+  background: transparent;
+  font: inherit;
+  font-weight: 850;
+  text-align: left;
 }
 
 .goal-row-copy p,
@@ -4236,6 +4394,19 @@ kbd {
   }
 
   .goal-row {
+    grid-template-columns: 1fr;
+  }
+
+  .goal-detail-hero,
+  .goal-detail-metrics {
+    display: grid;
+  }
+
+  .goal-detail-score {
+    justify-items: start;
+  }
+
+  .milestone-form {
     grid-template-columns: 1fr;
   }
 

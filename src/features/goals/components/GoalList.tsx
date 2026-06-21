@@ -9,7 +9,9 @@ type GoalListProps = {
   isLoading: boolean
   isUpdating: boolean
   onDelete: (goalId: string) => Promise<unknown>
+  onSelect: (goalId: string) => void
   onUpdate: (goalId: string, input: GoalInput) => Promise<unknown>
+  selectedGoalId?: string | null
 }
 
 const goalStatuses: GoalStatus[] = ['on_track', 'at_risk', 'off_track', 'not_started', 'complete']
@@ -21,7 +23,9 @@ export function GoalList({
   isLoading,
   isUpdating,
   onDelete,
+  onSelect,
   onUpdate,
+  selectedGoalId,
 }: GoalListProps) {
   return (
     <section className="finance-panel goal-list-panel">
@@ -40,9 +44,11 @@ export function GoalList({
 
       <div className="goal-list">
         {goals.map((goal) => (
-          <article className="goal-row" key={goal.id}>
+          <article className={selectedGoalId === goal.id ? 'goal-row selected' : 'goal-row'} key={goal.id}>
             <div className="goal-row-copy">
-              <strong>{goal.title}</strong>
+              <button onClick={() => onSelect(goal.id)} type="button">
+                {goal.title}
+              </button>
               <p>{goal.description || 'No description added.'}</p>
               {goal.targetDate ? <time>Target {new Date(goal.targetDate).toLocaleDateString()}</time> : null}
             </div>
