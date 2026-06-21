@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 
 import { EncryptionBadge } from './EncryptionBadge'
 import { MoodAnalysis } from './MoodAnalysis'
+import { TagManager } from './TagManager'
 import { encryptText } from '../services/encryptionService'
 import type { JournalEntryInput } from '../types/journal'
 
@@ -20,6 +21,7 @@ export function JournalEditor({ isSaving, onSave }: JournalEditorProps) {
   const [passphrase, setPassphrase] = useState('')
   const [status, setStatus] = useState('')
   const [shouldEncrypt, setShouldEncrypt] = useState(true)
+  const [tags, setTags] = useState<string[]>([])
   const editor = useEditor({
     content: '',
     extensions: [
@@ -49,6 +51,7 @@ export function JournalEditor({ isSaving, onSave }: JournalEditorProps) {
       body: isEncrypted ? await encryptText(body, passphrase) : body,
       isEncrypted,
       moodScore,
+      tags,
       title,
     })
 
@@ -107,6 +110,8 @@ export function JournalEditor({ isSaving, onSave }: JournalEditorProps) {
           />
         </label>
       ) : null}
+
+      <TagManager onChange={setTags} tags={tags} />
 
       <div className="journal-toolbar" aria-label="Editor formatting">
         <button

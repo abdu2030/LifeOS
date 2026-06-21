@@ -31,6 +31,13 @@ export function JournalEntryList({ entries, error, isLoading }: JournalEntryList
             </div>
             <EncryptionBadge isEncrypted={entry.isEncrypted} />
             {entry.moodScore !== null ? <b>{entry.moodScore}/10</b> : null}
+            {entry.tags.length ? (
+              <div className="journal-entry-tags">
+                {entry.tags.map((tag) => (
+                  <small key={tag}>{tag}</small>
+                ))}
+              </div>
+            ) : null}
           </article>
         ))}
       </div>

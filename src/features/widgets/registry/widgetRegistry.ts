@@ -1,8 +1,8 @@
 import { FinanceWidget } from '../../finance/components/FinanceWidget'
 import { HabitWidget } from '../../habits/components/HabitWidget'
+import { JournalWidget } from '../../journal/components/JournalWidget'
 import {
   GoalsOverviewWidget,
-  JournalMoodWidget,
   TodaysFocusWidget,
   UpcomingRemindersWidget,
   WeeklyExpensesWidget,
@@ -33,7 +33,7 @@ export const widgetRegistry: Record<WidgetId, WidgetDefinition> = {
     description: 'Mood trend and recent journal prompt.',
     category: 'Journal',
     defaultLayout: { i: 'journal-mood', x: 8, y: 0, w: 4, h: 5, minW: 3, minH: 3 },
-    component: JournalMoodWidget,
+    component: JournalWidget,
   },
   'goals-overview': {
     id: 'goals-overview',

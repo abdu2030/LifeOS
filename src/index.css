@@ -1358,6 +1358,15 @@ kbd {
   align-items: start;
 }
 
+.journal-side-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.mood-timeline-panel {
+  min-width: 0;
+}
+
 .journal-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -1411,6 +1420,47 @@ kbd {
   align-items: center;
   justify-content: center;
   gap: 8px;
+}
+
+.tag-manager {
+  display: grid;
+  gap: 10px;
+}
+
+.tag-manager .auth-field > span {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.journal-tag-list,
+.journal-entry-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.journal-tag-list button,
+.journal-entry-tags small {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 9px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 999px;
+  color: #dbeafe;
+  background: rgba(37, 99, 235, 0.14);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.journal-search {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background:
+    linear-gradient(145deg, rgba(18, 29, 47, 0.92), rgba(7, 13, 22, 0.88)), rgba(15, 23, 42, 0.72);
 }
 
 .journal-encryption-row {
@@ -1483,6 +1533,10 @@ kbd {
   background: rgba(37, 99, 235, 0.16);
 }
 
+.journal-entry-tags {
+  grid-column: 1 / -1;
+}
+
 .mood-analysis-panel {
   box-shadow: none;
 }
@@ -1549,6 +1603,48 @@ kbd {
   color: var(--muted);
   font-size: 12px;
   font-weight: 850;
+}
+
+.journal-widget,
+.journal-widget-empty {
+  display: grid;
+  gap: 12px;
+  align-content: center;
+  min-height: 100%;
+}
+
+.journal-widget {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+}
+
+.journal-widget-empty {
+  justify-items: center;
+  color: var(--muted);
+  text-align: center;
+}
+
+.journal-widget-empty svg {
+  color: var(--purple);
+}
+
+.journal-widget .mood-ring-full {
+  width: 112px;
+  height: 112px;
+}
+
+.journal-widget .mood-ring-full strong {
+  font-size: 24px;
+}
+
+.journal-widget span,
+.journal-widget small {
+  color: var(--muted);
+}
+
+.journal-widget strong {
+  display: block;
+  margin: 5px 0;
 }
 
 .habits-page {
