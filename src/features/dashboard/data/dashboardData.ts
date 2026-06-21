@@ -19,7 +19,7 @@ export const navItems: NavItem[] = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/' },
   { label: 'Widgets', icon: Grid3X3, path: '/widgets' },
   { label: 'Finance', icon: CircleDollarSign, path: '/finance' },
-  { label: 'Habits', icon: Activity },
+  { label: 'Habits', icon: Activity, path: '/habits' },
   { label: 'Journal', icon: BookOpen },
   { label: 'Goals', icon: Goal },
   { label: 'Weekly Insights', icon: LineChart },

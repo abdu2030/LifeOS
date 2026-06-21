@@ -1276,6 +1276,153 @@ kbd {
   gap: 18px;
 }
 
+.habits-page {
+  display: grid;
+  gap: 18px;
+}
+
+.habits-layout-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.65fr) minmax(0, 1.35fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.habit-form {
+  align-self: start;
+}
+
+.habit-color-picker {
+  display: flex;
+  gap: 10px;
+}
+
+.habit-color-picker button {
+  width: 32px;
+  height: 32px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.habit-color-picker button.active {
+  border-color: white;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.12);
+}
+
+.habit-list,
+.habit-row-copy,
+.daily-check-in {
+  display: grid;
+}
+
+.habit-list {
+  gap: 12px;
+}
+
+.habit-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.46);
+}
+
+.habit-color-dot {
+  width: 12px;
+  height: 100%;
+  min-height: 92px;
+  border-radius: 999px;
+}
+
+.habit-row-copy {
+  gap: 4px;
+}
+
+.habit-row-copy p {
+  color: var(--muted);
+}
+
+.daily-check-in {
+  grid-column: 2;
+  gap: 12px;
+}
+
+.streak-display,
+.habit-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.streak-display small {
+  display: block;
+  color: var(--muted);
+}
+
+.flame-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  color: var(--muted);
+  background: rgba(148, 163, 184, 0.08);
+}
+
+.flame-icon.active {
+  color: #fed7aa;
+  background: rgba(248, 168, 49, 0.15);
+  animation: flame-pulse 1.8s ease-in-out infinite;
+}
+
+.habit-check-button,
+.habit-freeze-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 10px;
+  color: var(--text);
+  background: rgba(15, 23, 42, 0.58);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.habit-check-button.complete {
+  color: #bbf7d0;
+  border-color: rgba(34, 197, 94, 0.32);
+  background: rgba(34, 197, 94, 0.14);
+}
+
+.habit-freeze-button {
+  color: #bfdbfe;
+}
+
+.habit-check-button:disabled,
+.habit-freeze-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+@keyframes flame-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 4px rgba(248, 168, 49, 0.35));
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 14px rgba(248, 168, 49, 0.72));
+    transform: translateY(-1px) scale(1.05);
+  }
+}
+
 .finance-layout-grid {
   display: grid;
   grid-template-columns: minmax(320px, 0.8fr) minmax(260px, 0.6fr) minmax(0, 1.2fr);
@@ -3394,6 +3541,7 @@ kbd {
   .nav-list,
   .finance-chart-grid,
   .csv-column-mapper,
+  .habits-layout-grid,
   .finance-layout,
   .finance-summary,
   .insight-hero,
