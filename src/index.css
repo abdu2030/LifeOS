@@ -1176,6 +1176,66 @@ kbd {
   text-overflow: ellipsis;
 }
 
+.habit-widget,
+.habit-widget-empty {
+  display: grid;
+  gap: 14px;
+  align-content: center;
+  min-height: 100%;
+}
+
+.habit-widget-empty {
+  justify-items: center;
+  color: var(--muted);
+  text-align: center;
+}
+
+.habit-widget-empty svg {
+  color: var(--amber);
+}
+
+.habit-widget-score {
+  display: grid;
+  gap: 4px;
+}
+
+.habit-widget-score span,
+.habit-widget-score small {
+  color: var(--muted);
+}
+
+.habit-widget-score strong {
+  font-size: 36px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.habit-widget-stat-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.habit-widget-stat-row span {
+  display: grid;
+  gap: 5px;
+  padding: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 10px;
+  color: var(--muted);
+  background: rgba(15, 23, 42, 0.44);
+  font-size: 12px;
+}
+
+.habit-widget-stat-row svg {
+  color: var(--green);
+}
+
+.habit-widget-stat-row strong {
+  color: var(--text);
+  font-size: 18px;
+}
+
 .widget-gallery {
   position: fixed;
   top: 0;

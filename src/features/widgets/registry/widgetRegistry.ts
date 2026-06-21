@@ -1,7 +1,7 @@
 import { FinanceWidget } from '../../finance/components/FinanceWidget'
+import { HabitWidget } from '../../habits/components/HabitWidget'
 import {
   GoalsOverviewWidget,
-  HabitTrackerWidget,
   JournalMoodWidget,
   TodaysFocusWidget,
   UpcomingRemindersWidget,
@@ -25,7 +25,7 @@ export const widgetRegistry: Record<WidgetId, WidgetDefinition> = {
     description: 'Weekly habit score and streak momentum.',
     category: 'Habits',
     defaultLayout: { i: 'habit-tracker', x: 4, y: 0, w: 4, h: 5, minW: 3, minH: 3 },
-    component: HabitTrackerWidget,
+    component: HabitWidget,
   },
   'journal-mood': {
     id: 'journal-mood',
