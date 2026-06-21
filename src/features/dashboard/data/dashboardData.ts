@@ -22,7 +22,7 @@ export const navItems: NavItem[] = [
   { label: 'Habits', icon: Activity, path: '/habits' },
   { label: 'Journal', icon: BookOpen, path: '/journal' },
   { label: 'Goals', icon: Goal, path: '/goals' },
-  { label: 'Weekly Insights', icon: LineChart },
+  { label: 'Weekly Insights', icon: LineChart, path: '/insights' },
   { label: 'Calendar', icon: CalendarDays },
   { label: 'Tasks', icon: ListTodo },
   { label: 'Files', icon: Folder },

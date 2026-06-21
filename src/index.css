@@ -1714,6 +1714,126 @@ kbd {
   gap: 18px;
 }
 
+.weekly-insights-page {
+  display: grid;
+  gap: 18px;
+}
+
+.weekly-report-card {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at top right, rgba(124, 58, 237, 0.22), transparent 34%),
+    rgba(15, 23, 42, 0.62);
+  box-shadow: 0 24px 80px rgba(2, 6, 23, 0.24);
+}
+
+.weekly-report-card header {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.weekly-report-card header svg {
+  color: var(--purple);
+}
+
+.weekly-report-card h2 {
+  margin: 4px 0 0;
+  color: var(--text);
+  font-size: 28px;
+}
+
+.weekly-report-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.weekly-report-metrics span {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid rgba(96, 165, 250, 0.14);
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.34);
+}
+
+.weekly-report-metrics small {
+  color: var(--muted);
+}
+
+.weekly-report-metrics strong {
+  color: var(--text);
+  font-size: 20px;
+}
+
+.report-markdown {
+  display: grid;
+  gap: 10px;
+  color: #cbd5e1;
+}
+
+.report-markdown h3 {
+  margin: 12px 0 0;
+  color: #f8fafc;
+  font-size: 18px;
+}
+
+.report-markdown p,
+.report-markdown ul {
+  margin: 0;
+  line-height: 1.65;
+}
+
+.report-markdown ul {
+  padding-left: 20px;
+}
+
+.weekly-insights-empty {
+  display: grid;
+  min-height: 240px;
+  place-items: center;
+  align-content: center;
+  color: var(--muted);
+  text-align: center;
+}
+
+.weekly-insights-empty svg {
+  color: var(--purple);
+}
+
+.weekly-insights-empty strong {
+  color: var(--text);
+  font-size: 20px;
+}
+
+.report-history-panel {
+  gap: 14px;
+}
+
+.report-history-list {
+  display: grid;
+  gap: 10px;
+}
+
+.report-history-list article {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.26);
+}
+
+.report-history-list span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
 .goals-layout-grid {
   display: grid;
   grid-template-columns: minmax(300px, 0.65fr) minmax(0, 1.35fr);
@@ -4404,6 +4524,10 @@ kbd {
 
   .goal-detail-score {
     justify-items: start;
+  }
+
+  .weekly-report-metrics {
+    grid-template-columns: 1fr;
   }
 
   .milestone-form {
