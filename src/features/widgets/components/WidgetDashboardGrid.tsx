@@ -1,4 +1,5 @@
 import GridLayout from 'react-grid-layout'
+import { Plus } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import type { ComponentType, ReactNode } from 'react'
 
@@ -28,6 +29,7 @@ export function WidgetDashboardGrid() {
   const galleryWidgets = defaultWidgetIds.map((widgetId) => widgetRegistry[widgetId])
   const gridShellRef = useRef<HTMLDivElement>(null)
   const [gridWidth, setGridWidth] = useState(900)
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false)
 
   useEffect(() => {
     const gridShell = gridShellRef.current
@@ -59,6 +61,10 @@ export function WidgetDashboardGrid() {
     void updateLayouts([...nextLayouts])
   }
 
+  function handleRemoveWidget(widgetId: WidgetId) {
+    void updateLayouts(layouts.filter((layout) => layout.i !== widgetId))
+  }
+
   return (
     <section className="widget-dashboard">
       <div className="widget-toolbar">
@@ -70,6 +76,14 @@ export function WidgetDashboardGrid() {
         <div className="widget-toolbar-actions">
           {isSaving ? <span>Saving layout...</span> : null}
           {error ? <span className="auth-error">{error}</span> : null}
+          <button
+            className="primary-action compact-action"
+            onClick={() => setIsGalleryOpen(true)}
+            type="button"
+          >
+            <Plus size={16} />
+            Add widget
+          </button>
           <button className="ghost-select" onClick={resetLayouts} type="button">
             Reset layout
           </button>
@@ -94,7 +108,11 @@ export function WidgetDashboardGrid() {
 
               return (
                 <div key={definition.id}>
-                  <WidgetWrapper description={definition.description} title={definition.title}>
+                  <WidgetWrapper
+                    description={definition.description}
+                    onRemove={() => handleRemoveWidget(definition.id)}
+                    title={definition.title}
+                  >
                     <Widget />
                   </WidgetWrapper>
                 </div>
@@ -103,12 +121,30 @@ export function WidgetDashboardGrid() {
           </TypedGridLayout>
         </div>
 
+        {!layouts.length ? (
+          <div className="widget-empty-state">
+            <strong>No widgets on this dashboard</strong>
+            <p>Add a widget from the gallery to rebuild your workspace.</p>
+            <button
+              className="primary-action compact-action"
+              onClick={() => setIsGalleryOpen(true)}
+              type="button"
+            >
+              <Plus size={16} />
+              Add widget
+            </button>
+          </div>
+        ) : null}
+      </div>
+
+      {isGalleryOpen ? (
         <WidgetGallery
           activeWidgetIds={activeWidgetIds}
           onAddWidget={handleAddWidget}
+          onClose={() => setIsGalleryOpen(false)}
           widgets={galleryWidgets}
         />
-      </div>
+      ) : null}
     </section>
   )
 }

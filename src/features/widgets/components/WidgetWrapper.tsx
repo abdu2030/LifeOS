@@ -1,12 +1,13 @@
-import { GripVertical, MoreVertical } from 'lucide-react'
+import { GripVertical, X } from 'lucide-react'
 import type { PropsWithChildren } from 'react'
 
 type WidgetWrapperProps = PropsWithChildren<{
   description: string
+  onRemove: () => void
   title: string
 }>
 
-export function WidgetWrapper({ children, description, title }: WidgetWrapperProps) {
+export function WidgetWrapper({ children, description, onRemove, title }: WidgetWrapperProps) {
   return (
     <section className="widget-wrapper">
       <header className="widget-header">
@@ -17,8 +18,13 @@ export function WidgetWrapper({ children, description, title }: WidgetWrapperPro
           <strong>{title}</strong>
           <small>{description}</small>
         </div>
-        <button className="icon-action" type="button" aria-label={`${title} widget options`}>
-          <MoreVertical size={16} />
+        <button
+          className="icon-action"
+          onClick={onRemove}
+          type="button"
+          aria-label={`Hide ${title} widget`}
+        >
+          <X size={16} />
         </button>
       </header>
       <div className="widget-body">{children}</div>
