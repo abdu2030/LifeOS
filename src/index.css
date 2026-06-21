@@ -1709,6 +1709,86 @@ kbd {
   gap: 18px;
 }
 
+.goals-page {
+  display: grid;
+  gap: 18px;
+}
+
+.goals-layout-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.65fr) minmax(0, 1.35fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.goal-form,
+.goal-list-panel {
+  gap: 18px;
+}
+
+.goal-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.goal-list {
+  display: grid;
+  gap: 10px;
+}
+
+.goal-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 0.45fr) minmax(130px, 0.34fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.24);
+}
+
+.goal-row-copy {
+  min-width: 0;
+}
+
+.goal-row-copy strong {
+  display: block;
+  color: var(--text);
+}
+
+.goal-row-copy p,
+.goal-row-copy time {
+  display: block;
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.goal-progress-control {
+  display: grid;
+  gap: 8px;
+}
+
+.goal-progress-control span {
+  color: #dbeafe;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.goal-progress-control input {
+  accent-color: var(--blue);
+}
+
+.goal-status-select {
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 12px;
+  color: var(--text);
+  background: rgba(15, 23, 42, 0.72);
+}
+
 .habits-layout-grid {
   display: grid;
   grid-template-columns: minmax(300px, 0.65fr) minmax(0, 1.35fr);
@@ -4047,6 +4127,7 @@ kbd {
   .nav-list,
   .finance-chart-grid,
   .csv-column-mapper,
+  .goal-form-grid,
   .habits-layout-grid,
   .journal-layout-grid,
   .finance-layout,
@@ -4054,6 +4135,10 @@ kbd {
   .insight-hero,
   .insight-metrics,
   .mood-analysis-result__main {
+    grid-template-columns: 1fr;
+  }
+
+  .goal-row {
     grid-template-columns: 1fr;
   }
 

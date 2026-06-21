@@ -21,7 +21,7 @@ export const navItems: NavItem[] = [
   { label: 'Finance', icon: CircleDollarSign, path: '/finance' },
   { label: 'Habits', icon: Activity, path: '/habits' },
   { label: 'Journal', icon: BookOpen, path: '/journal' },
-  { label: 'Goals', icon: Goal },
+  { label: 'Goals', icon: Goal, path: '/goals' },
   { label: 'Weekly Insights', icon: LineChart },
   { label: 'Calendar', icon: CalendarDays },
   { label: 'Tasks', icon: ListTodo },

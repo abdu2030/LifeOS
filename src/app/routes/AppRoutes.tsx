@@ -6,6 +6,7 @@ import { LoginPage } from '../../features/auth/pages/LoginPage'
 import { RegisterPage } from '../../features/auth/pages/RegisterPage'
 import { DashboardPage } from '../../features/dashboard/pages/DashboardPage'
 import { FinancePage } from '../../features/finance/pages/FinancePage'
+import { GoalsPage } from '../../features/goals/pages/GoalsPage'
 import { HabitsPage } from '../../features/habits/pages/HabitsPage'
 import { JournalPage } from '../../features/journal/pages/JournalPage'
 import { WidgetsPage } from '../../features/widgets/pages/WidgetsPage'
@@ -19,6 +20,7 @@ export function AppRoutes() {
       <Route element={<AppLayout />}>
         <Route element={<DashboardPage />} index />
         <Route element={<FinancePage />} path="/finance" />
+        <Route element={<GoalsPage />} path="/goals" />
         <Route element={<HabitsPage />} path="/habits" />
         <Route element={<JournalPage />} path="/journal" />
         <Route element={<WidgetsPage />} path="/widgets" />
