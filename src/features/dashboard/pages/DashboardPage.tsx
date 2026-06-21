@@ -25,11 +25,13 @@ import {
 } from 'lucide-react'
 import type { ComponentType } from 'react'
 
-import { focusTasks, habitDays, habitHeatmap, navItems, reminders } from '../data/dashboardData'
+import { useDashboardOverview } from '../hooks/useDashboardOverview'
 import { Avatar } from '../../../shared/components/Avatar'
 import { DashboardCardHeader as CardHeader } from '../../../shared/components/DashboardCardHeader'
 
 export function DashboardPage() {
+  const { focusTasks, habitDays, habitHeatmap, navItems, reminders } = useDashboardOverview()
+
   return (
     <main className="app-shell">
       <aside className="sidebar" aria-label="Primary navigation">
