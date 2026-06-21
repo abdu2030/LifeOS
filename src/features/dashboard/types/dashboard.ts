@@ -6,13 +6,6 @@ export type NavItem = {
   active?: boolean
 }
 
-export type FocusTask = {
-  label: string
-  tag: string
-  done: boolean
-  time: string
-}
-
 export type Reminder = {
   title: string
   time: string

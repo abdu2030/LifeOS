@@ -1,8 +1,9 @@
-import { focusTasks, habitDays, habitHeatmap, navItems, reminders } from '../data/dashboardData'
+import { getTodayFocusTasks } from '../../tasks/services/taskService'
+import { habitDays, habitHeatmap, navItems, reminders } from '../data/dashboardData'
 
 export function getDashboardOverview() {
   return {
-    focusTasks,
+    focusTasks: getTodayFocusTasks(),
     habitDays,
     habitHeatmap,
     navItems,

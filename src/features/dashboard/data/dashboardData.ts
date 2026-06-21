@@ -14,7 +14,7 @@ import {
   Settings,
 } from 'lucide-react'
 
-import type { FocusTask, NavItem, Reminder } from '../types/dashboard'
+import type { NavItem, Reminder } from '../types/dashboard'
 
 export const navItems: NavItem[] = [
   { label: 'Dashboard', icon: LayoutDashboard, active: true },
@@ -28,13 +28,6 @@ export const navItems: NavItem[] = [
   { label: 'Files', icon: Folder },
   { label: 'Settings', icon: Settings },
   { label: 'Plugins', icon: Plug },
-]
-
-export const focusTasks: FocusTask[] = [
-  { label: 'Finish Landing Page Design', tag: 'Work', done: true, time: '9:00 AM' },
-  { label: 'Workout - Push Day', tag: 'Health', done: false, time: '12:30 PM' },
-  { label: 'Read 20 pages', tag: 'Personal', done: false, time: '6:00 PM' },
-  { label: 'Journal & Reflect', tag: 'Mind', done: false, time: '9:30 PM' },
 ]
 
 export const reminders: Reminder[] = [
