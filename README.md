@@ -7,10 +7,12 @@ LifeOS is a privacy-first personal operating system dashboard for finance, habit
 - Dark-first dashboard UI with finance, habits, journal mood, goals, insights, focus tasks, expenses, and reminders.
 - Feature-owned seed data and services for dashboard, tasks, habits, and planner reminders.
 - Shared avatar and dashboard card header components.
-- TanStack Query provider and Supabase client placeholder for future data access.
+- TanStack Query provider and Supabase client foundation for Auth and future data access.
+- Supabase SQL schema with row-level security policies for LifeOS data modules.
 - PWA manifest configuration for offline-friendly app behavior.
 
 See [ROADMAP.md](./ROADMAP.md) for the milestone plan we will build against.
+See [docs/supabase-setup.md](./docs/supabase-setup.md) for Supabase project, schema, RLS, and Auth setup.
 
 ## Architecture
 
@@ -66,6 +68,8 @@ Copy `.env.example` to `.env` when Supabase and Gemini credentials are ready.
 
 ```bash
 npm run type-check
+npm run test
+npm run format:check
 npm run build
 npm run lint
 ```
