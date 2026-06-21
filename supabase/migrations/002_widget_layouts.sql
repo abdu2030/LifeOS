@@ -1,6 +1,4 @@
--- Persist per-user dashboard widget layouts.
-
-create table public.widget_layouts (
+create table if not exists public.widget_layouts (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
   layout_key text not null default 'dashboard',
@@ -10,12 +8,15 @@ create table public.widget_layouts (
   unique (user_id, layout_key)
 );
 
-create index widget_layouts_user_key_idx on public.widget_layouts (user_id, layout_key);
+create index if not exists widget_layouts_user_key_idx
+  on public.widget_layouts (user_id, layout_key);
 
+drop trigger if exists set_widget_layouts_updated_at on public.widget_layouts;
 create trigger set_widget_layouts_updated_at before update on public.widget_layouts
   for each row execute function public.set_updated_at();
 
 alter table public.widget_layouts enable row level security;
 
+drop policy if exists "Users manage own widget layouts" on public.widget_layouts;
 create policy "Users manage own widget layouts" on public.widget_layouts
   for all using (auth.uid() = user_id) with check (auth.uid() = user_id);

@@ -1,4 +1,5 @@
 import GridLayout from 'react-grid-layout'
+import { useEffect, useRef, useState } from 'react'
 import type { ComponentType, ReactNode } from 'react'
 
 import { defaultWidgetIds, getWidgetDefinition, widgetRegistry } from '../registry/widgetRegistry'
@@ -25,6 +26,24 @@ export function WidgetDashboardGrid() {
   const { error, isSaving, layouts, resetLayouts, updateLayouts } = useWidgetLayouts()
   const activeWidgetIds = layouts.map((layout) => layout.i)
   const galleryWidgets = defaultWidgetIds.map((widgetId) => widgetRegistry[widgetId])
+  const gridShellRef = useRef<HTMLDivElement>(null)
+  const [gridWidth, setGridWidth] = useState(900)
+
+  useEffect(() => {
+    const gridShell = gridShellRef.current
+
+    if (!gridShell) {
+      return undefined
+    }
+
+    const observer = new ResizeObserver(([entry]) => {
+      setGridWidth(Math.max(320, Math.floor(entry.contentRect.width)))
+    })
+
+    observer.observe(gridShell)
+
+    return () => observer.disconnect()
+  }, [])
 
   function handleAddWidget(widgetId: WidgetId) {
     const definition = getWidgetDefinition(widgetId)
@@ -58,29 +77,31 @@ export function WidgetDashboardGrid() {
       </div>
 
       <div className="widget-dashboard-layout">
-        <TypedGridLayout
-          className="layout"
-          cols={12}
-          draggableHandle=".widget-drag-handle"
-          layout={layouts}
-          margin={[14, 14]}
-          onLayoutChange={handleLayoutChange}
-          rowHeight={72}
-          width={1060}
-        >
-          {layouts.map((layout) => {
-            const definition = getWidgetDefinition(layout.i as WidgetId)
-            const Widget = definition.component
+        <div className="widget-grid-shell" ref={gridShellRef}>
+          <TypedGridLayout
+            className="layout"
+            cols={12}
+            draggableHandle=".widget-drag-handle"
+            layout={layouts}
+            margin={[14, 14]}
+            onLayoutChange={handleLayoutChange}
+            rowHeight={72}
+            width={gridWidth}
+          >
+            {layouts.map((layout) => {
+              const definition = getWidgetDefinition(layout.i as WidgetId)
+              const Widget = definition.component
 
-            return (
-              <div key={definition.id}>
-                <WidgetWrapper description={definition.description} title={definition.title}>
-                  <Widget />
-                </WidgetWrapper>
-              </div>
-            )
-          })}
-        </TypedGridLayout>
+              return (
+                <div key={definition.id}>
+                  <WidgetWrapper description={definition.description} title={definition.title}>
+                    <Widget />
+                  </WidgetWrapper>
+                </div>
+              )
+            })}
+          </TypedGridLayout>
+        </div>
 
         <WidgetGallery
           activeWidgetIds={activeWidgetIds}
