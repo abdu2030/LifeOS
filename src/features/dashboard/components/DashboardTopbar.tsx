@@ -1,8 +1,13 @@
 import { BarChart3, Bell, CalendarDays, ChevronDown, Search } from 'lucide-react'
 
 import { Avatar } from '../../../shared/components/Avatar'
+import { useNotifications } from '../../../shared/hooks/useNotifications'
 
 export function DashboardTopbar() {
+  const { isEnabled, isRegistering, isSupported, permission, requestPermission } =
+    useNotifications()
+  const notificationLabel = isEnabled ? 'Notifications enabled' : 'Enable notifications'
+
   return (
     <header className="topbar">
       <label className="search-box">
@@ -26,9 +31,18 @@ export function DashboardTopbar() {
           This Week
           <ChevronDown size={16} />
         </button>
-        <button className="bell-button" type="button" aria-label="Notifications">
+        <button
+          className={isEnabled ? 'bell-button active' : 'bell-button'}
+          disabled={!isSupported || isRegistering}
+          onClick={() => void requestPermission()}
+          title={
+            isSupported ? notificationLabel : 'Notifications are not supported in this browser'
+          }
+          type="button"
+          aria-label={notificationLabel}
+        >
           <Bell size={20} />
-          <span>3</span>
+          <span>{permission === 'granted' ? '✓' : '!'}</span>
         </button>
         <button className="profile-button" type="button" aria-label="Open profile menu">
           <Avatar compact />

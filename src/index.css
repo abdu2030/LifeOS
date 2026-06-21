@@ -937,6 +937,16 @@ kbd {
   box-shadow: 0 0 16px rgba(255, 77, 109, 0.42);
 }
 
+.bell-button.active span {
+  background: var(--green);
+  box-shadow: 0 0 16px rgba(33, 208, 122, 0.42);
+}
+
+.bell-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
 .profile-button {
   gap: 8px;
   min-height: 50px;
