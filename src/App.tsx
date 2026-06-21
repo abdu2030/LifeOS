@@ -1,0 +1,603 @@
+import {
+  Activity,
+  ArrowRight,
+  BarChart3,
+  Bell,
+  BookOpen,
+  BriefcaseBusiness,
+  CalendarDays,
+  Check,
+  CheckSquare,
+  ChevronDown,
+  CircleDollarSign,
+  Droplets,
+  Flame,
+  Folder,
+  Gift,
+  Goal,
+  Heart,
+  LayoutDashboard,
+  LineChart,
+  ListTodo,
+  Lock,
+  MoreVertical,
+  Maximize2,
+  PenLine,
+  Plug,
+  Search,
+  Settings,
+  SlidersHorizontal,
+  Smile,
+  Sparkles,
+  Target,
+} from 'lucide-react'
+import type { ComponentType, ReactNode } from 'react'
+
+type NavItem = {
+  label: string
+  icon: ComponentType<{ size?: number }>
+  active?: boolean
+}
+
+type Reminder = {
+  title: string
+  time: string
+  icon: ComponentType<{ size?: number }>
+  tone: string
+}
+
+const navItems: NavItem[] = [
+  { label: 'Dashboard', icon: LayoutDashboard, active: true },
+  { label: 'Finance', icon: CircleDollarSign },
+  { label: 'Habits', icon: Activity },
+  { label: 'Journal', icon: BookOpen },
+  { label: 'Goals', icon: Goal },
+  { label: 'Weekly Insights', icon: LineChart },
+  { label: 'Calendar', icon: CalendarDays },
+  { label: 'Tasks', icon: ListTodo },
+  { label: 'Files', icon: Folder },
+  { label: 'Settings', icon: Settings },
+  { label: 'Plugins', icon: Plug },
+]
+
+const focusTasks = [
+  { label: 'Finish Landing Page Design', tag: 'Work', done: true, time: '9:00 AM' },
+  { label: 'Workout - Push Day', tag: 'Health', done: false, time: '12:30 PM' },
+  { label: 'Read 20 pages', tag: 'Personal', done: false, time: '6:00 PM' },
+  { label: 'Journal & Reflect', tag: 'Mind', done: false, time: '9:30 PM' },
+]
+
+const reminders: Reminder[] = [
+  {
+    title: 'Doctor Appointment',
+    time: 'May 26, 2026 - 10:30 AM',
+    icon: CalendarDays,
+    tone: 'green',
+  },
+  {
+    title: "Mom's Birthday",
+    time: 'May 28, 2026 - All Day',
+    icon: Gift,
+    tone: 'amber',
+  },
+  {
+    title: 'Project Deadline',
+    time: 'May 30, 2026 - 11:59 PM',
+    icon: BriefcaseBusiness,
+    tone: 'purple',
+  },
+]
+
+const habitHeatmap = Array.from({ length: 91 }, (_, index) => {
+  const pattern = [0, 2, 3, 1, 4, 2, 0, 3, 4, 2, 1, 3, 4]
+  return pattern[index % pattern.length]
+})
+
+const habitDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+
+function App() {
+  return (
+    <main className="app-shell">
+      <aside className="sidebar" aria-label="Primary navigation">
+        <section className="brand">
+          <div className="brand-mark">
+            <svg viewBox="0 0 48 32" aria-hidden="true">
+              <path d="M4 18 H12 L17 7 L25 27 L32 12 L37 18 H44" />
+            </svg>
+          </div>
+          <div>
+            <h1>LifeOS</h1>
+            <p>Your life. Organized.</p>
+          </div>
+        </section>
+
+        <nav className="nav-list">
+          {navItems.map((item, index) => (
+            <button
+              className={item.active ? 'nav-item active' : 'nav-item'}
+              key={item.label}
+              type="button"
+            >
+              <item.icon size={20} />
+              <span>{item.label}</span>
+              {index === 8 ? <span className="nav-divider" /> : null}
+            </button>
+          ))}
+        </nav>
+
+        <section className="sync-card">
+          <span className="status-dot" />
+          <div>
+            <strong>Offline Mode</strong>
+            <p>All changes synced</p>
+          </div>
+          <MoreVertical size={18} />
+        </section>
+
+        <section className="profile-card">
+          <Avatar />
+          <div>
+            <strong>Arjun Patel</strong>
+            <p>arjun@example.com</p>
+          </div>
+          <ChevronDown size={16} />
+        </section>
+      </aside>
+
+      <section className="workspace">
+        <header className="topbar">
+          <label className="search-box">
+            <Search size={18} />
+            <input aria-label="Search" placeholder="Search anything..." />
+            <kbd>{'\u2318'}</kbd>
+            <kbd>K</kbd>
+          </label>
+
+          <div className="topbar-cluster">
+            <button className="date-button" type="button">
+              <CalendarDays size={20} />
+              <span>
+                <strong>Saturday, May 24, 2026</strong>
+                <small>Week 21</small>
+              </span>
+              <ChevronDown size={16} />
+            </button>
+            <button className="period-button" type="button">
+              <BarChart3 size={18} />
+              This Week
+              <ChevronDown size={16} />
+            </button>
+            <button className="bell-button" type="button" aria-label="Notifications">
+              <Bell size={20} />
+              <span>3</span>
+            </button>
+            <button className="profile-button" type="button" aria-label="Open profile menu">
+              <Avatar compact />
+              <ChevronDown size={15} />
+            </button>
+          </div>
+        </header>
+
+        <section className="greeting-row">
+          <div>
+            <h2>Good morning, Arjun! <span aria-hidden="true">{'\u{1F44B}'}</span></h2>
+            <p>Here's what's happening in your life today.</p>
+          </div>
+          <button className="customize-button" type="button">
+            <SlidersHorizontal size={18} />
+            Customize Dashboard
+          </button>
+        </section>
+
+        <section className="dashboard-grid" aria-label="LifeOS dashboard">
+          <article className="card finance-card">
+            <CardHeader icon={CircleDollarSign} label="Finance Overview" tone="green">
+              <button className="ghost-select" type="button">
+                This Month <ChevronDown size={14} />
+              </button>
+            </CardHeader>
+            <div className="finance-layout">
+              <div className="balance-block">
+                <span>Total Balance</span>
+                <strong>$5,742.18</strong>
+                <small className="positive">12.5% vs last month</small>
+                <MiniLineChart />
+              </div>
+              <div className="donut-block">
+                <div className="donut finance-donut">
+                  <span>Expenses</span>
+                  <strong>$1,286</strong>
+                </div>
+                <ul className="legend-list">
+                  <li><span className="blue" />Food & Dining <b>32%</b></li>
+                  <li><span className="indigo" />Transportation <b>21%</b></li>
+                  <li><span className="amber" />Shopping <b>18%</b></li>
+                  <li><span className="orange" />Bills & Utilities <b>15%</b></li>
+                  <li><span className="gray" />Others <b>14%</b></li>
+                </ul>
+              </div>
+            </div>
+            <div className="finance-summary">
+              <MetricPill label="Income" value="$3,620.00" tone="green" />
+              <MetricPill label="Expenses" value="$1,286.24" tone="red" />
+            </div>
+          </article>
+
+          <article className="card habit-card">
+            <CardHeader icon={Flame} label="Habit Tracker" tone="orange">
+              <span className="muted">6 Active</span>
+            </CardHeader>
+            <div className="habit-main">
+              <div className="progress-ring">
+                <strong>87%</strong>
+                <span>This Week</span>
+              </div>
+              <div>
+                <h3>Great job!</h3>
+                <p>You're building amazing habits.</p>
+              </div>
+            </div>
+            <div className="heatmap-board">
+              <div className="heatmap-days">
+                {habitDays.map((day) => (
+                  <span key={day}>{day}</span>
+                ))}
+              </div>
+              <div className="heatmap">
+                {habitHeatmap.map((level, index) => (
+                  <span className={`heat heat-${level}`} key={index} />
+                ))}
+              </div>
+              <div className="heatmap-months">
+                <span>Apr</span>
+                <span>May</span>
+                <span>Jun</span>
+              </div>
+            </div>
+            <div className="streak-heading">
+              <strong>Current Streaks</strong>
+              <button type="button">View All</button>
+            </div>
+            <div className="streak-row">
+              <Streak icon={Activity} value="12" label="days" />
+              <Streak icon={Target} value="7" label="days" />
+              <Streak icon={BookOpen} value="15" label="days" />
+              <Streak icon={Droplets} value="5" label="days" />
+              <Streak icon={Flame} value="5" label="days" />
+            </div>
+          </article>
+
+          <article className="card journal-card">
+            <CardHeader icon={BookOpen} label="Journal Mood" tone="purple" />
+            <div className="mood-layout">
+              <div>
+                <span className="muted">Average Mood</span>
+                <strong className="score">7.4<small>/10</small></strong>
+                <small className="positive pill">{'\u2191'} 0.8 vs last week</small>
+              </div>
+              <div className="mood-ring">
+                <span className="mood-orbit orbit-one" />
+                <span className="mood-orbit orbit-two" />
+                <Smile size={34} />
+              </div>
+            </div>
+            <div className="journal-entry">
+              <div className="entry-header">
+                <strong>Recent Entry</strong>
+                <span><Lock size={12} /> Encrypted</span>
+              </div>
+              <small>May 24, 2026 - 8:30 AM</small>
+              <p>Grateful for a peaceful morning. Feeling motivated to build and create today...</p>
+            </div>
+            <button className="primary-action" type="button">
+              <PenLine size={17} />
+              Write New Entry
+            </button>
+          </article>
+
+          <article className="card goals-card">
+            <CardHeader icon={Target} label="Goals Overview" tone="blue">
+              <button className="ghost-select" type="button">
+                <Maximize2 size={13} />
+                View Full Tree
+              </button>
+            </CardHeader>
+            <div className="goal-tree">
+              <svg className="goal-lines" viewBox="0 0 720 246" aria-hidden="true">
+                <path className="root-line" d="M360 36 V74" />
+                <path className="root-line" d="M150 74 H570" />
+                <path className="health-line" d="M150 74 V120" />
+                <path className="career-line" d="M360 74 V120" />
+                <path className="finance-line" d="M570 74 V120" />
+                <path className="health-line" d="M150 158 V202" />
+                <path className="career-line" d="M360 158 V202" />
+                <path className="finance-line" d="M570 158 V202" />
+              </svg>
+              <GoalNode
+                title="Healthy, wealthy and meaningful life"
+                value="68%"
+                center
+              />
+              <div className="goal-branches">
+                <GoalBranch icon={Heart} title="Health" value="75%" tone="red" />
+                <GoalBranch icon={BriefcaseBusiness} title="Career" value="80%" tone="blue" />
+                <GoalBranch icon={CircleDollarSign} title="Finance" value="70%" tone="green" />
+              </div>
+              <div className="goal-leaves">
+                <div className="goal-leaf-group health">
+                  <span>Workout <b>86%</b></span>
+                  <span>Eat Healthy <b>73%</b></span>
+                </div>
+                <div className="goal-leaf-group career">
+                  <span>LifeOS <b>85%</b></span>
+                  <span>Mentorship <b>95%</b></span>
+                </div>
+                <div className="goal-leaf-group finance">
+                  <span>Budget <b>92%</b></span>
+                  <span>Invest <b>80%</b></span>
+                </div>
+              </div>
+            </div>
+            <div className="goal-legend">
+              <span><i className="green-dot" /> On Track</span>
+              <span><i className="amber-dot" /> At Risk</span>
+              <span><i className="red-dot" /> Off Track</span>
+              <span><i className="gray-dot" /> Not Started</span>
+            </div>
+          </article>
+
+          <article className="card insights-card">
+            <CardHeader icon={Sparkles} label="Weekly Insights AI" tone="blue">
+              <span className="ai-badge">AI Generated</span>
+            </CardHeader>
+            <div className="insight-hero">
+              <div>
+                <h3>Your Week in Review {'\u2728'}</h3>
+                <p>You had a productive week. You saved more, stayed consistent with habits, and your mood improved.</p>
+              </div>
+              <div className="planet" />
+            </div>
+            <div className="insight-metrics">
+              <MetricTile label="Spent" value="$1,286" detail="8% vs last week" />
+              <MetricTile label="Habit Score" value="87%" detail="12%" />
+              <MetricTile label="Avg Mood" value="7.4/10" detail="0.8" />
+              <MetricTile label="Goal Progress" value="+6%" detail="vs last week" />
+            </div>
+            <button className="wide-action" type="button">
+              View Full Report
+              <ArrowRight size={17} />
+            </button>
+          </article>
+
+          <article className="card compact-card">
+            <CardHeader icon={CheckSquare} label="Today's Focus" tone="blue" />
+            <div className="task-list">
+              {focusTasks.map((task) => (
+                <label className={task.done ? 'task-row done' : 'task-row'} key={task.label}>
+                  <span className={task.done ? 'checkbox checked' : 'checkbox'}>
+                    {task.done ? <Check size={13} /> : null}
+                  </span>
+                  <span className="task-copy">
+                    <strong>{task.label}</strong>
+                    <small>{task.time}</small>
+                  </span>
+                  <b className={`task-tag ${task.tag.toLowerCase()}`}>{task.tag}</b>
+                </label>
+              ))}
+            </div>
+          </article>
+
+          <article className="card compact-card expenses-card">
+            <CardHeader icon={BarChart3} label="Expenses This Week" tone="blue" />
+            <div className="mini-stat-row">
+              <span>Top day <strong>Tue</strong></span>
+              <span>Avg/day <strong>$184</strong></span>
+              <span className="positive">8% lower</span>
+            </div>
+            <div className="bar-chart">
+              <div className="bar-axis">
+                <span>$300</span>
+                <span>$200</span>
+                <span>$100</span>
+                <span>$0</span>
+              </div>
+              {[72, 96, 64, 40, 58, 22, 36].map((height, index) => (
+                <span className={`bar bar-${index}`} key={index} style={{ height: `${height}%` }} />
+              ))}
+            </div>
+            <div className="chart-days">
+              <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span>
+              <span>Fri</span><span>Sat</span><span>Sun</span>
+            </div>
+            <div className="category-strip">
+              <span>Food $420</span>
+              <span>Travel $280</span>
+              <span>Home $190</span>
+            </div>
+          </article>
+
+          <article className="card compact-card reminders-card">
+            <CardHeader icon={Bell} label="Upcoming Reminders" tone="blue" />
+            <div className="reminder-list">
+              {reminders.map((reminder) => (
+                <div className="reminder-row" key={reminder.title}>
+                  <span className={`reminder-icon ${reminder.tone}`}>
+                    <reminder.icon size={18} />
+                  </span>
+                  <div>
+                    <strong>{reminder.title}</strong>
+                    <p>{reminder.time}</p>
+                  </div>
+                  <b className={`reminder-badge ${reminder.tone}`}>
+                    {reminder.tone === 'green' ? 'Soon' : reminder.tone === 'amber' ? 'Gift' : 'Work'}
+                  </b>
+                </div>
+              ))}
+            </div>
+            <div className="sync-footer">
+              <span className="status-dot" />
+              Calendar sync active
+            </div>
+          </article>
+        </section>
+      </section>
+    </main>
+  )
+}
+
+function CardHeader({
+  children,
+  icon: Icon,
+  label,
+  tone,
+}: {
+  children?: ReactNode
+  icon: ComponentType<{ size?: number }>
+  label: string
+  tone: string
+}) {
+  return (
+    <header className="card-header">
+      <div className="card-title">
+        <span className={`card-icon ${tone}`}>
+          <Icon size={17} />
+        </span>
+        <strong>{label}</strong>
+      </div>
+      <div className="card-actions">
+        {children}
+        <button className="icon-action" type="button" aria-label={`${label} options`}>
+          <MoreVertical size={17} />
+        </button>
+      </div>
+    </header>
+  )
+}
+
+function MiniLineChart() {
+  return (
+    <div className="mini-chart" aria-label="Balance trend">
+      <svg viewBox="0 0 260 150" role="img">
+        <defs>
+          <linearGradient id="areaGradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="#22c55e" stopOpacity="0.48" />
+            <stop offset="100%" stopColor="#22c55e" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <g className="chart-grid">
+          <path d="M0 116 H260" />
+          <path d="M0 82 H260" />
+          <path d="M0 48 H260" />
+          <path d="M52 0 V132" />
+          <path d="M104 0 V132" />
+          <path d="M156 0 V132" />
+          <path d="M208 0 V132" />
+        </g>
+        <path
+          className="chart-area"
+          d="M0 106 L26 84 L52 50 L78 58 L104 82 L130 70 L156 48 L182 64 L208 36 L234 22 L260 0 L260 150 L0 150 Z"
+        />
+        <path
+          className="chart-line"
+          d="M0 106 L26 84 L52 50 L78 58 L104 82 L130 70 L156 48 L182 64 L208 36 L234 22 L260 0"
+        />
+      </svg>
+      <div className="chart-axis">
+        <span>$0</span>
+        <span>$2k</span>
+        <span>$4k</span>
+        <span>$6k</span>
+      </div>
+      <div className="chart-dates">
+        <span>Apr 24</span>
+        <span>May 1</span>
+        <span>May 8</span>
+        <span>May 15</span>
+        <span>May 22</span>
+      </div>
+    </div>
+  )
+}
+
+function Avatar({ compact = false }: { compact?: boolean }) {
+  return (
+    <div className={compact ? 'avatar portrait top-avatar' : 'avatar portrait'} aria-label="Arjun Patel">
+      <span className="avatar-hair" />
+      <span className="avatar-face" />
+      <span className="avatar-ear left" />
+      <span className="avatar-ear right" />
+      <span className="avatar-eye left" />
+      <span className="avatar-eye right" />
+      <span className="avatar-smile" />
+      <span className="avatar-shirt" />
+    </div>
+  )
+}
+
+function MetricPill({ label, value, tone }: { label: string; value: string; tone: string }) {
+  return (
+    <div className={`metric-pill ${tone}`}>
+      <span><i />{label}</span>
+      <strong>{value}</strong>
+    </div>
+  )
+}
+
+function Streak({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: ComponentType<{ size?: number }>
+  label: string
+  value: string
+}) {
+  return (
+    <div className="streak">
+      <span><Icon size={15} /></span>
+      <strong>{value}</strong>
+      <small>{label}</small>
+    </div>
+  )
+}
+
+function GoalNode({ center, title, value }: { center?: boolean; title: string; value: string }) {
+  return (
+    <div className={center ? 'goal-node center' : 'goal-node'}>
+      <strong>{title}</strong>
+      <span>{value}</span>
+    </div>
+  )
+}
+
+function GoalBranch({
+  icon: Icon,
+  title,
+  tone,
+  value,
+}: {
+  icon: ComponentType<{ size?: number }>
+  title: string
+  tone: string
+  value: string
+}) {
+  return (
+    <div className={`goal-branch ${tone}`}>
+      <Icon size={16} />
+      <strong>{title}</strong>
+      <span>{value}</span>
+    </div>
+  )
+}
+
+function MetricTile({ detail, label, value }: { detail: string; label: string; value: string }) {
+  return (
+    <div className="metric-tile">
+      <span>{label}</span>
+      <strong>{value}</strong>
+      <small>{detail}</small>
+    </div>
+  )
+}
+
+export default App
