@@ -5,7 +5,6 @@ import {
   Bell,
   BookOpen,
   BriefcaseBusiness,
-  CalendarDays,
   Check,
   CheckSquare,
   ChevronDown,
@@ -16,7 +15,6 @@ import {
   Lock,
   Maximize2,
   PenLine,
-  Search,
   SlidersHorizontal,
   Smile,
   Sparkles,
@@ -25,8 +23,8 @@ import {
 import type { ComponentType } from 'react'
 
 import { DashboardSidebar } from '../components/DashboardSidebar'
+import { DashboardTopbar } from '../components/DashboardTopbar'
 import { useDashboardOverview } from '../hooks/useDashboardOverview'
-import { Avatar } from '../../../shared/components/Avatar'
 import { DashboardCardHeader as CardHeader } from '../../../shared/components/DashboardCardHeader'
 
 export function DashboardPage() {
@@ -37,38 +35,7 @@ export function DashboardPage() {
       <DashboardSidebar navItems={navItems} />
 
       <section className="workspace">
-        <header className="topbar">
-          <label className="search-box">
-            <Search size={18} />
-            <input aria-label="Search" placeholder="Search anything..." />
-            <kbd>{'\u2318'}</kbd>
-            <kbd>K</kbd>
-          </label>
-
-          <div className="topbar-cluster">
-            <button className="date-button" type="button">
-              <CalendarDays size={20} />
-              <span>
-                <strong>Saturday, May 24, 2026</strong>
-                <small>Week 21</small>
-              </span>
-              <ChevronDown size={16} />
-            </button>
-            <button className="period-button" type="button">
-              <BarChart3 size={18} />
-              This Week
-              <ChevronDown size={16} />
-            </button>
-            <button className="bell-button" type="button" aria-label="Notifications">
-              <Bell size={20} />
-              <span>3</span>
-            </button>
-            <button className="profile-button" type="button" aria-label="Open profile menu">
-              <Avatar compact />
-              <ChevronDown size={15} />
-            </button>
-          </div>
-        </header>
+        <DashboardTopbar />
 
         <section className="greeting-row">
           <div>
