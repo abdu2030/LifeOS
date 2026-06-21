@@ -1141,6 +1141,12 @@ kbd {
   align-items: start;
 }
 
+.finance-chart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
 .finance-panel {
   display: grid;
   gap: 16px;
@@ -1162,6 +1168,39 @@ kbd {
 
 .finance-panel p {
   color: var(--muted);
+}
+
+.finance-chart-panel {
+  min-width: 0;
+  align-content: start;
+}
+
+.finance-chart-panel .recharts-wrapper {
+  min-width: 0;
+}
+
+.finance-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.finance-chart-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 9px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 999px;
+  color: var(--muted);
+  background: rgba(15, 23, 42, 0.42);
+  font-size: 12px;
+}
+
+.finance-chart-legend i {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
 }
 
 .segmented-control {
@@ -3167,6 +3206,7 @@ kbd {
   }
 
   .nav-list,
+  .finance-chart-grid,
   .finance-layout,
   .finance-summary,
   .insight-hero,
