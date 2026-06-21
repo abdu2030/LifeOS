@@ -4,8 +4,8 @@ import { useAuth } from '../../auth/hooks/useAuth'
 import {
   createHabit,
   listHabits,
+  spendFreezeToken,
   toggleHabitCompletion,
-  useFreezeToken,
 } from '../services/habitsApi'
 import type { Habit, HabitInput } from '../types/habit'
 import { getTodayKey } from '../utils/streaks'
@@ -39,7 +39,7 @@ export function useHabits() {
   })
 
   const freezeTokenMutation = useMutation({
-    mutationFn: (habit: Habit) => useFreezeToken(user!.id, habit, todayKey),
+    mutationFn: (habit: Habit) => spendFreezeToken(user!.id, habit, todayKey),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: [...habitsQueryKey, user?.id] })
     },

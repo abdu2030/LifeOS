@@ -152,7 +152,7 @@ export async function toggleHabitCompletion(
   }
 }
 
-export async function useFreezeToken(userId: string, habit: Habit, loggedOn: string) {
+export async function spendFreezeToken(userId: string, habit: Habit, loggedOn: string) {
   if (habit.freezeTokens <= 0) {
     throw new Error('No freeze tokens left for this habit.')
   }
