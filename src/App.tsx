@@ -12,20 +12,12 @@ import {
   CircleDollarSign,
   Droplets,
   Flame,
-  Folder,
-  Gift,
-  Goal,
   Heart,
-  LayoutDashboard,
-  LineChart,
-  ListTodo,
   Lock,
   MoreVertical,
   Maximize2,
   PenLine,
-  Plug,
   Search,
-  Settings,
   SlidersHorizontal,
   Smile,
   Sparkles,
@@ -33,67 +25,7 @@ import {
 } from 'lucide-react'
 import type { ComponentType, ReactNode } from 'react'
 
-type NavItem = {
-  label: string
-  icon: ComponentType<{ size?: number }>
-  active?: boolean
-}
-
-type Reminder = {
-  title: string
-  time: string
-  icon: ComponentType<{ size?: number }>
-  tone: string
-}
-
-const navItems: NavItem[] = [
-  { label: 'Dashboard', icon: LayoutDashboard, active: true },
-  { label: 'Finance', icon: CircleDollarSign },
-  { label: 'Habits', icon: Activity },
-  { label: 'Journal', icon: BookOpen },
-  { label: 'Goals', icon: Goal },
-  { label: 'Weekly Insights', icon: LineChart },
-  { label: 'Calendar', icon: CalendarDays },
-  { label: 'Tasks', icon: ListTodo },
-  { label: 'Files', icon: Folder },
-  { label: 'Settings', icon: Settings },
-  { label: 'Plugins', icon: Plug },
-]
-
-const focusTasks = [
-  { label: 'Finish Landing Page Design', tag: 'Work', done: true, time: '9:00 AM' },
-  { label: 'Workout - Push Day', tag: 'Health', done: false, time: '12:30 PM' },
-  { label: 'Read 20 pages', tag: 'Personal', done: false, time: '6:00 PM' },
-  { label: 'Journal & Reflect', tag: 'Mind', done: false, time: '9:30 PM' },
-]
-
-const reminders: Reminder[] = [
-  {
-    title: 'Doctor Appointment',
-    time: 'May 26, 2026 - 10:30 AM',
-    icon: CalendarDays,
-    tone: 'green',
-  },
-  {
-    title: "Mom's Birthday",
-    time: 'May 28, 2026 - All Day',
-    icon: Gift,
-    tone: 'amber',
-  },
-  {
-    title: 'Project Deadline',
-    time: 'May 30, 2026 - 11:59 PM',
-    icon: BriefcaseBusiness,
-    tone: 'purple',
-  },
-]
-
-const habitHeatmap = Array.from({ length: 91 }, (_, index) => {
-  const pattern = [0, 2, 3, 1, 4, 2, 0, 3, 4, 2, 1, 3, 4]
-  return pattern[index % pattern.length]
-})
-
-const habitDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+import { focusTasks, habitDays, habitHeatmap, navItems, reminders } from './features/dashboard/data/dashboardData'
 
 function App() {
   return (
