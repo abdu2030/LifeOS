@@ -52,6 +52,7 @@ create table public.habits (
   frequency public.habit_frequency not null default 'daily',
   target_count integer not null default 1 check (target_count > 0),
   color text not null default '#21d07a',
+  freeze_tokens integer not null default 2 check (freeze_tokens >= 0),
   is_active boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
