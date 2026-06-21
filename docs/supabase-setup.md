@@ -15,6 +15,11 @@ VITE_SUPABASE_ANON_KEY=your-anon-key-here
 VITE_AUTH_REDIRECT_URL=http://localhost:5173/auth/callback
 ```
 
+If your Supabase dashboard or template gives you `NEXT_PUBLIC_SUPABASE_URL` and
+`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, copy those values into the matching `VITE_`
+variables for local Vite development. The app client also accepts the `NEXT_PUBLIC_`
+names for compatibility.
+
 For production, set `VITE_AUTH_REDIRECT_URL` to the deployed app callback URL.
 
 ## 2. Run the Database Schema
