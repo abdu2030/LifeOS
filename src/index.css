@@ -1289,17 +1289,24 @@ kbd {
 }
 
 .habit-heatmap-panel {
+  position: relative;
   overflow: hidden;
+}
+
+.habit-heatmap-scroll {
+  overflow-x: auto;
+  padding-bottom: 6px;
 }
 
 .habit-d3-heatmap {
   display: block;
-  width: 100%;
-  max-width: 360px;
+  width: 832px;
+  max-width: none;
   height: auto;
 }
 
 .habit-d3-heatmap rect {
+  cursor: pointer;
   transition:
     opacity 160ms ease,
     stroke 160ms ease;
@@ -1308,6 +1315,55 @@ kbd {
 .habit-d3-heatmap rect:hover {
   opacity: 0.9;
   stroke: rgba(255, 255, 255, 0.5);
+}
+
+.habit-d3-heatmap rect.selected {
+  stroke: rgba(255, 255, 255, 0.82);
+  stroke-width: 1.5px;
+}
+
+.habit-heatmap-tooltip {
+  position: fixed;
+  z-index: 80;
+  display: grid;
+  gap: 3px;
+  min-width: 130px;
+  padding: 8px 10px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 9px;
+  color: var(--text);
+  background: rgba(2, 6, 23, 0.94);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.habit-heatmap-tooltip span {
+  color: var(--muted);
+}
+
+.habit-heatmap-detail {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.42);
+}
+
+.habit-heatmap-detail div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.habit-heatmap-detail span {
+  padding: 6px 9px;
+  border-radius: 999px;
+  color: #bbf7d0;
+  background: rgba(34, 197, 94, 0.14);
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .habit-form {
