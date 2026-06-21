@@ -1,5 +1,6 @@
 import { GoalForm } from '../components/GoalForm'
 import { GoalList } from '../components/GoalList'
+import { GoalTreeView } from '../components/GoalTreeView'
 import { useGoals } from '../hooks/useGoals'
 
 export function GoalsPage() {
@@ -7,6 +8,7 @@ export function GoalsPage() {
     createGoal,
     deleteGoal,
     error,
+    goalTree,
     goals,
     isCreating,
     isDeleting,
@@ -24,6 +26,8 @@ export function GoalsPage() {
           <p>Build parent goals, milestones, and progress signals around the life you are designing.</p>
         </div>
       </div>
+
+      <GoalTreeView goals={goalTree} />
 
       <div className="goals-layout-grid">
         <GoalForm goals={goals} isSubmitting={isCreating} onSubmit={createGoal} />
