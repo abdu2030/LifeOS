@@ -5,6 +5,7 @@ import { AuthCallbackPage } from '../../features/auth/pages/AuthCallbackPage'
 import { LoginPage } from '../../features/auth/pages/LoginPage'
 import { RegisterPage } from '../../features/auth/pages/RegisterPage'
 import { DashboardPage } from '../../features/dashboard/pages/DashboardPage'
+import { WidgetsPage } from '../../features/widgets/pages/WidgetsPage'
 
 export function AppRoutes() {
   return (
@@ -14,6 +15,7 @@ export function AppRoutes() {
       <Route element={<AuthCallbackPage />} path="/auth/callback" />
       <Route element={<AppLayout />}>
         <Route element={<DashboardPage />} index />
+        <Route element={<WidgetsPage />} path="/widgets" />
       </Route>
       <Route element={<Navigate replace to="/" />} path="*" />
     </Routes>
