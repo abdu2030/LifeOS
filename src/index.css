@@ -1483,6 +1483,74 @@ kbd {
   background: rgba(37, 99, 235, 0.16);
 }
 
+.mood-analysis-panel {
+  box-shadow: none;
+}
+
+.mood-analysis-result {
+  display: grid;
+  gap: 12px;
+}
+
+.mood-analysis-result div:last-child {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mood-analysis-result span {
+  padding: 6px 9px;
+  border-radius: 999px;
+  color: #dbeafe;
+  background: rgba(37, 99, 235, 0.16);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.mood-ring-full {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 150px;
+  height: 150px;
+}
+
+.mood-ring-full svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+.mood-ring-full circle {
+  fill: none;
+  stroke: rgba(148, 163, 184, 0.14);
+  stroke-width: 10;
+}
+
+.mood-ring-full circle:last-child {
+  stroke: var(--green);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 220ms ease;
+}
+
+.mood-ring-full div {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+}
+
+.mood-ring-full strong {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.mood-ring-full span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
 .habits-page {
   display: grid;
   gap: 18px;

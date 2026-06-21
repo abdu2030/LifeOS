@@ -5,6 +5,7 @@ import { Bold, Heading2, Italic, List, Save } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { EncryptionBadge } from './EncryptionBadge'
+import { MoodAnalysis } from './MoodAnalysis'
 import { encryptText } from '../services/encryptionService'
 import type { JournalEntryInput } from '../types/journal'
 
@@ -143,6 +144,8 @@ export function JournalEditor({ isSaving, onSave }: JournalEditorProps) {
       </div>
 
       <EditorContent className="journal-editor" editor={editor} />
+
+      <MoodAnalysis entryText={editor?.getHTML() ?? ''} onApplyScore={setMoodScore} />
 
       {status ? <p className="auth-success">{status}</p> : null}
 
