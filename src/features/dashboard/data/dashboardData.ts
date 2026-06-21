@@ -50,10 +50,3 @@ export const reminders: Reminder[] = [
     tone: 'purple',
   },
 ]
-
-export const habitDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-
-export const habitHeatmap = Array.from({ length: 91 }, (_, index) => {
-  const pattern = [0, 2, 3, 1, 4, 2, 0, 3, 4, 2, 1, 3, 4]
-  return pattern[index % pattern.length]
-})
