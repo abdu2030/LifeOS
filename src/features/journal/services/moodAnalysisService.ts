@@ -1,4 +1,4 @@
-import { supabase } from '../../../lib/supabase'
+import { supabase, supabaseAnonKey, supabaseUrl } from '../../../lib/supabase'
 
 export type MoodAnalysisResult = {
   emotions: string[]
@@ -13,7 +13,7 @@ export async function analyzeMood(text: string): Promise<MoodAnalysisResult> {
   })
 
   if (error) {
-    throw error
+    return invokeMoodAnalysisDirectly(text)
   }
 
   if (!data) {
@@ -21,4 +21,31 @@ export async function analyzeMood(text: string): Promise<MoodAnalysisResult> {
   }
 
   return data
+}
+
+async function invokeMoodAnalysisDirectly(text: string) {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+  const response = await fetch(`${supabaseUrl}/functions/v1/analyze-mood`, {
+    body: JSON.stringify({ text }),
+    headers: {
+      apikey: supabaseAnonKey,
+      Authorization: `Bearer ${session?.access_token ?? supabaseAnonKey}`,
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+  })
+  const payload = (await response.json()) as MoodAnalysisResult & {
+    detail?: string
+    error?: string
+  }
+
+  if (!response.ok) {
+    throw new Error(
+      payload.detail || payload.error || `Mood analysis failed with status ${response.status}.`,
+    )
+  }
+
+  return payload
 }
