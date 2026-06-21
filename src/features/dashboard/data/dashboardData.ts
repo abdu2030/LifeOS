@@ -5,6 +5,7 @@ import {
   CircleDollarSign,
   Folder,
   Goal,
+  Grid3X3,
   LayoutDashboard,
   LineChart,
   ListTodo,
@@ -15,8 +16,9 @@ import {
 import type { NavItem } from '../types/dashboard'
 
 export const navItems: NavItem[] = [
-  { label: 'Dashboard', icon: LayoutDashboard, active: true },
-  { label: 'Finance', icon: CircleDollarSign },
+  { label: 'Dashboard', icon: LayoutDashboard, path: '/' },
+  { label: 'Widgets', icon: Grid3X3, path: '/widgets' },
+  { label: 'Finance', icon: CircleDollarSign, path: '/finance' },
   { label: 'Habits', icon: Activity },
   { label: 'Journal', icon: BookOpen },
   { label: 'Goals', icon: Goal },

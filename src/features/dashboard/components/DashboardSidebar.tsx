@@ -1,4 +1,5 @@
 import { ChevronDown, MoreVertical } from 'lucide-react'
+import { NavLink } from 'react-router-dom'
 
 import { Avatar } from '../../../shared/components/Avatar'
 import type { NavItem } from '../types/dashboard'
@@ -24,15 +25,7 @@ export function DashboardSidebar({ navItems }: DashboardSidebarProps) {
 
       <nav className="nav-list">
         {navItems.map((item, index) => (
-          <button
-            className={item.active ? 'nav-item active' : 'nav-item'}
-            key={item.label}
-            type="button"
-          >
-            <item.icon size={20} />
-            <span>{item.label}</span>
-            {index === 8 ? <span className="nav-divider" /> : null}
-          </button>
+          <NavEntry item={item} key={item.label} showDivider={index === 8} />
         ))}
       </nav>
 
@@ -54,5 +47,37 @@ export function DashboardSidebar({ navItems }: DashboardSidebarProps) {
         <ChevronDown size={16} />
       </section>
     </aside>
+  )
+}
+
+type NavEntryProps = {
+  item: NavItem
+  showDivider: boolean
+}
+
+function NavEntry({ item, showDivider }: NavEntryProps) {
+  const content = (
+    <>
+      <item.icon size={20} />
+      <span>{item.label}</span>
+      {showDivider ? <span className="nav-divider" /> : null}
+    </>
+  )
+
+  if (item.path) {
+    return (
+      <NavLink
+        className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
+        to={item.path}
+      >
+        {content}
+      </NavLink>
+    )
+  }
+
+  return (
+    <button className="nav-item disabled" disabled type="button">
+      {content}
+    </button>
   )
 }

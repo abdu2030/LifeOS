@@ -491,6 +491,7 @@ p {
   color: #d8e2f1;
   background: transparent;
   cursor: pointer;
+  text-decoration: none;
   text-align: left;
   transition:
     background 160ms ease,
@@ -551,6 +552,30 @@ p {
   color: #fff;
   background: rgba(255, 255, 255, 0.12);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.nav-item.disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+.nav-item.disabled:hover {
+  color: #d8e2f1;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+.nav-item.disabled:hover::before {
+  background: transparent;
+  box-shadow: none;
+}
+
+.nav-item.disabled:hover svg {
+  border-color: rgba(148, 163, 184, 0.08);
+  color: #aab8ca;
+  background: rgba(15, 23, 42, 0.28);
+  box-shadow: none;
 }
 
 .nav-divider {
