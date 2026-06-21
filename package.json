@@ -8,8 +8,8 @@
     "type-check": "node ./node_modules/typescript/bin/tsc -b",
     "build": "node ./node_modules/typescript/bin/tsc -b && node ./node_modules/vite/bin/vite.js build",
     "lint": "node ./node_modules/eslint/bin/eslint.js .",
-    "format": "node ./node_modules/prettier/bin/prettier.cjs . --write",
-    "format:check": "node ./node_modules/prettier/bin/prettier.cjs . --check",
+    "format": "node ./node_modules/prettier/bin/prettier.cjs \"*.{html,js,json,md,ts}\" \"docs/**/*.md\" \"src/**/*.{css,ts,tsx}\" \"tests/**/*.ts\" --write",
+    "format:check": "node ./node_modules/prettier/bin/prettier.cjs \"*.{html,js,json,md,ts}\" \"docs/**/*.md\" \"src/**/*.{css,ts,tsx}\" \"tests/**/*.ts\" --check",
     "test": "node ./node_modules/vitest/vitest.mjs run",
     "test:watch": "node ./node_modules/vitest/vitest.mjs",
     "preview": "node ./node_modules/vite/bin/vite.js preview"

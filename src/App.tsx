@@ -1,7 +1,7 @@
-import { DashboardPage } from './features/dashboard/pages/DashboardPage'
+import { AppRoutes } from './app/routes/AppRoutes'
 
 function App() {
-  return <DashboardPage />
+  return <AppRoutes />
 }
 
 export default App
