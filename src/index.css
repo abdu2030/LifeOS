@@ -1543,22 +1543,55 @@ kbd {
 
 .mood-analysis-result {
   display: grid;
-  gap: 12px;
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.13);
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.34);
 }
 
-.mood-analysis-result div:last-child {
+.mood-analysis-result__main {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+}
+
+.mood-analysis-result__copy {
+  display: grid;
+  gap: 6px;
+}
+
+.mood-analysis-result__copy > span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.mood-analysis-result__copy p {
+  margin: 0;
+  max-width: 54ch;
+  color: #dbeafe;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.mood-analysis-result__chips {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.mood-analysis-result span {
-  padding: 6px 9px;
+.mood-analysis-result__chips span {
+  padding: 5px 9px;
   border-radius: 999px;
-  color: #dbeafe;
-  background: rgba(37, 99, 235, 0.16);
+  color: #bfdbfe;
+  background: rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(96, 165, 250, 0.14);
   font-size: 12px;
-  font-weight: 850;
+  font-weight: 750;
 }
 
 .mood-ring-full {
@@ -1603,6 +1636,27 @@ kbd {
   color: var(--muted);
   font-size: 12px;
   font-weight: 850;
+}
+
+.mood-ring-full--compact {
+  width: 96px;
+  height: 96px;
+}
+
+.mood-ring-full--compact circle {
+  stroke-width: 8;
+}
+
+.mood-ring-full--compact strong {
+  font-size: 24px;
+}
+
+.mood-ring-full--compact span {
+  max-width: 72px;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .journal-widget,
@@ -3995,7 +4049,8 @@ kbd {
   .finance-layout,
   .finance-summary,
   .insight-hero,
-  .insight-metrics {
+  .insight-metrics,
+  .mood-analysis-result__main {
     grid-template-columns: 1fr;
   }
 

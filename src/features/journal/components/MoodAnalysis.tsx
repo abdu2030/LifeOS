@@ -56,10 +56,15 @@ export function MoodAnalysis({ entryText, onApplyScore }: MoodAnalysisProps) {
 
       {analysis ? (
         <div className="mood-analysis-result">
-          <MoodRingFull label={analysis.label} score={analysis.score} />
-          <p>{analysis.summary}</p>
-          <div>
-            {analysis.emotions.map((emotion) => (
+          <div className="mood-analysis-result__main">
+            <MoodRingFull label={analysis.label} score={analysis.score} size="compact" />
+            <div className="mood-analysis-result__copy">
+              <span>AI readout</span>
+              <p>{analysis.summary}</p>
+            </div>
+          </div>
+          <div className="mood-analysis-result__chips" aria-label="Detected emotions">
+            {analysis.emotions.slice(0, 4).map((emotion) => (
               <span key={emotion}>{emotion}</span>
             ))}
           </div>

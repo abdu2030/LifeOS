@@ -1,15 +1,16 @@
 type MoodRingFullProps = {
   label?: string
   score: number
+  size?: 'default' | 'compact'
 }
 
-export function MoodRingFull({ label = 'Mood', score }: MoodRingFullProps) {
+export function MoodRingFull({ label = 'Mood', score, size = 'default' }: MoodRingFullProps) {
   const normalizedScore = Math.max(0, Math.min(score, 10))
   const circumference = 2 * Math.PI * 48
   const dashOffset = circumference - (normalizedScore / 10) * circumference
 
   return (
-    <div className="mood-ring-full">
+    <div className={`mood-ring-full mood-ring-full--${size}`}>
       <svg
         viewBox="0 0 120 120"
         role="img"
