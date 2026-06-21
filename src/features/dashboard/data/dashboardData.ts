@@ -20,7 +20,7 @@ export const navItems: NavItem[] = [
   { label: 'Widgets', icon: Grid3X3, path: '/widgets' },
   { label: 'Finance', icon: CircleDollarSign, path: '/finance' },
   { label: 'Habits', icon: Activity, path: '/habits' },
-  { label: 'Journal', icon: BookOpen },
+  { label: 'Journal', icon: BookOpen, path: '/journal' },
   { label: 'Goals', icon: Goal },
   { label: 'Weekly Insights', icon: LineChart },
   { label: 'Calendar', icon: CalendarDays },

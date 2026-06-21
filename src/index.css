@@ -1346,6 +1346,103 @@ kbd {
   gap: 18px;
 }
 
+.journal-page {
+  display: grid;
+  gap: 18px;
+}
+
+.journal-layout-grid {
+  display: grid;
+  grid-template-columns: minmax(360px, 0.95fr) minmax(0, 0.75fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.journal-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 12px;
+  background: rgba(3, 7, 18, 0.24);
+}
+
+.journal-toolbar button {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  color: var(--muted);
+  background: transparent;
+  cursor: pointer;
+}
+
+.journal-toolbar button.active,
+.journal-toolbar button:hover {
+  color: white;
+  background: rgba(55, 119, 255, 0.24);
+}
+
+.journal-editor {
+  min-height: 280px;
+  padding: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 12px;
+  background: rgba(3, 7, 18, 0.32);
+}
+
+.journal-editor .tiptap {
+  min-height: 248px;
+  outline: none;
+}
+
+.journal-editor .is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.journal-save-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.journal-entry-list {
+  display: grid;
+  gap: 10px;
+}
+
+.journal-entry-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.46);
+}
+
+.journal-entry-row time,
+.journal-entry-row span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.journal-entry-row b {
+  padding: 5px 8px;
+  border-radius: 999px;
+  color: #dbeafe;
+  background: rgba(37, 99, 235, 0.16);
+}
+
 .habits-page {
   display: grid;
   gap: 18px;
@@ -3690,6 +3787,7 @@ kbd {
   .finance-chart-grid,
   .csv-column-mapper,
   .habits-layout-grid,
+  .journal-layout-grid,
   .finance-layout,
   .finance-summary,
   .insight-hero,

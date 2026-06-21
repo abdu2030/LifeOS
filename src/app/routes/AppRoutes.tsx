@@ -7,6 +7,7 @@ import { RegisterPage } from '../../features/auth/pages/RegisterPage'
 import { DashboardPage } from '../../features/dashboard/pages/DashboardPage'
 import { FinancePage } from '../../features/finance/pages/FinancePage'
 import { HabitsPage } from '../../features/habits/pages/HabitsPage'
+import { JournalPage } from '../../features/journal/pages/JournalPage'
 import { WidgetsPage } from '../../features/widgets/pages/WidgetsPage'
 
 export function AppRoutes() {
@@ -19,6 +20,7 @@ export function AppRoutes() {
         <Route element={<DashboardPage />} index />
         <Route element={<FinancePage />} path="/finance" />
         <Route element={<HabitsPage />} path="/habits" />
+        <Route element={<JournalPage />} path="/journal" />
         <Route element={<WidgetsPage />} path="/widgets" />
       </Route>
       <Route element={<Navigate replace to="/" />} path="*" />
