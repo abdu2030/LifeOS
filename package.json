@@ -8,7 +8,10 @@
     "type-check": "tsc -b",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "test": "vitest",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "test": "node ./node_modules/vitest/vitest.mjs run",
+    "test:watch": "node ./node_modules/vitest/vitest.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

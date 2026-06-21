@@ -59,11 +59,26 @@ export function DashboardPage() {
                   <strong>$1,286</strong>
                 </div>
                 <ul className="legend-list">
-                  <li><span className="blue" />Food & Dining <b>32%</b></li>
-                  <li><span className="indigo" />Transportation <b>21%</b></li>
-                  <li><span className="amber" />Shopping <b>18%</b></li>
-                  <li><span className="orange" />Bills & Utilities <b>15%</b></li>
-                  <li><span className="gray" />Others <b>14%</b></li>
+                  <li>
+                    <span className="blue" />
+                    Food & Dining <b>32%</b>
+                  </li>
+                  <li>
+                    <span className="indigo" />
+                    Transportation <b>21%</b>
+                  </li>
+                  <li>
+                    <span className="amber" />
+                    Shopping <b>18%</b>
+                  </li>
+                  <li>
+                    <span className="orange" />
+                    Bills & Utilities <b>15%</b>
+                  </li>
+                  <li>
+                    <span className="gray" />
+                    Others <b>14%</b>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -122,7 +137,9 @@ export function DashboardPage() {
             <div className="mood-layout">
               <div>
                 <span className="muted">Average Mood</span>
-                <strong className="score">7.4<small>/10</small></strong>
+                <strong className="score">
+                  7.4<small>/10</small>
+                </strong>
                 <small className="positive pill">{'\u2191'} 0.8 vs last week</small>
               </div>
               <div className="mood-ring">
@@ -134,7 +151,9 @@ export function DashboardPage() {
             <div className="journal-entry">
               <div className="entry-header">
                 <strong>Recent Entry</strong>
-                <span><Lock size={12} /> Encrypted</span>
+                <span>
+                  <Lock size={12} /> Encrypted
+                </span>
               </div>
               <small>May 24, 2026 - 8:30 AM</small>
               <p>Grateful for a peaceful morning. Feeling motivated to build and create today...</p>
@@ -163,11 +182,7 @@ export function DashboardPage() {
                 <path className="career-line" d="M360 158 V202" />
                 <path className="finance-line" d="M570 158 V202" />
               </svg>
-              <GoalNode
-                title="Healthy, wealthy and meaningful life"
-                value="68%"
-                center
-              />
+              <GoalNode title="Healthy, wealthy and meaningful life" value="68%" center />
               <div className="goal-branches">
                 <GoalBranch icon={Heart} title="Health" value="75%" tone="red" />
                 <GoalBranch icon={BriefcaseBusiness} title="Career" value="80%" tone="blue" />
@@ -175,24 +190,44 @@ export function DashboardPage() {
               </div>
               <div className="goal-leaves">
                 <div className="goal-leaf-group health">
-                  <span>Workout <b>86%</b></span>
-                  <span>Eat Healthy <b>73%</b></span>
+                  <span>
+                    Workout <b>86%</b>
+                  </span>
+                  <span>
+                    Eat Healthy <b>73%</b>
+                  </span>
                 </div>
                 <div className="goal-leaf-group career">
-                  <span>LifeOS <b>85%</b></span>
-                  <span>Mentorship <b>95%</b></span>
+                  <span>
+                    LifeOS <b>85%</b>
+                  </span>
+                  <span>
+                    Mentorship <b>95%</b>
+                  </span>
                 </div>
                 <div className="goal-leaf-group finance">
-                  <span>Budget <b>92%</b></span>
-                  <span>Invest <b>80%</b></span>
+                  <span>
+                    Budget <b>92%</b>
+                  </span>
+                  <span>
+                    Invest <b>80%</b>
+                  </span>
                 </div>
               </div>
             </div>
             <div className="goal-legend">
-              <span><i className="green-dot" /> On Track</span>
-              <span><i className="amber-dot" /> At Risk</span>
-              <span><i className="red-dot" /> Off Track</span>
-              <span><i className="gray-dot" /> Not Started</span>
+              <span>
+                <i className="green-dot" /> On Track
+              </span>
+              <span>
+                <i className="amber-dot" /> At Risk
+              </span>
+              <span>
+                <i className="red-dot" /> Off Track
+              </span>
+              <span>
+                <i className="gray-dot" /> Not Started
+              </span>
             </div>
           </article>
 
@@ -203,7 +238,10 @@ export function DashboardPage() {
             <div className="insight-hero">
               <div>
                 <h3>Your Week in Review {'\u2728'}</h3>
-                <p>You had a productive week. You saved more, stayed consistent with habits, and your mood improved.</p>
+                <p>
+                  You had a productive week. You saved more, stayed consistent with habits, and your
+                  mood improved.
+                </p>
               </div>
               <div className="planet" />
             </div>
@@ -240,8 +278,12 @@ export function DashboardPage() {
           <article className="card compact-card expenses-card">
             <CardHeader icon={BarChart3} label="Expenses This Week" tone="blue" />
             <div className="mini-stat-row">
-              <span>Top day <strong>Tue</strong></span>
-              <span>Avg/day <strong>$184</strong></span>
+              <span>
+                Top day <strong>Tue</strong>
+              </span>
+              <span>
+                Avg/day <strong>$184</strong>
+              </span>
               <span className="positive">8% lower</span>
             </div>
             <div className="bar-chart">
@@ -256,8 +298,13 @@ export function DashboardPage() {
               ))}
             </div>
             <div className="chart-days">
-              <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span>
-              <span>Fri</span><span>Sat</span><span>Sun</span>
+              <span>Mon</span>
+              <span>Tue</span>
+              <span>Wed</span>
+              <span>Thu</span>
+              <span>Fri</span>
+              <span>Sat</span>
+              <span>Sun</span>
             </div>
             <div className="category-strip">
               <span>Food $420</span>
@@ -279,7 +326,11 @@ export function DashboardPage() {
                     <p>{reminder.time}</p>
                   </div>
                   <b className={`reminder-badge ${reminder.tone}`}>
-                    {reminder.tone === 'green' ? 'Soon' : reminder.tone === 'amber' ? 'Gift' : 'Work'}
+                    {reminder.tone === 'green'
+                      ? 'Soon'
+                      : reminder.tone === 'amber'
+                        ? 'Gift'
+                        : 'Work'}
                   </b>
                 </div>
               ))}
@@ -343,7 +394,10 @@ function MiniLineChart() {
 function MetricPill({ label, value, tone }: { label: string; value: string; tone: string }) {
   return (
     <div className={`metric-pill ${tone}`}>
-      <span><i />{label}</span>
+      <span>
+        <i />
+        {label}
+      </span>
       <strong>{value}</strong>
     </div>
   )
@@ -360,7 +414,9 @@ function Streak({
 }) {
   return (
     <div className="streak">
-      <span><Icon size={15} /></span>
+      <span>
+        <Icon size={15} />
+      </span>
       <strong>{value}</strong>
       <small>{label}</small>
     </div>

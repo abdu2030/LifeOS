@@ -4,7 +4,10 @@ type AvatarProps = {
 
 export function Avatar({ compact = false }: AvatarProps) {
   return (
-    <div className={compact ? 'avatar portrait top-avatar' : 'avatar portrait'} aria-label="Arjun Patel">
+    <div
+      className={compact ? 'avatar portrait top-avatar' : 'avatar portrait'}
+      aria-label="Arjun Patel"
+    >
       <span className="avatar-hair" />
       <span className="avatar-face" />
       <span className="avatar-ear left" />
