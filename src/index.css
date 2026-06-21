@@ -1302,12 +1302,12 @@ kbd {
 .habit-d3-heatmap rect {
   transition:
     opacity 160ms ease,
-    transform 160ms ease;
+    stroke 160ms ease;
 }
 
 .habit-d3-heatmap rect:hover {
-  opacity: 0.82;
-  transform: scale(1.08);
+  opacity: 0.9;
+  stroke: rgba(255, 255, 255, 0.5);
 }
 
 .habit-form {

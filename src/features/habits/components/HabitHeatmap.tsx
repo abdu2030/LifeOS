@@ -17,11 +17,15 @@ type HeatmapCell = {
 const cellSize = 14
 const cellGap = 5
 const weeksToShow = 13
+const heatmapColors = ['rgba(148, 163, 184, 0.12)', '#0e4429', '#006d32', '#26a641', '#39d353']
 
 export function HabitHeatmap({ habits }: HabitHeatmapProps) {
   const cells = useMemo(() => buildHeatmapCells(habits), [habits])
   const maxCount = d3.max(cells, (cell) => cell.count) ?? 0
-  const colorScale = d3.scaleSequential([0, Math.max(maxCount, 1)], d3.interpolateYlGnBu)
+  const colorScale = d3
+    .scaleQuantize<string>()
+    .domain([1, Math.max(maxCount, 1)])
+    .range(heatmapColors.slice(1))
   const width = weeksToShow * (cellSize + cellGap)
   const height = 7 * (cellSize + cellGap)
 
@@ -37,10 +41,12 @@ export function HabitHeatmap({ habits }: HabitHeatmapProps) {
         <title>Habit completion heatmap</title>
         {cells.map((cell) => (
           <rect
-            fill={cell.count ? colorScale(cell.count) : 'rgba(148, 163, 184, 0.12)'}
+            className="habit-heatmap-cell"
+            fill={cell.count ? colorScale(cell.count) : heatmapColors[0]}
             height={cellSize}
             key={cell.dateKey}
             rx={4}
+            stroke="rgba(255, 255, 255, 0.04)"
             width={cellSize}
             x={cell.week * (cellSize + cellGap)}
             y={cell.day * (cellSize + cellGap)}
