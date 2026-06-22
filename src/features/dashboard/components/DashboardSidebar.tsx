@@ -1,6 +1,7 @@
 import { ChevronDown, MoreVertical } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 
+import { useOfflineStatus } from '../../offline/hooks/useOfflineStatus'
 import { Avatar } from '../../../shared/components/Avatar'
 import type { NavItem } from '../types/dashboard'
 
@@ -9,6 +10,8 @@ type DashboardSidebarProps = {
 }
 
 export function DashboardSidebar({ navItems }: DashboardSidebarProps) {
+  const { isOnline, pendingCount, syncMessage } = useOfflineStatus()
+
   return (
     <aside className="sidebar" aria-label="Primary navigation">
       <section className="brand">
@@ -30,10 +33,10 @@ export function DashboardSidebar({ navItems }: DashboardSidebarProps) {
       </nav>
 
       <section className="sync-card">
-        <span className="status-dot" />
+        <span className={isOnline ? 'status-dot' : 'status-dot offline'} />
         <div>
-          <strong>Offline Mode</strong>
-          <p>All changes synced</p>
+          <strong>{isOnline ? 'Online Sync' : 'Offline Mode'}</strong>
+          <p>{pendingCount ? `${pendingCount} queued · ${syncMessage}` : syncMessage}</p>
         </div>
         <MoreVertical size={18} />
       </section>

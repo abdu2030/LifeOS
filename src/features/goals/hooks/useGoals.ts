@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { useAuth } from '../../auth/hooks/useAuth'
+import { useOfflineMutation } from '../../offline/hooks/useOfflineMutation'
 import {
   buildGoalTree,
   calculateGoalProgress,
@@ -29,6 +30,7 @@ const emptyHabitLinks: GoalHabitLink[] = []
 
 export function useGoals() {
   const { user } = useAuth()
+  const { runOrQueue } = useOfflineMutation()
   const queryClient = useQueryClient()
 
   const goalsQuery = useQuery({
@@ -75,7 +77,8 @@ export function useGoals() {
   }
 
   const createGoalMutation = useMutation({
-    mutationFn: (input: GoalInput) => createGoal(user!.id, input),
+    mutationFn: (input: GoalInput) =>
+      runOrQueue('goals.createGoal', input, (nextInput) => createGoal(user!.id, nextInput)),
     onSuccess: () => {
       void invalidateGoals()
     },
@@ -97,8 +100,16 @@ export function useGoals() {
   })
 
   const createMilestoneMutation = useMutation({
-    mutationFn: (input: GoalMilestoneInput) => createGoalMilestone(user!.id, input),
+    mutationFn: (input: GoalMilestoneInput) =>
+      runOrQueue('goals.createMilestone', input, (nextInput) =>
+        createGoalMilestone(user!.id, nextInput),
+      ),
     onSuccess: async (milestone) => {
+      if (!milestone) {
+        await invalidateMilestones()
+        return
+      }
+
       await invalidateMilestones()
       await syncGoalProgress(milestone.goalId, [...milestones, milestone])
       await invalidateGoals()

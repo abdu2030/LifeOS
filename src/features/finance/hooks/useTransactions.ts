@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { useAuth } from '../../auth/hooks/useAuth'
+import { useOfflineMutation } from '../../offline/hooks/useOfflineMutation'
 import { createTransaction, deleteTransaction, listTransactions } from '../services/financeApi'
 import type { TransactionInput } from '../types/finance'
 
@@ -8,6 +9,7 @@ const transactionsQueryKey = ['finance', 'transactions']
 
 export function useTransactions() {
   const { user } = useAuth()
+  const { runOrQueue } = useOfflineMutation()
   const queryClient = useQueryClient()
 
   const transactionsQuery = useQuery({
@@ -17,7 +19,10 @@ export function useTransactions() {
   })
 
   const createTransactionMutation = useMutation({
-    mutationFn: (input: TransactionInput) => createTransaction(user!.id, input),
+    mutationFn: (input: TransactionInput) =>
+      runOrQueue('finance.createTransaction', input, (nextInput) =>
+        createTransaction(user!.id, nextInput),
+      ),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: [...transactionsQueryKey, user?.id] })
     },

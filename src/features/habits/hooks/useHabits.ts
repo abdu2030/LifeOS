@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { useAuth } from '../../auth/hooks/useAuth'
+import { useOfflineMutation } from '../../offline/hooks/useOfflineMutation'
 import {
   createHabit,
   listHabits,
@@ -14,6 +15,7 @@ const habitsQueryKey = ['habits']
 
 export function useHabits() {
   const { user } = useAuth()
+  const { runOrQueue } = useOfflineMutation()
   const queryClient = useQueryClient()
   const todayKey = getTodayKey()
 
@@ -24,7 +26,8 @@ export function useHabits() {
   })
 
   const createHabitMutation = useMutation({
-    mutationFn: (input: HabitInput) => createHabit(user!.id, input),
+    mutationFn: (input: HabitInput) =>
+      runOrQueue('habits.createHabit', input, (nextInput) => createHabit(user!.id, nextInput)),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: [...habitsQueryKey, user?.id] })
     },
@@ -32,7 +35,12 @@ export function useHabits() {
 
   const toggleCompletionMutation = useMutation({
     mutationFn: ({ completed, habitId }: { completed: boolean; habitId: string }) =>
-      toggleHabitCompletion(user!.id, habitId, completed, todayKey),
+      runOrQueue(
+        'habits.toggleCompletion',
+        { completed, habitId, loggedOn: todayKey },
+        (nextInput) =>
+          toggleHabitCompletion(user!.id, nextInput.habitId, nextInput.completed, nextInput.loggedOn),
+      ),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: [...habitsQueryKey, user?.id] })
     },

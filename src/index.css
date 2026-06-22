@@ -663,6 +663,11 @@ p {
   box-shadow: 0 0 20px var(--green);
 }
 
+.status-dot.offline {
+  background: #f59e0b;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.7);
+}
+
 .sync-card svg,
 .profile-card svg {
   margin-left: auto;

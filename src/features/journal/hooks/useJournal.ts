@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { useAuth } from '../../auth/hooks/useAuth'
+import { useOfflineMutation } from '../../offline/hooks/useOfflineMutation'
 import { listJournalEntries, upsertEntry } from '../services/journalApi'
 import type { JournalEntryInput } from '../types/journal'
 
@@ -8,6 +9,7 @@ const journalQueryKey = ['journal', 'entries']
 
 export function useJournal() {
   const { user } = useAuth()
+  const { runOrQueue } = useOfflineMutation()
   const queryClient = useQueryClient()
 
   const entriesQuery = useQuery({
@@ -17,7 +19,8 @@ export function useJournal() {
   })
 
   const upsertEntryMutation = useMutation({
-    mutationFn: (input: JournalEntryInput) => upsertEntry(user!.id, input),
+    mutationFn: (input: JournalEntryInput) =>
+      runOrQueue('journal.upsertEntry', input, (nextInput) => upsertEntry(user!.id, nextInput)),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: [...journalQueryKey, user?.id] })
     },
