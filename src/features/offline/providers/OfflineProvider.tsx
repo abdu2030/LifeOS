@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { useAuth } from '../../auth/hooks/useAuth'
 import { OfflineContext } from '../contexts/OfflineContext'
+import { checkConnection } from '../services/connectionService'
 import { getQueuedOperationCount } from '../services/offlineQueueService'
 import { syncQueuedOperations } from '../services/offlineSyncService'
 
@@ -15,6 +16,12 @@ export function OfflineProvider({ children }: React.PropsWithChildren) {
 
   const refreshQueue = useCallback(async () => {
     setPendingCount(await getQueuedOperationCount())
+  }, [])
+
+  const refreshConnection = useCallback(async () => {
+    const nextIsOnline = await checkConnection()
+    setIsOnline(nextIsOnline)
+    return nextIsOnline
   }, [])
 
   const flushQueue = useCallback(async () => {
@@ -38,7 +45,7 @@ export function OfflineProvider({ children }: React.PropsWithChildren) {
     setPendingCount(nextCount)
 
     if (result.synced > 0 && result.failed === 0) {
-      setLastSyncMessage('Synced ✅')
+      setLastSyncMessage('Synced')
       await notifySynced(result.synced)
       return
     }
@@ -50,9 +57,12 @@ export function OfflineProvider({ children }: React.PropsWithChildren) {
 
   useEffect(() => {
     const handleOnline = () => {
-      setIsOnline(true)
       window.setTimeout(() => {
-        void flushQueue()
+        void refreshConnection().then((nextIsOnline) => {
+          if (nextIsOnline) {
+            void flushQueue()
+          }
+        })
       }, 0)
     }
     const handleOffline = () => setIsOnline(false)
@@ -61,13 +71,18 @@ export function OfflineProvider({ children }: React.PropsWithChildren) {
     window.addEventListener('offline', handleOffline)
     window.setTimeout(() => {
       void refreshQueue()
+      void refreshConnection()
     }, 0)
+    const intervalId = window.setInterval(() => {
+      void refreshConnection()
+    }, 5000)
 
     return () => {
+      window.clearInterval(intervalId)
       window.removeEventListener('online', handleOnline)
       window.removeEventListener('offline', handleOffline)
     }
-  }, [flushQueue, refreshQueue])
+  }, [flushQueue, refreshConnection, refreshQueue])
 
   const syncMessage = !isOnline
     ? pendingCount
@@ -94,7 +109,7 @@ async function notifySynced(count: number) {
   }
 
   const registration = await navigator.serviceWorker.ready
-  await registration.showNotification('Synced ✅', {
+  await registration.showNotification('Synced', {
     body: `${count} offline ${count === 1 ? 'change' : 'changes'} synced to LifeOS.`,
     icon: '/favicon.svg',
     tag: 'lifeos-offline-sync',
