@@ -1776,6 +1776,22 @@ kbd {
   font-size: 20px;
 }
 
+.weekly-data-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.weekly-data-sources span {
+  padding: 6px 10px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 999px;
+  color: #bfdbfe;
+  background: rgba(37, 99, 235, 0.1);
+  font-size: 12px;
+  font-weight: 750;
+}
+
 .report-markdown {
   display: grid;
   gap: 10px;

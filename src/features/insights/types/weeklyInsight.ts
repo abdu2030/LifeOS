@@ -1,8 +1,12 @@
 export type WeeklyMetrics = {
+  financeRecordCount: number
   financeDelta: number
+  goalCount: number
   goalProgress: number
   goalProgressDelta: number
+  habitLogCount: number
   habitScore: number
+  moodEntryCount: number
   moodAverage: number | null
   topGoals: string[]
   weekStart: string

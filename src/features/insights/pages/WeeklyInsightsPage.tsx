@@ -40,8 +40,8 @@ export function WeeklyInsightsPage() {
 
       {insights.length > 1 ? (
         <section className="finance-panel report-history-panel">
-          <span className="auth-eyebrow">History</span>
-          <h2>Past reports</h2>
+          <span className="auth-eyebrow">Saved AI Reports</span>
+          <h2>Previously generated reports</h2>
           <div className="report-history-list">
             {insights.slice(1).map((insight) => (
               <article key={insight.id}>
@@ -70,6 +70,13 @@ function CurrentWeekMetrics({ metrics }: { metrics: WeeklyMetrics }) {
         <Metric label="Habits" value={`${metrics.habitScore}%`} />
         <Metric label="Mood" value={metrics.moodAverage === null ? 'No data' : `${metrics.moodAverage}/10`} />
         <Metric label="Goals" value={`${metrics.goalProgress}%`} />
+      </div>
+
+      <div className="weekly-data-sources">
+        <span>{metrics.financeRecordCount} finance records this week</span>
+        <span>{metrics.habitLogCount} habit check-ins this week</span>
+        <span>{metrics.moodEntryCount} mood-scored journal entries this week</span>
+        <span>{metrics.goalCount} goals in your workspace</span>
       </div>
     </section>
   )

@@ -44,10 +44,14 @@ export async function buildWeeklyMetrics(userId: string): Promise<WeeklyMetrics>
     : 0
 
   return {
+    financeRecordCount: weekTransactions.length,
     financeDelta: roundToTwo(financeDelta),
+    goalCount: goals.length,
     goalProgress,
     goalProgressDelta: goalProgress,
+    habitLogCount: completedHabitLogs,
     habitScore: Math.min(100, Math.round((completedHabitLogs / weeklyHabitTarget) * 100)),
+    moodEntryCount: moodEntries.length,
     moodAverage,
     topGoals: goals
       .filter((goal) => goal.status !== 'complete')
