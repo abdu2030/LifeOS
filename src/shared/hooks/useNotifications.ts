@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 type NotificationSupport = {
   hasNotificationApi: boolean
@@ -19,14 +19,6 @@ export function useNotifications() {
   const [isRegistering, setIsRegistering] = useState(false)
   const isSupported = support.hasNotificationApi && support.hasServiceWorker
 
-  useEffect(() => {
-    if (!isSupported) {
-      return
-    }
-
-    void navigator.serviceWorker.register('/sw.js')
-  }, [isSupported])
-
   const requestPermission = useCallback(async () => {
     if (!isSupported) {
       return 'denied' as NotificationPermission
@@ -40,10 +32,10 @@ export function useNotifications() {
 
       if (nextPermission === 'granted') {
         const registration = await navigator.serviceWorker.ready
-        registration.active?.postMessage({
+        await registration.showNotification('LifeOS notifications ready', {
           body: 'Habit reminders are enabled for this device.',
-          title: 'LifeOS notifications ready',
-          type: 'LIFEOS_TEST_NOTIFICATION',
+          icon: '/favicon.svg',
+          tag: 'lifeos-notification-test',
         })
       }
 
