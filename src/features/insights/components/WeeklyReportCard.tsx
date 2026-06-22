@@ -1,6 +1,7 @@
 import { Sparkles } from 'lucide-react'
 
 import type { WeeklyInsight } from '../types/weeklyInsight'
+import { formatDateOnly } from '../utils/dateFormat'
 import { ReportMarkdownRenderer } from './ReportMarkdownRenderer'
 
 type WeeklyReportCardProps = {
@@ -12,7 +13,7 @@ export function WeeklyReportCard({ insight }: WeeklyReportCardProps) {
     <article className="weekly-report-card">
       <header>
         <div>
-          <span className="auth-eyebrow">Week of {new Date(insight.weekStart).toLocaleDateString()}</span>
+          <span className="auth-eyebrow">Week of {formatDateOnly(insight.weekStart)}</span>
           <h2>Weekly AI report</h2>
         </div>
         <Sparkles size={22} />

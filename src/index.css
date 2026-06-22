@@ -1731,6 +1731,11 @@ kbd {
   box-shadow: 0 24px 80px rgba(2, 6, 23, 0.24);
 }
 
+.current-week-metrics {
+  gap: 16px;
+  background: rgba(15, 23, 42, 0.44);
+}
+
 .weekly-report-card header {
   display: flex;
   justify-content: space-between;

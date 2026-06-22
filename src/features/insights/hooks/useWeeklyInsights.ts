@@ -9,6 +9,7 @@ import {
 } from '../services/weeklyInsightsApi'
 
 const weeklyInsightsQueryKey = ['weekly-insights']
+const weeklyMetricsQueryKey = ['weekly-insights', 'metrics']
 
 export function useWeeklyInsights() {
   const { user } = useAuth()
@@ -19,23 +20,30 @@ export function useWeeklyInsights() {
     queryFn: () => listWeeklyInsights(user!.id),
     queryKey: [...weeklyInsightsQueryKey, user?.id],
   })
+  const weeklyMetricsQuery = useQuery({
+    enabled: Boolean(user),
+    queryFn: () => buildWeeklyMetrics(user!.id),
+    queryKey: [...weeklyMetricsQueryKey, user?.id],
+  })
 
   const generateReportMutation = useMutation({
     mutationFn: async () => {
-      const metrics = await buildWeeklyMetrics(user!.id)
+      const metrics = weeklyMetricsQuery.data ?? (await buildWeeklyMetrics(user!.id))
       const reportMarkdown = await generateWeeklyReport(metrics)
       return upsertWeeklyInsight(user!.id, metrics, reportMarkdown)
     },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: [...weeklyInsightsQueryKey, user?.id] })
+      void queryClient.invalidateQueries({ queryKey: [...weeklyMetricsQueryKey, user?.id] })
     },
   })
 
   return {
-    error: weeklyInsightsQuery.error,
+    error: weeklyInsightsQuery.error ?? weeklyMetricsQuery.error,
     generateReport: generateReportMutation.mutateAsync,
     insights: weeklyInsightsQuery.data ?? [],
     isGenerating: generateReportMutation.isPending,
-    isLoading: weeklyInsightsQuery.isLoading,
+    isLoading: weeklyInsightsQuery.isLoading || weeklyMetricsQuery.isLoading,
+    metrics: weeklyMetricsQuery.data,
   }
 }

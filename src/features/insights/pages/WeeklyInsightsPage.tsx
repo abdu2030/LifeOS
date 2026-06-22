@@ -2,9 +2,11 @@ import { Sparkles } from 'lucide-react'
 
 import { WeeklyReportCard } from '../components/WeeklyReportCard'
 import { useWeeklyInsights } from '../hooks/useWeeklyInsights'
+import type { WeeklyMetrics } from '../types/weeklyInsight'
+import { formatDateOnly } from '../utils/dateFormat'
 
 export function WeeklyInsightsPage() {
-  const { error, generateReport, insights, isGenerating, isLoading } = useWeeklyInsights()
+  const { error, generateReport, insights, isGenerating, isLoading, metrics } = useWeeklyInsights()
   const latestInsight = insights[0]
 
   return (
@@ -24,6 +26,8 @@ export function WeeklyInsightsPage() {
       {isLoading ? <p className="finance-empty">Loading weekly insights...</p> : null}
       {error ? <p className="auth-error">{error.message}</p> : null}
 
+      {metrics ? <CurrentWeekMetrics metrics={metrics} /> : null}
+
       {!isLoading && !latestInsight ? (
         <section className="finance-panel weekly-insights-empty">
           <Sparkles size={28} />
@@ -41,7 +45,7 @@ export function WeeklyInsightsPage() {
           <div className="report-history-list">
             {insights.slice(1).map((insight) => (
               <article key={insight.id}>
-                <strong>{new Date(insight.weekStart).toLocaleDateString()}</strong>
+                <strong>{formatDateOnly(insight.weekStart)}</strong>
                 <span>{insight.summary}</span>
               </article>
             ))}
@@ -50,4 +54,38 @@ export function WeeklyInsightsPage() {
       ) : null}
     </section>
   )
+}
+
+function CurrentWeekMetrics({ metrics }: { metrics: WeeklyMetrics }) {
+  return (
+    <section className="finance-panel current-week-metrics">
+      <div>
+        <span className="auth-eyebrow">Current Data</span>
+        <h2>Week of {formatDateOnly(metrics.weekStart)}</h2>
+        <p>These live numbers are what the next generated AI report will use.</p>
+      </div>
+
+      <div className="weekly-report-metrics">
+        <Metric label="Finance" value={formatMoney(metrics.financeDelta)} />
+        <Metric label="Habits" value={`${metrics.habitScore}%`} />
+        <Metric label="Mood" value={metrics.moodAverage === null ? 'No data' : `${metrics.moodAverage}/10`} />
+        <Metric label="Goals" value={`${metrics.goalProgress}%`} />
+      </div>
+    </section>
+  )
+}
+
+function Metric({ label, value }: { label: string; value: string }) {
+  return (
+    <span>
+      <small>{label}</small>
+      <strong>{value}</strong>
+    </span>
+  )
+}
+
+function formatMoney(value: number) {
+  return `${value < 0 ? '-' : ''}$${Math.abs(value).toLocaleString(undefined, {
+    maximumFractionDigits: 0,
+  })}`
 }
