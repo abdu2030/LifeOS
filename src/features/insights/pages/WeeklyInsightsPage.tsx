@@ -7,7 +7,9 @@ import { formatDateOnly } from '../utils/dateFormat'
 
 export function WeeklyInsightsPage() {
   const { error, generateReport, insights, isGenerating, isLoading, metrics } = useWeeklyInsights()
-  const latestInsight = insights[0]
+  const currentWeekInsight = metrics
+    ? insights.find((insight) => insight.weekStart === metrics.weekStart)
+    : null
 
   return (
     <section className="weekly-insights-page">
@@ -28,30 +30,15 @@ export function WeeklyInsightsPage() {
 
       {metrics ? <CurrentWeekMetrics metrics={metrics} /> : null}
 
-      {!isLoading && !latestInsight ? (
+      {!isLoading && !currentWeekInsight ? (
         <section className="finance-panel weekly-insights-empty">
           <Sparkles size={28} />
-          <strong>No report yet</strong>
-          <span>Generate your first weekly insight after adding goals, habits, journal entries, or transactions.</span>
+          <strong>No current week report yet</strong>
+          <span>Generate a report after the Current Data card shows the real records you want included.</span>
         </section>
       ) : null}
 
-      {latestInsight ? <WeeklyReportCard insight={latestInsight} /> : null}
-
-      {insights.length > 1 ? (
-        <section className="finance-panel report-history-panel">
-          <span className="auth-eyebrow">Saved AI Reports</span>
-          <h2>Previously generated reports</h2>
-          <div className="report-history-list">
-            {insights.slice(1).map((insight) => (
-              <article key={insight.id}>
-                <strong>{formatDateOnly(insight.weekStart)}</strong>
-                <span>{insight.summary}</span>
-              </article>
-            ))}
-          </div>
-        </section>
-      ) : null}
+      {currentWeekInsight ? <WeeklyReportCard insight={currentWeekInsight} /> : null}
     </section>
   )
 }
