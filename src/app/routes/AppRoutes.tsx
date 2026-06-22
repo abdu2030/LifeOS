@@ -10,6 +10,7 @@ import { GoalsPage } from '../../features/goals/pages/GoalsPage'
 import { HabitsPage } from '../../features/habits/pages/HabitsPage'
 import { WeeklyInsightsPage } from '../../features/insights/pages/WeeklyInsightsPage'
 import { JournalPage } from '../../features/journal/pages/JournalPage'
+import { CalendarPage } from '../../features/planner/pages/CalendarPage'
 import { WidgetsPage } from '../../features/widgets/pages/WidgetsPage'
 
 export function AppRoutes() {
@@ -25,6 +26,7 @@ export function AppRoutes() {
         <Route element={<HabitsPage />} path="/habits" />
         <Route element={<WeeklyInsightsPage />} path="/insights" />
         <Route element={<JournalPage />} path="/journal" />
+        <Route element={<CalendarPage />} path="/calendar" />
         <Route element={<WidgetsPage />} path="/widgets" />
       </Route>
       <Route element={<Navigate replace to="/" />} path="*" />
