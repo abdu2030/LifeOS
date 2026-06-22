@@ -13,7 +13,14 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'icons.svg'],
+      includeAssets: [
+        'favicon.svg',
+        'icons.svg',
+        'pwa/icon-192.png',
+        'pwa/icon-512.png',
+        'pwa/screenshot-mobile.png',
+        'pwa/screenshot-wide.png',
+      ],
       manifest: {
         background_color: '#080b12',
         categories: ['productivity', 'finance', 'lifestyle'],
@@ -28,10 +35,37 @@ export default defineConfig({
         theme_color: '#080b12',
         icons: [
           {
-            src: '/favicon.svg',
-            sizes: 'any',
-            type: 'image/svg+xml',
+            purpose: 'any',
+            sizes: '192x192',
+            src: '/pwa/icon-192.png',
+            type: 'image/png',
+          },
+          {
             purpose: 'any maskable',
+            sizes: '512x512',
+            src: '/pwa/icon-512.png',
+            type: 'image/png',
+          },
+          {
+            purpose: 'any',
+            sizes: 'any',
+            src: '/favicon.svg',
+            type: 'image/svg+xml',
+          },
+        ],
+        screenshots: [
+          {
+            form_factor: 'wide',
+            label: 'LifeOS desktop dashboard with widgets and offline sync',
+            sizes: '1280x720',
+            src: '/pwa/screenshot-wide.png',
+            type: 'image/png',
+          },
+          {
+            label: 'LifeOS mobile dashboard with personal modules',
+            sizes: '390x844',
+            src: '/pwa/screenshot-mobile.png',
+            type: 'image/png',
           },
         ],
       },
