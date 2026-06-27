@@ -1,5 +1,6 @@
 import { ChevronDown, MoreVertical } from 'lucide-react'
-import { NavLink } from 'react-router-dom'
+import { useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 import { useOfflineStatus } from '../../offline/hooks/useOfflineStatus'
 import { useAuth } from '../../auth/hooks/useAuth'
@@ -12,10 +13,22 @@ type DashboardSidebarProps = {
 }
 
 export function DashboardSidebar({ navItems }: DashboardSidebarProps) {
-  const { user } = useAuth()
+  const { logout, user } = useAuth()
+  const navigate = useNavigate()
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
   const { data: profile } = useUserProfile()
   const { isOnline, pendingCount, syncMessage } = useOfflineStatus()
   const displayName = profile?.displayName || getDisplayName(user?.email, user?.user_metadata)
+
+  async function handleLogout() {
+    setIsLoggingOut(true)
+    const { error } = await logout()
+    setIsLoggingOut(false)
+
+    if (!error) {
+      navigate('/login', { replace: true })
+    }
+  }
 
   return (
     <aside className="sidebar" aria-label="Primary navigation">
@@ -52,6 +65,14 @@ export function DashboardSidebar({ navItems }: DashboardSidebarProps) {
           <strong>{displayName}</strong>
           <p>{user?.email ?? 'Signed in'}</p>
         </div>
+        <button
+          className="profile-logout-button"
+          disabled={isLoggingOut}
+          onClick={() => void handleLogout()}
+          type="button"
+        >
+          {isLoggingOut ? 'Leaving...' : 'Log out'}
+        </button>
         <ChevronDown size={16} />
       </section>
     </aside>

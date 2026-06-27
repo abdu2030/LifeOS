@@ -1,9 +1,10 @@
-import { BarChart3, Bell, CalendarDays, ChevronDown, Search } from 'lucide-react'
+import { BarChart3, Bell, CalendarDays, ChevronDown, LogOut, Search } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Avatar } from '../../../shared/components/Avatar'
 import { useNotifications } from '../../../shared/hooks/useNotifications'
+import { useAuth } from '../../auth/hooks/useAuth'
 import { useUserProfile } from '../../settings/hooks/useUserProfile'
 import { navItems } from '../data/dashboardData'
 
@@ -11,6 +12,8 @@ export function DashboardTopbar() {
   const navigate = useNavigate()
   const searchInputRef = useRef<HTMLInputElement>(null)
   const [query, setQuery] = useState('')
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
+  const { logout } = useAuth()
   const { data: profile } = useUserProfile()
   const { isEnabled, isRegistering, isSupported, permission, requestPermission } =
     useNotifications()
@@ -18,7 +21,9 @@ export function DashboardTopbar() {
   const today = new Date()
   const searchableItems = useMemo(() => navItems.filter((item) => item.path), [])
   const searchResults = query.trim()
-    ? searchableItems.filter((item) => item.label.toLowerCase().includes(query.trim().toLowerCase()))
+    ? searchableItems.filter((item) =>
+        item.label.toLowerCase().includes(query.trim().toLowerCase()),
+      )
     : []
 
   useEffect(() => {
@@ -46,6 +51,16 @@ export function DashboardTopbar() {
 
     if (firstMatch?.path) {
       goTo(firstMatch.path)
+    }
+  }
+
+  async function handleLogout() {
+    setIsLoggingOut(true)
+    const { error } = await logout()
+    setIsLoggingOut(false)
+
+    if (!error) {
+      navigate('/login', { replace: true })
     }
   }
 
@@ -100,7 +115,9 @@ export function DashboardTopbar() {
           className={isEnabled ? 'bell-button active' : 'bell-button'}
           disabled={!isSupported || isRegistering}
           onClick={() => void requestPermission()}
-          title={isSupported ? notificationLabel : 'Notifications are not supported in this browser'}
+          title={
+            isSupported ? notificationLabel : 'Notifications are not supported in this browser'
+          }
           type="button"
         >
           <Bell size={20} />
@@ -112,8 +129,23 @@ export function DashboardTopbar() {
           onClick={() => navigate('/settings')}
           type="button"
         >
-          <Avatar alt={profile?.displayName || 'Profile picture'} compact src={profile?.avatarUrl} />
+          <Avatar
+            alt={profile?.displayName || 'Profile picture'}
+            compact
+            src={profile?.avatarUrl}
+          />
           <ChevronDown size={15} />
+        </button>
+        <button
+          aria-label="Log out"
+          className="logout-button"
+          disabled={isLoggingOut}
+          onClick={() => void handleLogout()}
+          title="Log out"
+          type="button"
+        >
+          <LogOut size={18} />
+          <span>{isLoggingOut ? 'Logging out...' : 'Log out'}</span>
         </button>
       </div>
     </header>

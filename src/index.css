@@ -251,6 +251,48 @@ p {
   text-decoration: none;
 }
 
+.auth-hero-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  max-width: 680px;
+}
+
+.auth-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.38);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.auth-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    color 160ms ease,
+    background 160ms ease;
+}
+
+.auth-nav a:hover {
+  color: var(--text);
+  background: rgba(96, 165, 250, 0.16);
+}
+
 .auth-brand .brand-mark {
   margin-bottom: 0;
 }
@@ -777,6 +819,30 @@ p {
   margin-bottom: 3px;
 }
 
+.profile-logout-button {
+  flex: 0 0 auto;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid rgba(244, 63, 94, 0.2);
+  border-radius: 999px;
+  color: #fecdd3;
+  background: rgba(244, 63, 94, 0.1);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.profile-logout-button:hover {
+  border-color: rgba(244, 63, 94, 0.38);
+  background: rgba(244, 63, 94, 0.16);
+  transform: translateY(-1px);
+}
+
 .status-dot {
   width: 10px;
   height: 10px;
@@ -1040,6 +1106,7 @@ kbd {
 .period-button,
 .bell-button,
 .profile-button,
+.logout-button,
 .customize-button,
 .ghost-select,
 .primary-action,
@@ -1142,6 +1209,37 @@ kbd {
 
 .profile-button svg {
   color: var(--muted);
+}
+
+.logout-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 0 13px;
+  border-radius: 14px;
+  color: #fecdd3;
+  background:
+    linear-gradient(145deg, rgba(244, 63, 94, 0.12), rgba(15, 23, 42, 0.72)), rgba(15, 23, 42, 0.72);
+  font-weight: 800;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.logout-button:hover {
+  border-color: rgba(244, 63, 94, 0.34);
+  background:
+    linear-gradient(145deg, rgba(244, 63, 94, 0.18), rgba(15, 23, 42, 0.76)), rgba(15, 23, 42, 0.76);
+  transform: translateY(-1px);
+}
+
+.logout-button:disabled,
+.profile-logout-button:disabled {
+  cursor: wait;
+  opacity: 0.68;
 }
 
 .top-avatar {
@@ -5354,6 +5452,14 @@ kbd {
   background: var(--accent-soft);
 }
 
+.auth-nav,
+.profile-logout-button,
+.logout-button {
+  border-color: var(--border);
+  color: var(--accent-text);
+  background: var(--accent-soft);
+}
+
 .search-box {
   border-color: var(--border);
   color: var(--text);
@@ -5363,14 +5469,16 @@ kbd {
 .topbar .date-button,
 .topbar .period-button,
 .topbar .bell-button,
-.topbar .profile-button {
+.topbar .profile-button,
+.topbar .logout-button {
   color: var(--text);
   background: var(--panel);
 }
 
 .topbar .search-box > svg,
 .topbar .bell-button svg,
-.topbar .profile-button svg {
+.topbar .profile-button svg,
+.topbar .logout-button svg {
   color: var(--muted);
 }
 
@@ -5525,6 +5633,19 @@ label,
 }
 
 @media (max-width: 980px) {
+  .auth-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-panel {
+    border-left: 0;
+    border-top: 1px solid rgba(148, 163, 184, 0.12);
+  }
+
+  .auth-hero-top {
+    max-width: none;
+  }
+
   .app-shell {
     grid-template-columns: 1fr;
   }
@@ -5647,8 +5768,17 @@ label,
   .search-box,
   .customize-button,
   .date-button,
-  .period-button {
+  .period-button,
+  .logout-button {
     width: 100%;
+  }
+
+  .auth-hero-top {
+    display: grid;
+  }
+
+  .auth-nav {
+    justify-self: start;
   }
 
   .heatmap {
