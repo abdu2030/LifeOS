@@ -13,6 +13,7 @@ export function calculateHabitStreak(habit: Habit, todayKey = getTodayKey()): Ha
   let longestStreak = 0
   let activeRun = 0
   let frozenDays = 0
+  let isCurrentRunOpen = true
 
   for (let index = 0; index < 365; index += 1) {
     const dateKey = formatDateKey(new Date(today.getTime() - index * dayMs))
@@ -26,14 +27,14 @@ export function calculateHabitStreak(habit: Habit, todayKey = getTodayKey()): Ha
         frozenDays += 1
       }
 
-      if (index === currentStreak) {
+      if (isCurrentRunOpen) {
         currentStreak += 1
       }
     } else {
       activeRun = 0
 
-      if (index === currentStreak) {
-        break
+      if (isCurrentRunOpen) {
+        isCurrentRunOpen = false
       }
     }
   }
@@ -49,7 +50,9 @@ export function calculateHabitStreak(habit: Habit, todayKey = getTodayKey()): Ha
 }
 
 function parseDateKey(dateKey: string) {
-  return new Date(`${dateKey}T00:00:00`)
+  const [year, month, day] = dateKey.split('-').map(Number)
+
+  return new Date(Date.UTC(year, month - 1, day))
 }
 
 function formatDateKey(date: Date) {
