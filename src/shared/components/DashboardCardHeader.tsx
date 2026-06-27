@@ -1,4 +1,3 @@
-import { MoreVertical } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 
@@ -23,12 +22,7 @@ export function DashboardCardHeader({
         </span>
         <strong>{label}</strong>
       </div>
-      <div className="card-actions">
-        {children}
-        <button className="icon-action" type="button" aria-label={`${label} options`}>
-          <MoreVertical size={17} />
-        </button>
-      </div>
+      {children ? <div className="card-actions">{children}</div> : null}
     </header>
   )
 }
