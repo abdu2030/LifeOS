@@ -15,6 +15,14 @@
   --green: #21d07a;
   --amber: #f8a831;
   --red: #ff4d6d;
+  --accent-gradient: linear-gradient(135deg, #2576ff, #7238ff);
+  --accent-soft: rgba(37, 99, 235, 0.16);
+  --accent-text: #bfdbfe;
+  --button-text: #ffffff;
+  --input-bg: rgba(3, 7, 18, 0.32);
+  --success-soft: rgba(34, 197, 94, 0.14);
+  --warning-soft: rgba(248, 168, 49, 0.14);
+  --danger-soft: rgba(244, 63, 94, 0.14);
   --radius: 14px;
   --radius-sm: 9px;
   --shadow: 0 22px 70px rgba(0, 0, 0, 0.36);
@@ -49,6 +57,14 @@
   --green: #059669;
   --amber: #d97706;
   --red: #dc2626;
+  --accent-gradient: linear-gradient(135deg, #2563eb, #7c3aed);
+  --accent-soft: rgba(37, 99, 235, 0.1);
+  --accent-text: #1d4ed8;
+  --button-text: #ffffff;
+  --input-bg: rgba(255, 255, 255, 0.88);
+  --success-soft: rgba(5, 150, 105, 0.12);
+  --warning-soft: rgba(217, 119, 6, 0.12);
+  --danger-soft: rgba(220, 38, 38, 0.1);
   --shadow: 0 22px 70px rgba(15, 23, 42, 0.12);
 }
 
@@ -67,6 +83,14 @@
   --green: #34d399;
   --amber: #facc15;
   --red: #fb7185;
+  --accent-gradient: linear-gradient(135deg, #22d3ee, #d946ef);
+  --accent-soft: rgba(217, 70, 239, 0.18);
+  --accent-text: #f5d0fe;
+  --button-text: #090013;
+  --input-bg: rgba(36, 14, 61, 0.74);
+  --success-soft: rgba(52, 211, 153, 0.14);
+  --warning-soft: rgba(250, 204, 21, 0.14);
+  --danger-soft: rgba(251, 113, 133, 0.14);
   --shadow: 0 22px 80px rgba(217, 70, 239, 0.22);
 }
 
@@ -85,6 +109,14 @@
   --green: #22c55e;
   --amber: #fbbf24;
   --red: #f87171;
+  --accent-gradient: linear-gradient(135deg, #22c55e, #38bdf8);
+  --accent-soft: rgba(34, 197, 94, 0.14);
+  --accent-text: #bbf7d0;
+  --button-text: #04130b;
+  --input-bg: rgba(8, 29, 19, 0.74);
+  --success-soft: rgba(34, 197, 94, 0.16);
+  --warning-soft: rgba(251, 191, 36, 0.14);
+  --danger-soft: rgba(248, 113, 113, 0.14);
   --shadow: 0 22px 70px rgba(0, 30, 12, 0.4);
 }
 
@@ -4819,6 +4851,250 @@ kbd {
     linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(14, 165, 233, 0.05)),
     rgba(34, 197, 94, 0.08);
   font-size: 12px;
+}
+
+/* Keeps theme changes visible across the full application shell and feature UI. */
+.sidebar,
+.topbar,
+.auth-card,
+.card,
+.finance-panel,
+.settings-panel,
+.calendar-month-panel,
+.calendar-event-form,
+.calendar-event-list-panel,
+.calendar-day,
+.calendar-event-row,
+.widget-gallery-panel,
+.widget-card,
+.dashboard-widget,
+.journal-card,
+.journal-entry-row,
+.habit-card,
+.habit-list-card,
+.goal-tree-panel,
+.goal-detail-panel,
+.goal-row,
+.milestone-row,
+.goal-linked-habit,
+.weekly-report-card,
+.report-history-list article,
+.transaction-row,
+.category-row,
+.offline-card,
+.sync-card,
+.reminder-row {
+  border-color: var(--border);
+  color: var(--text);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.topbar,
+.sidebar,
+.widget-gallery-panel,
+.calendar-event-popover {
+  background: var(--panel-strong);
+}
+
+.sidebar::before {
+  background: radial-gradient(circle, var(--accent-soft), transparent 68%);
+}
+
+.brand-logo,
+.auth-submit,
+.primary-action,
+.wide-action,
+.compact-action,
+.journal-save-button,
+.milestone-form button,
+.calendar-month-actions button:not(:disabled),
+.nav-item.active,
+.nav-item:hover,
+.segmented-control button.active,
+.habit-check-button.complete {
+  color: var(--button-text);
+  background: var(--accent-gradient);
+}
+
+.nav-item,
+.ghost-select,
+.customize-button,
+.period-button,
+.date-button,
+.bell-button,
+.profile-button,
+.journal-toolbar button,
+.calendar-month-actions button,
+.calendar-event-row button,
+.milestone-row button,
+.goal-linked-habit button,
+.goal-row-copy button,
+.habit-check-button,
+.habit-freeze-button,
+.streak-heading button,
+.theme-option,
+.segmented-control button {
+  border-color: var(--border);
+  color: var(--muted);
+  background: var(--panel-soft);
+}
+
+.nav-item svg,
+.topbar svg,
+.settings-panel-heading svg {
+  color: var(--accent-text);
+}
+
+.nav-item.active svg,
+.nav-item:hover svg,
+.auth-submit svg,
+.primary-action svg,
+.compact-action svg {
+  color: currentColor;
+}
+
+.search-box,
+.settings-status-row,
+.privacy-list span,
+.theme-option.active,
+.csv-file-drop,
+.finance-empty,
+.widget-empty,
+.goal-empty,
+.habit-empty,
+.journal-empty,
+.calendar-event-chip,
+.category-strip span,
+.reminder-badge,
+.auth-eyebrow,
+.goal-status-pill,
+.habit-frequency,
+.journal-tag-list button,
+.mood-analysis-result__chips span,
+.weekly-data-sources span {
+  border-color: var(--border);
+  color: var(--accent-text);
+  background: var(--accent-soft);
+}
+
+.auth-field input,
+.auth-field select,
+.auth-field textarea,
+.search-box input,
+.ghost-select,
+.goal-status-select,
+.milestone-form input,
+.goal-habit-linker select,
+.goal-progress-control input,
+input,
+select,
+textarea {
+  border-color: var(--border);
+  color: var(--text);
+  background: var(--input-bg);
+}
+
+.auth-field input::placeholder,
+.search-box input::placeholder,
+input::placeholder,
+textarea::placeholder {
+  color: var(--quiet);
+}
+
+.auth-field input:focus,
+.auth-field select:focus,
+.auth-field textarea:focus,
+.search-box:focus-within,
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--border-strong);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+h1,
+h2,
+h3,
+h4,
+strong,
+.brand-copy h1,
+.metric-value,
+.calendar-day strong,
+.calendar-event-popover strong,
+.settings-status-row strong,
+.goal-tree-node text,
+.streak-value {
+  color: var(--text);
+}
+
+p,
+small,
+time,
+label,
+.brand-copy p,
+.nav-item.disabled,
+.date-button small,
+.calendar-event-row p,
+.calendar-event-popover time,
+.calendar-event-popover span,
+.finance-panel p,
+.settings-panel p,
+.widget-card p,
+.goal-row p,
+.habit-card p,
+.journal-card p {
+  color: var(--muted);
+}
+
+.settings-success,
+.sync-footer,
+.reminder-badge.green,
+.habit-check-button.complete,
+.goal-status-pill.completed,
+.report-status-ready {
+  color: var(--green);
+  background: var(--success-soft);
+  border-color: color-mix(in srgb, var(--green) 32%, transparent);
+}
+
+.reminder-badge.amber,
+.goal-status-pill.paused,
+.report-status-pending {
+  color: var(--amber);
+  background: var(--warning-soft);
+  border-color: color-mix(in srgb, var(--amber) 32%, transparent);
+}
+
+.auth-error,
+.goal-status-pill.archived,
+.report-status-error {
+  color: var(--red);
+  background: var(--danger-soft);
+  border-color: color-mix(in srgb, var(--red) 28%, transparent);
+}
+
+.calendar-day.muted-day,
+.nav-item.disabled,
+.auth-submit:disabled,
+.primary-action:disabled,
+.compact-action:disabled,
+.habit-check-button:disabled,
+.habit-freeze-button:disabled {
+  opacity: 0.62;
+}
+
+.calendar-event-popover,
+.habit-heatmap-tooltip {
+  border-color: var(--border-strong);
+  color: var(--text);
+  background: var(--panel-strong);
+}
+
+.recharts-cartesian-axis-tick-value,
+.recharts-legend-item-text {
+  fill: var(--muted);
+  color: var(--muted);
 }
 
 @media (max-width: 1120px) {
