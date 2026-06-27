@@ -18,7 +18,8 @@ import {
   Sparkles,
   Target,
 } from 'lucide-react'
-import type { ComponentType } from 'react'
+import type { ComponentType, KeyboardEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { DashboardCardHeader as CardHeader } from '../../../shared/components/DashboardCardHeader'
 import { formatCurrency } from '../../finance/utils/financeChartData'
@@ -47,13 +48,22 @@ export function DashboardPage() {
 function DashboardGrid({ overview }: { overview: DashboardOverview }) {
   const focusItems = getFocusItems(overview)
   const latestEntry = overview.latestJournalEntry
+  const navigate = useNavigate()
   const topDay = getTopExpenseDay(overview.expenseDays)
+  const goTo = (path: string) => navigate(path)
 
   return (
     <section className="dashboard-grid" aria-label="LifeOS dashboard">
-      <article className="card finance-card">
+      <article
+        aria-label="Open Finance"
+        className="card dashboard-link-card finance-card"
+        onClick={() => goTo('/finance')}
+        onKeyDown={(event) => handleCardKeyDown(event, () => goTo('/finance'))}
+        role="link"
+        tabIndex={0}
+      >
         <CardHeader icon={CircleDollarSign} label="Finance Overview" tone="green">
-          <button className="ghost-select" type="button">
+          <button className="ghost-select" onClick={() => goTo('/finance')} type="button">
             Real records <ChevronDown size={14} />
           </button>
         </CardHeader>
@@ -91,7 +101,14 @@ function DashboardGrid({ overview }: { overview: DashboardOverview }) {
         </div>
       </article>
 
-      <article className="card habit-card">
+      <article
+        aria-label="Open Habits"
+        className="card dashboard-link-card habit-card"
+        onClick={() => goTo('/habits')}
+        onKeyDown={(event) => handleCardKeyDown(event, () => goTo('/habits'))}
+        role="link"
+        tabIndex={0}
+      >
         <CardHeader icon={Flame} label="Habit Tracker" tone="orange">
           <span className="muted">{overview.activeHabitCount} Active</span>
         </CardHeader>
@@ -128,7 +145,9 @@ function DashboardGrid({ overview }: { overview: DashboardOverview }) {
         </div>
         <div className="streak-heading">
           <strong>Current Streaks</strong>
-          <button type="button">Live</button>
+          <button onClick={() => goTo('/habits')} type="button">
+            Open
+          </button>
         </div>
         {overview.streaks.length ? (
           <div className="streak-row">
@@ -141,7 +160,14 @@ function DashboardGrid({ overview }: { overview: DashboardOverview }) {
         )}
       </article>
 
-      <article className="card journal-card">
+      <article
+        aria-label="Open Journal"
+        className="card dashboard-link-card journal-card"
+        onClick={() => goTo('/journal')}
+        onKeyDown={(event) => handleCardKeyDown(event, () => goTo('/journal'))}
+        role="link"
+        tabIndex={0}
+      >
         <CardHeader icon={BookOpen} label="Journal Mood" tone="purple" />
         <div className="mood-layout">
           <div>
@@ -178,15 +204,22 @@ function DashboardGrid({ overview }: { overview: DashboardOverview }) {
         ) : (
           <p className="finance-empty">Write a journal entry to fill this card with your mood data.</p>
         )}
-        <button className="primary-action" type="button">
+        <button className="primary-action" onClick={() => goTo('/journal')} type="button">
           <PenLine size={17} />
           Write New Entry
         </button>
       </article>
 
-      <article className="card goals-card">
+      <article
+        aria-label="Open Goals"
+        className="card dashboard-link-card goals-card"
+        onClick={() => goTo('/goals')}
+        onKeyDown={(event) => handleCardKeyDown(event, () => goTo('/goals'))}
+        role="link"
+        tabIndex={0}
+      >
         <CardHeader icon={Target} label="Goals Overview" tone="blue">
-          <button className="ghost-select" type="button">
+          <button className="ghost-select" onClick={() => goTo('/goals')} type="button">
             <Maximize2 size={13} />
             View Full Tree
           </button>
@@ -230,7 +263,14 @@ function DashboardGrid({ overview }: { overview: DashboardOverview }) {
         </div>
       </article>
 
-      <article className="card insights-card">
+      <article
+        aria-label="Open Weekly Insights"
+        className="card dashboard-link-card insights-card"
+        onClick={() => goTo('/insights')}
+        onKeyDown={(event) => handleCardKeyDown(event, () => goTo('/insights'))}
+        role="link"
+        tabIndex={0}
+      >
         <CardHeader icon={Sparkles} label="Weekly Insights AI" tone="blue">
           <span className="ai-badge">{overview.currentInsight ? 'Latest Report' : 'Needs Report'}</span>
         </CardHeader>
@@ -254,7 +294,7 @@ function DashboardGrid({ overview }: { overview: DashboardOverview }) {
           />
           <MetricTile label="Goal Progress" value={`${overview.goalProgress}%`} detail="average" />
         </div>
-        <button className="wide-action" type="button">
+        <button className="wide-action" onClick={() => goTo('/insights')} type="button">
           View Full Report
           <ArrowRight size={17} />
         </button>
@@ -264,7 +304,12 @@ function DashboardGrid({ overview }: { overview: DashboardOverview }) {
         <CardHeader icon={CheckSquare} label="Today's Focus" tone="blue" />
         <div className="task-list">
           {focusItems.map((item) => (
-            <label className={item.done ? 'task-row done' : 'task-row'} key={item.label}>
+            <button
+              className={item.done ? 'task-row done' : 'task-row'}
+              key={item.label}
+              onClick={() => goTo(item.path)}
+              type="button"
+            >
               <span className={item.done ? 'checkbox checked' : 'checkbox'}>
                 {item.done ? <Check size={13} /> : null}
               </span>
@@ -273,12 +318,19 @@ function DashboardGrid({ overview }: { overview: DashboardOverview }) {
                 <small>{item.time}</small>
               </span>
               <b className={`task-tag ${item.tag.toLowerCase()}`}>{item.tag}</b>
-            </label>
+            </button>
           ))}
         </div>
       </article>
 
-      <article className="card compact-card expenses-card">
+      <article
+        aria-label="Open Finance expenses"
+        className="card dashboard-link-card compact-card expenses-card"
+        onClick={() => goTo('/finance')}
+        onKeyDown={(event) => handleCardKeyDown(event, () => goTo('/finance'))}
+        role="link"
+        tabIndex={0}
+      >
         <CardHeader icon={BarChart3} label="Expenses This Week" tone="blue" />
         <div className="mini-stat-row">
           <span>
@@ -315,12 +367,24 @@ function DashboardGrid({ overview }: { overview: DashboardOverview }) {
         </div>
       </article>
 
-      <article className="card compact-card reminders-card">
+      <article
+        aria-label="Open Calendar"
+        className="card dashboard-link-card compact-card reminders-card"
+        onClick={() => goTo('/calendar')}
+        onKeyDown={(event) => handleCardKeyDown(event, () => goTo('/calendar'))}
+        role="link"
+        tabIndex={0}
+      >
         <CardHeader icon={Bell} label="Upcoming Reminders" tone="blue" />
         {overview.reminders.length ? (
           <div className="reminder-list">
             {overview.reminders.map((reminder) => (
-              <div className="reminder-row" key={reminder.id}>
+              <button
+                className="reminder-row"
+                key={reminder.id}
+                onClick={() => goTo('/calendar')}
+                type="button"
+              >
                 <span className={`reminder-icon ${reminder.tone}`}>
                   <reminder.icon size={18} />
                 </span>
@@ -329,7 +393,7 @@ function DashboardGrid({ overview }: { overview: DashboardOverview }) {
                   <p>{reminder.time}</p>
                 </div>
                 <b className={`reminder-badge ${reminder.tone}`}>{reminder.detail}</b>
-              </div>
+              </button>
             ))}
           </div>
         ) : (
@@ -355,6 +419,15 @@ function DashboardLoadingGrid() {
       </article>
     </section>
   )
+}
+
+function handleCardKeyDown(event: KeyboardEvent<HTMLElement>, onNavigate: () => void) {
+  if (event.key !== 'Enter' && event.key !== ' ') {
+    return
+  }
+
+  event.preventDefault()
+  onNavigate()
 }
 
 function MiniLineChart({ points }: { points: DashboardExpenseDay[] }) {
@@ -501,18 +574,21 @@ function getFocusItems(overview: DashboardOverview) {
     {
       done: overview.habitScore >= 100,
       label: firstStreak ? `Keep ${firstStreak.label} alive` : 'Create your first habit',
+      path: '/habits',
       tag: 'Habits',
       time: firstStreak ? `${firstStreak.value} day streak` : 'No habits yet',
     },
     {
       done: Boolean(firstReminder),
       label: firstReminder?.title ?? 'Add a calendar event',
+      path: '/calendar',
       tag: 'Plan',
       time: firstReminder?.time ?? 'No upcoming events',
     },
     {
       done: (firstGoal?.progress ?? 0) >= 100,
       label: firstGoal?.title ?? 'Add a goal',
+      path: '/goals',
       tag: 'Goals',
       time: `${firstGoal?.progress ?? 0}% progress`,
     },
