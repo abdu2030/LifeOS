@@ -1241,14 +1241,16 @@ kbd {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 6px;
   min-height: 44px;
-  padding: 0 13px;
+  padding: 0 12px;
   border-radius: 14px;
   color: #fecdd3;
   background:
     linear-gradient(145deg, rgba(244, 63, 94, 0.12), rgba(15, 23, 42, 0.72)), rgba(15, 23, 42, 0.72);
-  font-weight: 800;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0;
   transition:
     border-color 160ms ease,
     background 160ms ease,

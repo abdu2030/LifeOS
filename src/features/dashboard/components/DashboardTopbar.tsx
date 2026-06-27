@@ -144,7 +144,7 @@ export function DashboardTopbar() {
           title="Log out"
           type="button"
         >
-          <LogOut size={18} />
+          <LogOut size={16} />
           <span>{isLoggingOut ? 'Logging out...' : 'Log out'}</span>
         </button>
       </div>
