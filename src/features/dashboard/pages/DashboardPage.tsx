@@ -117,8 +117,10 @@ function DashboardGrid({ overview }: { overview: DashboardOverview }) {
             className="progress-ring"
             style={{ '--ring-progress': `${clampPercent(overview.habitScore)}%` } as CSSProperties}
           >
-            <strong>{overview.habitScore}%</strong>
-            <span>Today</span>
+            <span className="progress-ring-copy">
+              <strong>{overview.habitScore}%</strong>
+              <span>Today</span>
+            </span>
           </div>
           <div>
             <h3>{overview.habitScore >= 80 ? 'Strong momentum' : 'Today is open'}</h3>
