@@ -13,6 +13,7 @@ LifeOS is a privacy-first personal operating system dashboard for finance, habit
 
 See [ROADMAP.md](./ROADMAP.md) for the milestone plan we will build against.
 See [docs/supabase-setup.md](./docs/supabase-setup.md) for Supabase project, schema, RLS, and Auth setup.
+See [docs/vercel-deployment.md](./docs/vercel-deployment.md) for Vercel launch steps and the production QA checklist.
 
 ## Architecture
 
@@ -68,6 +69,7 @@ Copy `.env.example` to `.env` when Supabase and Gemini credentials are ready.
 
 ```bash
 npm run type-check
+npm run qa
 npm run test
 npm run format:check
 npm run build

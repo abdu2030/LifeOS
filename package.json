@@ -10,6 +10,7 @@
     "lint": "node ./node_modules/eslint/bin/eslint.js .",
     "format": "node ./node_modules/prettier/bin/prettier.cjs \"*.{html,js,json,md,ts}\" \"docs/**/*.md\" \"src/**/*.{css,ts,tsx}\" \"tests/**/*.ts\" --write",
     "format:check": "node ./node_modules/prettier/bin/prettier.cjs \"*.{html,js,json,md,ts}\" \"docs/**/*.md\" \"src/**/*.{css,ts,tsx}\" \"tests/**/*.ts\" --check",
+    "qa": "npm run type-check && npm run lint && npm run test && npm run build",
     "test": "node ./node_modules/vitest/vitest.mjs run",
     "test:watch": "node ./node_modules/vitest/vitest.mjs",
     "preview": "node ./node_modules/vite/bin/vite.js preview"
