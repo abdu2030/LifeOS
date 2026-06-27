@@ -1189,7 +1189,7 @@ kbd {
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  align-items: start;
+  align-items: stretch;
   gap: 14px;
 }
 
@@ -3292,6 +3292,17 @@ kbd {
   cursor: pointer;
 }
 
+.dashboard-grid > .card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.dashboard-grid > .card > :not(.card-header) {
+  position: relative;
+  z-index: 1;
+}
+
 .dashboard-link-card:focus-visible {
   outline: 3px solid var(--accent-soft);
   outline-offset: 3px;
@@ -3354,6 +3365,44 @@ kbd {
 .compact-card {
   grid-column: span 4;
   min-height: 218px;
+}
+
+.finance-card,
+.habit-card,
+.journal-card {
+  min-height: 380px;
+}
+
+.goals-card,
+.insights-card {
+  min-height: 306px;
+}
+
+.compact-card {
+  min-height: 238px;
+}
+
+.finance-card .finance-layout,
+.habit-card .heatmap-board,
+.journal-card .journal-entry,
+.goals-card .goal-tree,
+.insights-card .insight-hero,
+.compact-card .task-list,
+.compact-card .reminder-list {
+  flex: 1 1 auto;
+}
+
+.finance-card .finance-summary,
+.journal-card .primary-action,
+.goals-card .goal-legend,
+.insights-card .wide-action,
+.expenses-card .category-strip,
+.reminders-card .sync-footer {
+  margin-top: auto;
+}
+
+.habit-card .streak-heading {
+  margin-top: auto;
 }
 
 @media (max-width: 1320px) {
