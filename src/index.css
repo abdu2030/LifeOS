@@ -1148,6 +1148,7 @@ kbd {
   min-height: 48px;
   padding: 0 15px;
   border-radius: 14px;
+  font-size: 13px;
 }
 
 .date-button > svg,
@@ -1170,6 +1171,14 @@ kbd {
 
 .date-button small {
   color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.date-button strong {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
 }
 
 .period-button,
@@ -1178,7 +1187,9 @@ kbd {
   min-height: 46px;
   padding: 0 16px;
   border-radius: 14px;
+  font-size: 13px;
   font-weight: 700;
+  letter-spacing: 0;
 }
 
 .bell-button {
