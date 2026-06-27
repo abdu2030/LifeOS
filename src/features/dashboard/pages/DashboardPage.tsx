@@ -18,7 +18,7 @@ import {
   Sparkles,
   Target,
 } from 'lucide-react'
-import type { ComponentType, KeyboardEvent } from 'react'
+import type { ComponentType, CSSProperties, KeyboardEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { DashboardCardHeader as CardHeader } from '../../../shared/components/DashboardCardHeader'
@@ -113,7 +113,10 @@ function DashboardGrid({ overview }: { overview: DashboardOverview }) {
           <span className="muted">{overview.activeHabitCount} Active</span>
         </CardHeader>
         <div className="habit-main">
-          <div className="progress-ring">
+          <div
+            className="progress-ring"
+            style={{ '--ring-progress': `${clampPercent(overview.habitScore)}%` } as CSSProperties}
+          >
             <strong>{overview.habitScore}%</strong>
             <span>Today</span>
           </div>
@@ -184,9 +187,14 @@ function DashboardGrid({ overview }: { overview: DashboardOverview }) {
               </small>
             )}
           </div>
-          <div className="mood-ring">
-            <span className="mood-orbit orbit-one" />
-            <span className="mood-orbit orbit-two" />
+          <div
+            className="mood-ring"
+            style={
+              {
+                '--ring-progress': `${clampPercent((overview.averageMood ?? 0) * 10)}%`,
+              } as CSSProperties
+            }
+          >
             <Smile size={34} />
           </div>
         </div>
@@ -544,6 +552,10 @@ function getLinePath(points: DashboardExpenseDay[]) {
       return `${index === 0 ? 'M' : 'L'}${x} ${y}`
     })
     .join(' ')
+}
+
+function clampPercent(value: number) {
+  return Math.min(100, Math.max(0, Math.round(value)))
 }
 
 function getLegendColor(index: number) {

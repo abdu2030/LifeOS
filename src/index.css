@@ -827,10 +827,17 @@ p {
 }
 
 .avatar-photo {
+  padding: 0;
   background: var(--panel-soft);
 }
 
+.avatar-photo::after {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 38%);
+}
+
 .avatar-photo img {
+  position: relative;
+  z-index: 0;
   width: 100%;
   height: 100%;
   display: block;
@@ -1121,9 +1128,11 @@ kbd {
 }
 
 .profile-button {
-  gap: 8px;
+  display: inline-flex;
+  justify-content: center;
+  gap: 6px;
   min-height: 50px;
-  padding: 0 9px 0 2px;
+  padding: 3px 8px 3px 3px;
   border-radius: 999px;
   align-items: center;
   box-shadow:
@@ -1136,8 +1145,8 @@ kbd {
 }
 
 .top-avatar {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
 }
 
 .greeting-row {
@@ -3881,7 +3890,7 @@ kbd {
   height: 84px;
   background:
     radial-gradient(circle at 50% 50%, rgba(123, 220, 67, 0.12), transparent 43%),
-    conic-gradient(#7bdc43 0 87%, rgba(148, 163, 184, 0.18) 87% 100%);
+    conic-gradient(var(--green) 0 var(--ring-progress, 0%), rgba(148, 163, 184, 0.18) var(--ring-progress, 0%) 100%);
   box-shadow:
     0 0 30px rgba(123, 220, 67, 0.2),
     inset 0 0 0 1px rgba(255, 255, 255, 0.04);
@@ -4096,12 +4105,7 @@ kbd {
   color: white;
   background:
     radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.18), transparent 42%),
-    conic-gradient(
-      #b845ff 0 38%,
-      #7c3cff 38% 72%,
-      #3777ff 72% 91%,
-      rgba(148, 163, 184, 0.15) 91% 100%
-    );
+    conic-gradient(var(--purple) 0 var(--ring-progress, 0%), rgba(148, 163, 184, 0.18) var(--ring-progress, 0%) 100%);
   box-shadow: 0 0 32px rgba(124, 58, 237, 0.28);
 }
 
