@@ -24,8 +24,8 @@ export const navItems: NavItem[] = [
   { label: 'Goals', icon: Goal, path: '/goals' },
   { label: 'Weekly Insights', icon: LineChart, path: '/insights' },
   { label: 'Calendar', icon: CalendarDays, path: '/calendar' },
-  { label: 'Tasks', icon: ListTodo },
-  { label: 'Files', icon: Folder },
+  { label: 'Tasks', icon: ListTodo, path: '/tasks' },
+  { label: 'Files', icon: Folder, path: '/files' },
   { label: 'Settings', icon: Settings, path: '/settings' },
-  { label: 'Plugins', icon: Plug },
+  { label: 'Plugins', icon: Plug, path: '/plugins' },
 ]
