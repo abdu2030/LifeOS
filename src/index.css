@@ -755,14 +755,14 @@ p {
 }
 
 .sync-card > div,
-.profile-card > div {
+.profile-copy {
   min-width: 0;
   flex: 1;
 }
 
 .sync-card p,
-.profile-card p,
-.profile-card strong {
+.profile-copy p,
+.profile-copy strong {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -798,6 +798,10 @@ p {
 }
 
 .profile-card::before {
+  position: absolute;
+  top: 14px;
+  bottom: 14px;
+  left: 0;
   background: linear-gradient(180deg, rgba(96, 165, 250, 0.86), rgba(124, 58, 237, 0.4));
 }
 
@@ -814,12 +818,31 @@ p {
 }
 
 .sync-card strong,
-.profile-card strong {
+.profile-copy strong {
   display: block;
   margin-bottom: 3px;
 }
 
+.profile-card {
+  display: grid;
+  align-items: stretch;
+  gap: 12px;
+  padding-left: 16px;
+}
+
+.profile-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
 .profile-logout-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
   flex: 0 0 auto;
   min-height: 32px;
   padding: 0 10px;
@@ -843,6 +866,10 @@ p {
   transform: translateY(-1px);
 }
 
+.profile-logout-button svg {
+  flex: 0 0 auto;
+}
+
 .status-dot {
   width: 10px;
   height: 10px;
@@ -856,8 +883,7 @@ p {
   box-shadow: 0 0 20px rgba(245, 158, 11, 0.7);
 }
 
-.sync-card svg,
-.profile-card svg {
+.sync-card > svg {
   margin-left: auto;
   color: var(--muted);
 }

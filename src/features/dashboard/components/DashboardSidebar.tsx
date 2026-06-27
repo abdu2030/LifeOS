@@ -1,4 +1,4 @@
-import { ChevronDown, MoreVertical } from 'lucide-react'
+import { LogOut, MoreVertical } from 'lucide-react'
 import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 
@@ -60,10 +60,12 @@ export function DashboardSidebar({ navItems }: DashboardSidebarProps) {
       </section>
 
       <section className="profile-card">
-        <Avatar alt={displayName} src={profile?.avatarUrl} />
-        <div>
-          <strong>{displayName}</strong>
-          <p>{user?.email ?? 'Signed in'}</p>
+        <div className="profile-identity">
+          <Avatar alt={displayName} src={profile?.avatarUrl} />
+          <div className="profile-copy">
+            <strong title={displayName}>{displayName}</strong>
+            <p title={user?.email ?? 'Signed in'}>{user?.email ?? 'Signed in'}</p>
+          </div>
         </div>
         <button
           className="profile-logout-button"
@@ -71,9 +73,9 @@ export function DashboardSidebar({ navItems }: DashboardSidebarProps) {
           onClick={() => void handleLogout()}
           type="button"
         >
+          <LogOut size={14} />
           {isLoggingOut ? 'Leaving...' : 'Log out'}
         </button>
-        <ChevronDown size={16} />
       </section>
     </aside>
   )
