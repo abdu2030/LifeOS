@@ -3,11 +3,10 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../../features/auth/hooks/useAuth'
 import { DashboardSidebar } from '../../features/dashboard/components/DashboardSidebar'
 import { DashboardTopbar } from '../../features/dashboard/components/DashboardTopbar'
-import { useDashboardOverview } from '../../features/dashboard/hooks/useDashboardOverview'
+import { navItems } from '../../features/dashboard/data/dashboardData'
 
 export function AppLayout() {
   const { isAuthenticated, isLoading } = useAuth()
-  const { navItems } = useDashboardOverview()
   const location = useLocation()
 
   if (isLoading) {

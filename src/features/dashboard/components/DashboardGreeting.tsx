@@ -1,13 +1,19 @@
 import { SlidersHorizontal } from 'lucide-react'
 
-export function DashboardGreeting() {
+type DashboardGreetingProps = {
+  displayName: string
+  isLoading?: boolean
+}
+
+export function DashboardGreeting({ displayName, isLoading = false }: DashboardGreetingProps) {
   return (
     <section className="greeting-row">
       <div>
         <h2>
-          Good morning, Arjun! <span aria-hidden="true">{'\u{1F44B}'}</span>
+          {getGreeting()}, {isLoading ? 'loading your space' : displayName}!{' '}
+          <span aria-hidden="true">{'\u{1F44B}'}</span>
         </h2>
-        <p>Here's what's happening in your life today.</p>
+        <p>Here&apos;s what your real LifeOS data says today.</p>
       </div>
       <button className="customize-button" type="button">
         <SlidersHorizontal size={18} />
@@ -15,4 +21,12 @@ export function DashboardGreeting() {
       </button>
     </section>
   )
+}
+
+function getGreeting() {
+  const hour = new Date().getHours()
+
+  if (hour < 12) return 'Good morning'
+  if (hour < 18) return 'Good afternoon'
+  return 'Good evening'
 }

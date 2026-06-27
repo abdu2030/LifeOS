@@ -2,6 +2,7 @@ import { ChevronDown, MoreVertical } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 
 import { useOfflineStatus } from '../../offline/hooks/useOfflineStatus'
+import { useAuth } from '../../auth/hooks/useAuth'
 import { Avatar } from '../../../shared/components/Avatar'
 import type { NavItem } from '../types/dashboard'
 
@@ -10,7 +11,9 @@ type DashboardSidebarProps = {
 }
 
 export function DashboardSidebar({ navItems }: DashboardSidebarProps) {
+  const { user } = useAuth()
   const { isOnline, pendingCount, syncMessage } = useOfflineStatus()
+  const displayName = getDisplayName(user?.email, user?.user_metadata)
 
   return (
     <aside className="sidebar" aria-label="Primary navigation">
@@ -44,13 +47,23 @@ export function DashboardSidebar({ navItems }: DashboardSidebarProps) {
       <section className="profile-card">
         <Avatar />
         <div>
-          <strong>Arjun Patel</strong>
-          <p>arjun@example.com</p>
+          <strong>{displayName}</strong>
+          <p>{user?.email ?? 'Signed in'}</p>
         </div>
         <ChevronDown size={16} />
       </section>
     </aside>
   )
+}
+
+function getDisplayName(email?: string, metadata?: Record<string, unknown>) {
+  const name = metadata?.full_name || metadata?.name || metadata?.display_name
+
+  if (typeof name === 'string' && name.trim()) {
+    return name
+  }
+
+  return email ? email.split('@')[0]?.replace(/[._-]+/g, ' ') : 'LifeOS user'
 }
 
 type NavEntryProps = {

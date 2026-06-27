@@ -9,7 +9,6 @@ import {
   CheckSquare,
   ChevronDown,
   CircleDollarSign,
-  Droplets,
   Flame,
   Heart,
   Lock,
@@ -21,296 +20,307 @@ import {
 } from 'lucide-react'
 import type { ComponentType } from 'react'
 
+import { DashboardCardHeader as CardHeader } from '../../../shared/components/DashboardCardHeader'
+import { formatCurrency } from '../../finance/utils/financeChartData'
 import { DashboardGreeting } from '../components/DashboardGreeting'
 import { useDashboardOverview } from '../hooks/useDashboardOverview'
-import { DashboardCardHeader as CardHeader } from '../../../shared/components/DashboardCardHeader'
+import type {
+  DashboardExpenseDay,
+  DashboardGoalBranch,
+  DashboardOverview,
+  DashboardStreakSummary,
+} from '../services/dashboardService'
 
 export function DashboardPage() {
-  const { focusTasks, habitDays, habitHeatmap, reminders } = useDashboardOverview()
+  const { data: overview, error, isLoading } = useDashboardOverview()
 
   return (
     <>
-      <DashboardGreeting />
+      <DashboardGreeting displayName={overview?.displayName ?? 'there'} isLoading={isLoading} />
 
-      <section className="dashboard-grid" aria-label="LifeOS dashboard">
-        <article className="card finance-card">
-          <CardHeader icon={CircleDollarSign} label="Finance Overview" tone="green">
-            <button className="ghost-select" type="button">
-              This Month <ChevronDown size={14} />
-            </button>
-          </CardHeader>
-          <div className="finance-layout">
-            <div className="balance-block">
-              <span>Total Balance</span>
-              <strong>$5,742.18</strong>
-              <small className="positive">12.5% vs last month</small>
-              <MiniLineChart />
+      {error ? <p className="auth-error">Dashboard data could not be loaded. {error.message}</p> : null}
+      {overview ? <DashboardGrid overview={overview} /> : <DashboardLoadingGrid />}
+    </>
+  )
+}
+
+function DashboardGrid({ overview }: { overview: DashboardOverview }) {
+  const focusItems = getFocusItems(overview)
+  const latestEntry = overview.latestJournalEntry
+  const topDay = getTopExpenseDay(overview.expenseDays)
+
+  return (
+    <section className="dashboard-grid" aria-label="LifeOS dashboard">
+      <article className="card finance-card">
+        <CardHeader icon={CircleDollarSign} label="Finance Overview" tone="green">
+          <button className="ghost-select" type="button">
+            Real records <ChevronDown size={14} />
+          </button>
+        </CardHeader>
+        <div className="finance-layout">
+          <div className="balance-block">
+            <span>Current Balance</span>
+            <strong>{formatCurrency(overview.finance.balance)}</strong>
+            <small className={overview.finance.balance >= 0 ? 'positive' : 'negative'}>
+              {overview.transactionCount} saved transaction{overview.transactionCount === 1 ? '' : 's'}
+            </small>
+            <MiniLineChart points={overview.expenseDays} />
+          </div>
+          <div className="donut-block">
+            <div className="donut finance-donut">
+              <span>Expenses</span>
+              <strong>{formatCurrency(overview.finance.expense)}</strong>
             </div>
-            <div className="donut-block">
-              <div className="donut finance-donut">
-                <span>Expenses</span>
-                <strong>$1,286</strong>
-              </div>
+            {overview.categoryShares.length ? (
               <ul className="legend-list">
-                <li>
-                  <span className="blue" />
-                  Food & Dining <b>32%</b>
-                </li>
-                <li>
-                  <span className="indigo" />
-                  Transportation <b>21%</b>
-                </li>
-                <li>
-                  <span className="amber" />
-                  Shopping <b>18%</b>
-                </li>
-                <li>
-                  <span className="orange" />
-                  Bills & Utilities <b>15%</b>
-                </li>
-                <li>
-                  <span className="gray" />
-                  Others <b>14%</b>
-                </li>
+                {overview.categoryShares.map((category, index) => (
+                  <li key={category.category}>
+                    <span className={getLegendColor(index)} />
+                    {category.category} <b>{category.percent}%</b>
+                  </li>
+                ))}
               </ul>
-            </div>
+            ) : (
+              <p className="finance-empty">Add expense records to reveal spending categories.</p>
+            )}
           </div>
-          <div className="finance-summary">
-            <MetricPill label="Income" value="$3,620.00" tone="green" />
-            <MetricPill label="Expenses" value="$1,286.24" tone="red" />
-          </div>
-        </article>
+        </div>
+        <div className="finance-summary">
+          <MetricPill label="Income" value={formatCurrency(overview.finance.income)} tone="green" />
+          <MetricPill label="Expenses" value={formatCurrency(overview.finance.expense)} tone="red" />
+        </div>
+      </article>
 
-        <article className="card habit-card">
-          <CardHeader icon={Flame} label="Habit Tracker" tone="orange">
-            <span className="muted">6 Active</span>
-          </CardHeader>
-          <div className="habit-main">
-            <div className="progress-ring">
-              <strong>87%</strong>
-              <span>This Week</span>
-            </div>
-            <div>
-              <h3>Great job!</h3>
-              <p>You're building amazing habits.</p>
-            </div>
+      <article className="card habit-card">
+        <CardHeader icon={Flame} label="Habit Tracker" tone="orange">
+          <span className="muted">{overview.activeHabitCount} Active</span>
+        </CardHeader>
+        <div className="habit-main">
+          <div className="progress-ring">
+            <strong>{overview.habitScore}%</strong>
+            <span>Today</span>
           </div>
-          <div className="heatmap-board">
-            <div className="heatmap-days">
-              {habitDays.map((day) => (
-                <span key={day}>{day}</span>
-              ))}
-            </div>
-            <div className="heatmap">
-              {habitHeatmap.map((level, index) => (
-                <span className={`heat heat-${level}`} key={index} />
-              ))}
-            </div>
-            <div className="heatmap-months">
-              <span>Apr</span>
-              <span>May</span>
-              <span>Jun</span>
-            </div>
+          <div>
+            <h3>{overview.habitScore >= 80 ? 'Strong momentum' : 'Today is open'}</h3>
+            <p>
+              {overview.activeHabitCount
+                ? `${overview.activeHabitCount} active habit${overview.activeHabitCount === 1 ? '' : 's'} are being tracked.`
+                : 'Create habits to make this card personal.'}
+            </p>
           </div>
-          <div className="streak-heading">
-            <strong>Current Streaks</strong>
-            <button type="button">View All</button>
+        </div>
+        <div className="heatmap-board">
+          <div className="heatmap-days">
+            {overview.habitDays.map((day) => (
+              <span key={day}>{day}</span>
+            ))}
           </div>
+          <div className="heatmap">
+            {overview.habitHeatmap.map((level, index) => (
+              <span className={`heat heat-${level}`} key={index} />
+            ))}
+          </div>
+          <div className="heatmap-months">
+            <span>Last</span>
+            <span>91</span>
+            <span>days</span>
+          </div>
+        </div>
+        <div className="streak-heading">
+          <strong>Current Streaks</strong>
+          <button type="button">Live</button>
+        </div>
+        {overview.streaks.length ? (
           <div className="streak-row">
-            <Streak icon={Activity} value="12" label="days" />
-            <Streak icon={Target} value="7" label="days" />
-            <Streak icon={BookOpen} value="15" label="days" />
-            <Streak icon={Droplets} value="5" label="days" />
-            <Streak icon={Flame} value="5" label="days" />
+            {overview.streaks.map((streak) => (
+              <Streak key={streak.id} streak={streak} />
+            ))}
           </div>
-        </article>
+        ) : (
+          <p className="finance-empty">Check in to habits to build streaks here.</p>
+        )}
+      </article>
 
-        <article className="card journal-card">
-          <CardHeader icon={BookOpen} label="Journal Mood" tone="purple" />
-          <div className="mood-layout">
-            <div>
-              <span className="muted">Average Mood</span>
-              <strong className="score">
-                7.4<small>/10</small>
-              </strong>
-              <small className="positive pill">{'\u2191'} 0.8 vs last week</small>
-            </div>
-            <div className="mood-ring">
-              <span className="mood-orbit orbit-one" />
-              <span className="mood-orbit orbit-two" />
-              <Smile size={34} />
-            </div>
+      <article className="card journal-card">
+        <CardHeader icon={BookOpen} label="Journal Mood" tone="purple" />
+        <div className="mood-layout">
+          <div>
+            <span className="muted">Average Mood</span>
+            <strong className="score">
+              {overview.averageMood ?? 'No data'}
+              {overview.averageMood === null ? null : <small>/10</small>}
+            </strong>
+            {overview.moodDelta === null ? (
+              <small className="pill">Add two scored entries for trend</small>
+            ) : (
+              <small className={overview.moodDelta >= 0 ? 'positive pill' : 'negative pill'}>
+                {overview.moodDelta >= 0 ? '\u2191' : '\u2193'} {Math.abs(overview.moodDelta)} vs previous
+              </small>
+            )}
           </div>
+          <div className="mood-ring">
+            <span className="mood-orbit orbit-one" />
+            <span className="mood-orbit orbit-two" />
+            <Smile size={34} />
+          </div>
+        </div>
+        {latestEntry ? (
           <div className="journal-entry">
             <div className="entry-header">
-              <strong>Recent Entry</strong>
+              <strong>{latestEntry.title || 'Recent Entry'}</strong>
               <span>
-                <Lock size={12} /> Encrypted
+                <Lock size={12} /> {latestEntry.isEncrypted ? 'Encrypted' : 'Saved'}
               </span>
             </div>
-            <small>May 24, 2026 - 8:30 AM</small>
-            <p>Grateful for a peaceful morning. Feeling motivated to build and create today...</p>
+            <small>{formatDateTime(latestEntry.entryAt)}</small>
+            <p>{latestEntry.isEncrypted ? 'Encrypted entry saved securely.' : summarizeText(latestEntry.body)}</p>
           </div>
-          <button className="primary-action" type="button">
-            <PenLine size={17} />
-            Write New Entry
-          </button>
-        </article>
+        ) : (
+          <p className="finance-empty">Write a journal entry to fill this card with your mood data.</p>
+        )}
+        <button className="primary-action" type="button">
+          <PenLine size={17} />
+          Write New Entry
+        </button>
+      </article>
 
-        <article className="card goals-card">
-          <CardHeader icon={Target} label="Goals Overview" tone="blue">
-            <button className="ghost-select" type="button">
-              <Maximize2 size={13} />
-              View Full Tree
-            </button>
-          </CardHeader>
-          <div className="goal-tree">
-            <svg className="goal-lines" viewBox="0 0 720 246" aria-hidden="true">
-              <path className="root-line" d="M360 36 V74" />
-              <path className="root-line" d="M150 74 H570" />
-              <path className="health-line" d="M150 74 V120" />
-              <path className="career-line" d="M360 74 V120" />
-              <path className="finance-line" d="M570 74 V120" />
-              <path className="health-line" d="M150 158 V202" />
-              <path className="career-line" d="M360 158 V202" />
-              <path className="finance-line" d="M570 158 V202" />
-            </svg>
-            <GoalNode title="Healthy, wealthy and meaningful life" value="68%" center />
+      <article className="card goals-card">
+        <CardHeader icon={Target} label="Goals Overview" tone="blue">
+          <button className="ghost-select" type="button">
+            <Maximize2 size={13} />
+            View Full Tree
+          </button>
+        </CardHeader>
+        <div className="goal-tree">
+          <svg className="goal-lines" viewBox="0 0 720 246" aria-hidden="true">
+            <path className="root-line" d="M360 36 V74" />
+            <path className="root-line" d="M150 74 H570" />
+            <path className="health-line" d="M150 74 V120" />
+            <path className="career-line" d="M360 74 V120" />
+            <path className="finance-line" d="M570 74 V120" />
+          </svg>
+          <GoalNode
+            center
+            title={overview.topGoal?.title ?? 'Create your first goal'}
+            value={`${overview.topGoal?.progress ?? overview.goalProgress}%`}
+          />
+          {overview.goalBranches.length ? (
             <div className="goal-branches">
-              <GoalBranch icon={Heart} title="Health" value="75%" tone="red" />
-              <GoalBranch icon={BriefcaseBusiness} title="Career" value="80%" tone="blue" />
-              <GoalBranch icon={CircleDollarSign} title="Finance" value="70%" tone="green" />
+              {overview.goalBranches.map((goal, index) => (
+                <GoalBranch goal={goal} icon={getGoalIcon(index)} key={goal.id} tone={getGoalTone(index)} />
+              ))}
             </div>
-            <div className="goal-leaves">
-              <div className="goal-leaf-group health">
-                <span>
-                  Workout <b>86%</b>
-                </span>
-                <span>
-                  Eat Healthy <b>73%</b>
-                </span>
-              </div>
-              <div className="goal-leaf-group career">
-                <span>
-                  LifeOS <b>85%</b>
-                </span>
-                <span>
-                  Mentorship <b>95%</b>
-                </span>
-              </div>
-              <div className="goal-leaf-group finance">
-                <span>
-                  Budget <b>92%</b>
-                </span>
-                <span>
-                  Invest <b>80%</b>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="goal-legend">
-            <span>
-              <i className="green-dot" /> On Track
-            </span>
-            <span>
-              <i className="amber-dot" /> At Risk
-            </span>
-            <span>
-              <i className="red-dot" /> Off Track
-            </span>
-            <span>
-              <i className="gray-dot" /> Not Started
-            </span>
-          </div>
-        </article>
+          ) : (
+            <p className="finance-empty">Add goals to grow a real tree here.</p>
+          )}
+        </div>
+        <div className="goal-legend">
+          <span>
+            <i className="green-dot" /> On Track
+          </span>
+          <span>
+            <i className="amber-dot" /> At Risk
+          </span>
+          <span>
+            <i className="red-dot" /> Off Track
+          </span>
+          <span>
+            <i className="gray-dot" /> Not Started
+          </span>
+        </div>
+      </article>
 
-        <article className="card insights-card">
-          <CardHeader icon={Sparkles} label="Weekly Insights AI" tone="blue">
-            <span className="ai-badge">AI Generated</span>
-          </CardHeader>
-          <div className="insight-hero">
-            <div>
-              <h3>Your Week in Review {'\u2728'}</h3>
-              <p>
-                You had a productive week. You saved more, stayed consistent with habits, and your
-                mood improved.
-              </p>
-            </div>
-            <div className="planet" />
+      <article className="card insights-card">
+        <CardHeader icon={Sparkles} label="Weekly Insights AI" tone="blue">
+          <span className="ai-badge">{overview.currentInsight ? 'Latest Report' : 'Needs Report'}</span>
+        </CardHeader>
+        <div className="insight-hero">
+          <div>
+            <h3>{overview.currentInsight ? 'Your saved weekly report' : 'No weekly report yet'}</h3>
+            <p>
+              {overview.currentInsight?.summary ||
+                'Generate a weekly insight report to turn your finance, habit, mood, and goal data into a summary.'}
+            </p>
           </div>
-          <div className="insight-metrics">
-            <MetricTile label="Spent" value="$1,286" detail="8% vs last week" />
-            <MetricTile label="Habit Score" value="87%" detail="12%" />
-            <MetricTile label="Avg Mood" value="7.4/10" detail="0.8" />
-            <MetricTile label="Goal Progress" value="+6%" detail="vs last week" />
-          </div>
-          <button className="wide-action" type="button">
-            View Full Report
-            <ArrowRight size={17} />
-          </button>
-        </article>
+          <div className="planet" />
+        </div>
+        <div className="insight-metrics">
+          <MetricTile label="Balance" value={formatCurrency(overview.finance.balance)} detail="all records" />
+          <MetricTile label="Habit Score" value={`${overview.habitScore}%`} detail="today" />
+          <MetricTile
+            label="Avg Mood"
+            value={overview.averageMood === null ? 'No data' : `${overview.averageMood}/10`}
+            detail="journal"
+          />
+          <MetricTile label="Goal Progress" value={`${overview.goalProgress}%`} detail="average" />
+        </div>
+        <button className="wide-action" type="button">
+          View Full Report
+          <ArrowRight size={17} />
+        </button>
+      </article>
 
-        <article className="card compact-card">
-          <CardHeader icon={CheckSquare} label="Today's Focus" tone="blue" />
-          <div className="task-list">
-            {focusTasks.map((task) => (
-              <label className={task.done ? 'task-row done' : 'task-row'} key={task.label}>
-                <span className={task.done ? 'checkbox checked' : 'checkbox'}>
-                  {task.done ? <Check size={13} /> : null}
-                </span>
-                <span className="task-copy">
-                  <strong>{task.label}</strong>
-                  <small>{task.time}</small>
-                </span>
-                <b className={`task-tag ${task.tag.toLowerCase()}`}>{task.tag}</b>
-              </label>
-            ))}
-          </div>
-        </article>
+      <article className="card compact-card">
+        <CardHeader icon={CheckSquare} label="Today's Focus" tone="blue" />
+        <div className="task-list">
+          {focusItems.map((item) => (
+            <label className={item.done ? 'task-row done' : 'task-row'} key={item.label}>
+              <span className={item.done ? 'checkbox checked' : 'checkbox'}>
+                {item.done ? <Check size={13} /> : null}
+              </span>
+              <span className="task-copy">
+                <strong>{item.label}</strong>
+                <small>{item.time}</small>
+              </span>
+              <b className={`task-tag ${item.tag.toLowerCase()}`}>{item.tag}</b>
+            </label>
+          ))}
+        </div>
+      </article>
 
-        <article className="card compact-card expenses-card">
-          <CardHeader icon={BarChart3} label="Expenses This Week" tone="blue" />
-          <div className="mini-stat-row">
-            <span>
-              Top day <strong>Tue</strong>
+      <article className="card compact-card expenses-card">
+        <CardHeader icon={BarChart3} label="Expenses This Week" tone="blue" />
+        <div className="mini-stat-row">
+          <span>
+            Top day <strong>{topDay?.day ?? 'None'}</strong>
+          </span>
+          <span>
+            Total <strong>{formatCurrency(overview.finance.expense)}</strong>
+          </span>
+          <span className={overview.finance.expense ? 'negative' : 'positive'}>
+            {overview.finance.expense ? 'Tracked' : 'No expenses'}
+          </span>
+        </div>
+        <div className="bar-chart">
+          <div className="bar-axis">
+            <span>{formatCurrency(topDay?.amount ?? 0)}</span>
+            <span>{formatCurrency((topDay?.amount ?? 0) / 2)}</span>
+            <span>$0</span>
+          </div>
+          {overview.expenseDays.map((day, index) => (
+            <span className={`bar bar-${index}`} key={day.day} style={{ height: `${day.height}%` }} />
+          ))}
+        </div>
+        <div className="chart-days">
+          {overview.expenseDays.map((day) => (
+            <span key={day.day}>{day.day}</span>
+          ))}
+        </div>
+        <div className="category-strip">
+          {overview.categoryShares.slice(0, 3).map((category) => (
+            <span key={category.category}>
+              {category.category} {formatCurrency(category.total)}
             </span>
-            <span>
-              Avg/day <strong>$184</strong>
-            </span>
-            <span className="positive">8% lower</span>
-          </div>
-          <div className="bar-chart">
-            <div className="bar-axis">
-              <span>$300</span>
-              <span>$200</span>
-              <span>$100</span>
-              <span>$0</span>
-            </div>
-            {[72, 96, 64, 40, 58, 22, 36].map((height, index) => (
-              <span className={`bar bar-${index}`} key={index} style={{ height: `${height}%` }} />
-            ))}
-          </div>
-          <div className="chart-days">
-            <span>Mon</span>
-            <span>Tue</span>
-            <span>Wed</span>
-            <span>Thu</span>
-            <span>Fri</span>
-            <span>Sat</span>
-            <span>Sun</span>
-          </div>
-          <div className="category-strip">
-            <span>Food $420</span>
-            <span>Travel $280</span>
-            <span>Home $190</span>
-          </div>
-        </article>
+          ))}
+        </div>
+      </article>
 
-        <article className="card compact-card reminders-card">
-          <CardHeader icon={Bell} label="Upcoming Reminders" tone="blue" />
+      <article className="card compact-card reminders-card">
+        <CardHeader icon={Bell} label="Upcoming Reminders" tone="blue" />
+        {overview.reminders.length ? (
           <div className="reminder-list">
-            {reminders.map((reminder) => (
-              <div className="reminder-row" key={reminder.title}>
+            {overview.reminders.map((reminder) => (
+              <div className="reminder-row" key={reminder.id}>
                 <span className={`reminder-icon ${reminder.tone}`}>
                   <reminder.icon size={18} />
                 </span>
@@ -318,25 +328,40 @@ export function DashboardPage() {
                   <strong>{reminder.title}</strong>
                   <p>{reminder.time}</p>
                 </div>
-                <b className={`reminder-badge ${reminder.tone}`}>
-                  {reminder.tone === 'green' ? 'Soon' : reminder.tone === 'amber' ? 'Gift' : 'Work'}
-                </b>
+                <b className={`reminder-badge ${reminder.tone}`}>{reminder.detail}</b>
               </div>
             ))}
           </div>
-          <div className="sync-footer">
-            <span className="status-dot" />
-            Calendar sync active
-          </div>
-        </article>
-      </section>
-    </>
+        ) : (
+          <p className="finance-empty">Calendar events will appear here when you add them.</p>
+        )}
+        <div className="sync-footer">
+          <span className="status-dot" />
+          Calendar data live from Supabase
+        </div>
+      </article>
+    </section>
   )
 }
 
-function MiniLineChart() {
+function DashboardLoadingGrid() {
   return (
-    <div className="mini-chart" aria-label="Balance trend">
+    <section className="dashboard-grid" aria-label="Loading dashboard">
+      <article className="card finance-card">
+        <p className="finance-empty">Loading your dashboard data...</p>
+      </article>
+      <article className="card habit-card">
+        <p className="finance-empty">Checking habits, journal, goals, finance, and calendar.</p>
+      </article>
+    </section>
+  )
+}
+
+function MiniLineChart({ points }: { points: DashboardExpenseDay[] }) {
+  const path = getLinePath(points)
+
+  return (
+    <div className="mini-chart" aria-label="Expense trend">
       <svg viewBox="0 0 260 150" role="img">
         <defs>
           <linearGradient id="areaGradient" x1="0" x2="0" y1="0" y2="1">
@@ -353,27 +378,18 @@ function MiniLineChart() {
           <path d="M156 0 V132" />
           <path d="M208 0 V132" />
         </g>
-        <path
-          className="chart-area"
-          d="M0 106 L26 84 L52 50 L78 58 L104 82 L130 70 L156 48 L182 64 L208 36 L234 22 L260 0 L260 150 L0 150 Z"
-        />
-        <path
-          className="chart-line"
-          d="M0 106 L26 84 L52 50 L78 58 L104 82 L130 70 L156 48 L182 64 L208 36 L234 22 L260 0"
-        />
+        <path className="chart-area" d={`${path} L260 150 L0 150 Z`} />
+        <path className="chart-line" d={path} />
       </svg>
       <div className="chart-axis">
         <span>$0</span>
-        <span>$2k</span>
-        <span>$4k</span>
-        <span>$6k</span>
+        <span>Week</span>
+        <span>Expenses</span>
       </div>
       <div className="chart-dates">
-        <span>Apr 24</span>
-        <span>May 1</span>
-        <span>May 8</span>
-        <span>May 15</span>
-        <span>May 22</span>
+        {points.slice(0, 5).map((point) => (
+          <span key={point.day}>{point.day}</span>
+        ))}
       </div>
     </div>
   )
@@ -391,22 +407,14 @@ function MetricPill({ label, value, tone }: { label: string; value: string; tone
   )
 }
 
-function Streak({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: ComponentType<{ size?: number }>
-  label: string
-  value: string
-}) {
+function Streak({ streak }: { streak: DashboardStreakSummary }) {
   return (
     <div className="streak">
-      <span>
-        <Icon size={15} />
+      <span style={{ color: streak.color }}>
+        <Activity size={15} />
       </span>
-      <strong>{value}</strong>
-      <small>{label}</small>
+      <strong>{streak.value}</strong>
+      <small title={streak.label}>days</small>
     </div>
   )
 }
@@ -421,21 +429,21 @@ function GoalNode({ center, title, value }: { center?: boolean; title: string; v
 }
 
 function GoalBranch({
+  goal,
   icon: Icon,
-  title,
   tone,
-  value,
 }: {
+  goal: DashboardGoalBranch
   icon: ComponentType<{ size?: number }>
-  title: string
   tone: string
-  value: string
 }) {
   return (
     <div className={`goal-branch ${tone}`}>
       <Icon size={16} />
-      <strong>{title}</strong>
-      <span>{value}</span>
+      <strong>{goal.title}</strong>
+      <span>
+        {goal.progress}% · {goal.status.replace('_', ' ')}
+      </span>
     </div>
   )
 }
@@ -448,4 +456,81 @@ function MetricTile({ detail, label, value }: { detail: string; label: string; v
       <small>{detail}</small>
     </div>
   )
+}
+
+function getLinePath(points: DashboardExpenseDay[]) {
+  if (!points.length) {
+    return 'M0 120 L260 120'
+  }
+
+  return points
+    .map((point, index) => {
+      const x = Math.round((index / Math.max(points.length - 1, 1)) * 260)
+      const y = Math.round(132 - (point.height / 100) * 112)
+
+      return `${index === 0 ? 'M' : 'L'}${x} ${y}`
+    })
+    .join(' ')
+}
+
+function getLegendColor(index: number) {
+  return ['blue', 'indigo', 'amber', 'orange', 'gray'][index] ?? 'blue'
+}
+
+function getGoalIcon(index: number) {
+  return [Heart, BriefcaseBusiness, CircleDollarSign][index] ?? Target
+}
+
+function getGoalTone(index: number) {
+  return ['red', 'blue', 'green'][index] ?? 'blue'
+}
+
+function getTopExpenseDay(days: DashboardExpenseDay[]) {
+  return days.reduce<DashboardExpenseDay | null>(
+    (topDay, day) => (!topDay || day.amount > topDay.amount ? day : topDay),
+    null,
+  )
+}
+
+function getFocusItems(overview: DashboardOverview) {
+  const firstReminder = overview.reminders[0]
+  const firstStreak = overview.streaks[0]
+  const firstGoal = overview.goalBranches[0] ?? overview.topGoal
+
+  return [
+    {
+      done: overview.habitScore >= 100,
+      label: firstStreak ? `Keep ${firstStreak.label} alive` : 'Create your first habit',
+      tag: 'Habits',
+      time: firstStreak ? `${firstStreak.value} day streak` : 'No habits yet',
+    },
+    {
+      done: Boolean(firstReminder),
+      label: firstReminder?.title ?? 'Add a calendar event',
+      tag: 'Plan',
+      time: firstReminder?.time ?? 'No upcoming events',
+    },
+    {
+      done: (firstGoal?.progress ?? 0) >= 100,
+      label: firstGoal?.title ?? 'Add a goal',
+      tag: 'Goals',
+      time: `${firstGoal?.progress ?? 0}% progress`,
+    },
+  ]
+}
+
+function formatDateTime(value: string) {
+  return new Date(value).toLocaleString('en-US', {
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  })
+}
+
+function summarizeText(value: string) {
+  const text = value.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+
+  return text.length > 120 ? `${text.slice(0, 120)}...` : text || 'Journal entry saved.'
 }
