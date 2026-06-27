@@ -54,7 +54,10 @@ export function CalendarMonthView({ events, monthDate, onMonthChange }: Calendar
               <strong>{cell.date.getDate()}</strong>
               <div>
                 {dayEvents.slice(0, 3).map((event) => (
-                  <span key={event.id}>{event.title}</span>
+                  <button className="calendar-event-chip" key={event.id} type="button">
+                    <span>{event.title}</span>
+                    <EventPopover event={event} />
+                  </button>
                 ))}
                 {dayEvents.length > 3 ? <small>+{dayEvents.length - 3} more</small> : null}
               </div>
@@ -63,6 +66,16 @@ export function CalendarMonthView({ events, monthDate, onMonthChange }: Calendar
         })}
       </div>
     </section>
+  )
+}
+
+function EventPopover({ event }: { event: PlannerEvent }) {
+  return (
+    <span className="calendar-event-popover" role="tooltip">
+      <strong>{event.title}</strong>
+      <time>{formatEventTime(event)}</time>
+      <span>{event.description || 'No details added.'}</span>
+    </span>
   )
 }
 
@@ -100,4 +113,17 @@ function toDateKey(date: Date) {
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const day = String(date.getDate()).padStart(2, '0')
   return `${year}-${month}-${day}`
+}
+
+function formatEventTime(event: PlannerEvent) {
+  const date = new Date(event.startsAt)
+
+  if (event.allDay) {
+    return `${date.toLocaleDateString()} · All day`
+  }
+
+  return `${date.toLocaleDateString()} · ${date.toLocaleTimeString(undefined, {
+    hour: 'numeric',
+    minute: '2-digit',
+  })}`
 }

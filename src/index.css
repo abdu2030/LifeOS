@@ -1790,6 +1790,7 @@ kbd {
 }
 
 .calendar-day {
+  position: relative;
   min-height: 112px;
   padding: 10px;
   border: 1px solid rgba(148, 163, 184, 0.12);
@@ -1807,19 +1808,76 @@ kbd {
   color: var(--text);
 }
 
-.calendar-day span,
+.calendar-event-chip,
 .calendar-day small {
+  position: relative;
   display: block;
-  overflow: hidden;
+  width: 100%;
+  overflow: visible;
   margin-top: 5px;
   padding: 4px 6px;
+  border: 0;
   border-radius: 8px;
   color: #bfdbfe;
   background: rgba(37, 99, 235, 0.16);
   font-size: 11px;
   font-weight: 750;
+  text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.calendar-event-chip:focus-visible {
+  outline: 2px solid rgba(147, 197, 253, 0.85);
+  outline-offset: 2px;
+}
+
+.calendar-event-chip > span:first-child {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calendar-event-popover {
+  pointer-events: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 40;
+  display: grid;
+  gap: 6px;
+  width: min(260px, calc(100vw - 32px));
+  padding: 12px;
+  border: 1px solid rgba(147, 197, 253, 0.22);
+  border-radius: 14px;
+  opacity: 0;
+  color: #dbeafe;
+  background: rgba(8, 14, 24, 0.98);
+  box-shadow: 0 20px 50px rgba(2, 6, 23, 0.42);
+  transform: translateY(8px);
+  transition:
+    opacity 140ms ease,
+    transform 140ms ease;
+  white-space: normal;
+}
+
+.calendar-event-popover strong {
+  margin: 0;
+  color: #fff;
+  font-size: 13px;
+}
+
+.calendar-event-popover time,
+.calendar-event-popover span {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.calendar-event-chip:hover .calendar-event-popover,
+.calendar-event-chip:focus-visible .calendar-event-popover {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .calendar-form-grid {
