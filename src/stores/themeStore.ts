@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-type ThemeName = 'dark' | 'light' | 'cyberpunk' | 'forest'
+export type ThemeName = 'dark' | 'light' | 'cyberpunk' | 'forest'
 
 type ThemeState = {
   theme: ThemeName
@@ -8,6 +8,9 @@ type ThemeState = {
 }
 
 export const useThemeStore = create<ThemeState>((set) => ({
-  theme: 'dark',
-  setTheme: (theme) => set({ theme }),
+  theme: (localStorage.getItem('lifeos-theme') as ThemeName | null) ?? 'dark',
+  setTheme: (theme) => {
+    localStorage.setItem('lifeos-theme', theme)
+    set({ theme })
+  },
 }))

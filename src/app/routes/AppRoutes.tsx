@@ -11,6 +11,7 @@ import { HabitsPage } from '../../features/habits/pages/HabitsPage'
 import { WeeklyInsightsPage } from '../../features/insights/pages/WeeklyInsightsPage'
 import { JournalPage } from '../../features/journal/pages/JournalPage'
 import { CalendarPage } from '../../features/planner/pages/CalendarPage'
+import { SettingsPage } from '../../features/settings/pages/SettingsPage'
 import { WidgetsPage } from '../../features/widgets/pages/WidgetsPage'
 
 export function AppRoutes() {
@@ -27,6 +28,7 @@ export function AppRoutes() {
         <Route element={<WeeklyInsightsPage />} path="/insights" />
         <Route element={<JournalPage />} path="/journal" />
         <Route element={<CalendarPage />} path="/calendar" />
+        <Route element={<SettingsPage />} path="/settings" />
         <Route element={<WidgetsPage />} path="/widgets" />
       </Route>
       <Route element={<Navigate replace to="/" />} path="*" />

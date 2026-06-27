@@ -26,6 +26,6 @@ export const navItems: NavItem[] = [
   { label: 'Calendar', icon: CalendarDays, path: '/calendar' },
   { label: 'Tasks', icon: ListTodo },
   { label: 'Files', icon: Folder },
-  { label: 'Settings', icon: Settings },
+  { label: 'Settings', icon: Settings, path: '/settings' },
   { label: 'Plugins', icon: Plug },
 ]
