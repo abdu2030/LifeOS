@@ -235,13 +235,6 @@ function DashboardGrid({ overview }: { overview: DashboardOverview }) {
           </button>
         </CardHeader>
         <div className="goal-tree">
-          <svg className="goal-lines" viewBox="0 0 720 246" aria-hidden="true">
-            <path className="root-line" d="M360 36 V74" />
-            <path className="root-line" d="M150 74 H570" />
-            <path className="health-line" d="M150 74 V120" />
-            <path className="career-line" d="M360 74 V120" />
-            <path className="finance-line" d="M570 74 V120" />
-          </svg>
           <GoalNode
             center
             title={overview.topGoal?.title ?? 'Create your first goal'}
@@ -522,11 +515,14 @@ function GoalBranch({
 }) {
   return (
     <div className={`goal-branch ${tone}`}>
-      <Icon size={16} />
-      <strong>{goal.title}</strong>
-      <span>
-        {goal.progress}% · {goal.status.replace('_', ' ')}
+      <span className="goal-branch-icon">
+        <Icon size={15} />
       </span>
+      <span className="goal-branch-copy">
+        <strong>{goal.title}</strong>
+        <small>{goal.status.replace('_', ' ')}</small>
+      </span>
+      <span className="goal-progress-pill">{goal.progress}%</span>
     </div>
   )
 }

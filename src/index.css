@@ -4239,9 +4239,8 @@ kbd {
   position: relative;
   z-index: 1;
   display: grid;
-  gap: 8px;
-  min-height: 196px;
-  padding: 4px 8px 2px;
+  gap: 12px;
+  padding: 4px 0 2px;
 }
 
 .goals-card::after {
@@ -4256,45 +4255,14 @@ kbd {
   pointer-events: none;
 }
 
-.goal-lines {
-  position: absolute;
-  inset: 12px 18px 0;
-  width: calc(100% - 36px);
-  height: 196px;
-  overflow: visible;
-  pointer-events: none;
-}
-
-.goal-lines path {
-  fill: none;
-  stroke: rgba(125, 211, 252, 0.5);
-  stroke-linecap: round;
-  stroke-width: 2;
-  filter: drop-shadow(0 0 7px rgba(92, 169, 255, 0.34));
-}
-
-.goal-lines .health-line {
-  stroke: rgba(34, 197, 94, 0.56);
-}
-
-.goal-lines .career-line {
-  stroke: rgba(37, 99, 235, 0.62);
-}
-
-.goal-lines .finance-line {
-  stroke: rgba(248, 168, 49, 0.62);
-}
-
 .goal-node,
 .goal-branch {
   position: relative;
-  display: inline-flex;
+  display: grid;
   align-items: center;
-  gap: 7px;
-  justify-self: center;
-  padding: 6px 9px;
+  gap: 10px;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: 18px;
   background:
     linear-gradient(145deg, rgba(26, 39, 62, 0.88), rgba(10, 17, 29, 0.92)), rgba(15, 23, 42, 0.9);
   box-shadow:
@@ -4305,6 +4273,9 @@ kbd {
 .goal-node strong,
 .goal-branch strong {
   min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   line-height: 1.2;
 }
 
@@ -4321,32 +4292,37 @@ kbd {
 
 .goal-node.center {
   display: grid;
-  justify-items: center;
-  gap: 5px;
-  max-width: 300px;
-  padding: 7px 11px;
-  text-align: center;
+  grid-template-columns: minmax(0, 1fr) auto;
+  justify-self: stretch;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 13px 14px;
+  text-align: left;
   border-color: rgba(34, 197, 94, 0.45);
   background:
     linear-gradient(145deg, rgba(18, 34, 45, 0.94), rgba(9, 17, 28, 0.92)), rgba(15, 23, 42, 0.9);
 }
 
 .goal-node.center strong {
-  max-width: 250px;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .goal-node.center::before {
   background: radial-gradient(circle, rgba(34, 197, 94, 0.24), transparent 70%);
 }
 
-.goal-node span,
-.goal-branch span {
-  padding: 3px 7px;
+.goal-node > span,
+.goal-progress-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+  padding: 7px 10px;
   border-radius: 999px;
   color: #052e16;
   background: #86efac;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
   box-shadow: 0 0 14px rgba(134, 239, 172, 0.22);
 }
@@ -4361,8 +4337,15 @@ kbd {
 
 .goal-branches {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.goal-branch {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  justify-self: stretch;
+  min-width: 0;
+  padding: 12px;
 }
 
 .goal-branch.red {
@@ -4389,23 +4372,45 @@ kbd {
   background: radial-gradient(circle, rgba(34, 197, 94, 0.22), transparent 68%);
 }
 
-.goal-branch svg {
+.goal-branch-icon {
+  display: inline-grid;
+  width: 34px;
+  height: 34px;
   flex: 0 0 auto;
-  width: 22px;
-  height: 22px;
-  padding: 5px;
-  border-radius: 999px;
+  place-items: center;
+  border-radius: 12px;
   color: #fecdd3;
   background: rgba(244, 63, 94, 0.18);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-.goal-branch.blue svg {
+.goal-branch-copy {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.goal-branch-copy small {
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.goal-branch svg {
+  flex: 0 0 auto;
+}
+
+.goal-branch.red .goal-branch-icon {
+  color: #fecdd3;
+  background: rgba(244, 63, 94, 0.18);
+}
+
+.goal-branch.blue .goal-branch-icon {
   color: #bfdbfe;
   background: rgba(37, 99, 235, 0.2);
 }
 
-.goal-branch.green svg {
+.goal-branch.green .goal-branch-icon {
   color: #bbf7d0;
   background: rgba(34, 197, 94, 0.18);
 }
@@ -5543,6 +5548,10 @@ label,
   }
 
   .goal-row {
+    grid-template-columns: 1fr;
+  }
+
+  .goal-branches {
     grid-template-columns: 1fr;
   }
 
