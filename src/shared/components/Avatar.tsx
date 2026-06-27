@@ -1,13 +1,20 @@
 type AvatarProps = {
+  alt?: string
   compact?: boolean
+  src?: string | null
 }
 
-export function Avatar({ compact = false }: AvatarProps) {
+export function Avatar({ alt = 'Profile picture', compact = false, src }: AvatarProps) {
+  if (src) {
+    return (
+      <div className={compact ? 'avatar top-avatar avatar-photo' : 'avatar avatar-photo'} aria-label={alt}>
+        <img alt="" src={src} />
+      </div>
+    )
+  }
+
   return (
-    <div
-      className={compact ? 'avatar portrait top-avatar' : 'avatar portrait'}
-      aria-label="Arjun Patel"
-    >
+    <div className={compact ? 'avatar portrait top-avatar' : 'avatar portrait'} aria-label={alt}>
       <span className="avatar-hair" />
       <span className="avatar-face" />
       <span className="avatar-ear left" />

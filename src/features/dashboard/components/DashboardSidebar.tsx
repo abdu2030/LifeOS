@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 
 import { useOfflineStatus } from '../../offline/hooks/useOfflineStatus'
 import { useAuth } from '../../auth/hooks/useAuth'
+import { useUserProfile } from '../../settings/hooks/useUserProfile'
 import { Avatar } from '../../../shared/components/Avatar'
 import type { NavItem } from '../types/dashboard'
 
@@ -12,8 +13,9 @@ type DashboardSidebarProps = {
 
 export function DashboardSidebar({ navItems }: DashboardSidebarProps) {
   const { user } = useAuth()
+  const { data: profile } = useUserProfile()
   const { isOnline, pendingCount, syncMessage } = useOfflineStatus()
-  const displayName = getDisplayName(user?.email, user?.user_metadata)
+  const displayName = profile?.displayName || getDisplayName(user?.email, user?.user_metadata)
 
   return (
     <aside className="sidebar" aria-label="Primary navigation">
@@ -45,7 +47,7 @@ export function DashboardSidebar({ navItems }: DashboardSidebarProps) {
       </section>
 
       <section className="profile-card">
-        <Avatar />
+        <Avatar alt={displayName} src={profile?.avatarUrl} />
         <div>
           <strong>{displayName}</strong>
           <p>{user?.email ?? 'Signed in'}</p>

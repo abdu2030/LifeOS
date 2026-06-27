@@ -1,24 +1,78 @@
 import { BarChart3, Bell, CalendarDays, ChevronDown, Search } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Avatar } from '../../../shared/components/Avatar'
 import { useNotifications } from '../../../shared/hooks/useNotifications'
+import { useUserProfile } from '../../settings/hooks/useUserProfile'
+import { navItems } from '../data/dashboardData'
 
 export function DashboardTopbar() {
   const navigate = useNavigate()
+  const searchInputRef = useRef<HTMLInputElement>(null)
+  const [query, setQuery] = useState('')
+  const { data: profile } = useUserProfile()
   const { isEnabled, isRegistering, isSupported, permission, requestPermission } =
     useNotifications()
   const notificationLabel = isEnabled ? 'Notifications enabled' : 'Enable notifications'
   const today = new Date()
+  const searchableItems = useMemo(() => navItems.filter((item) => item.path), [])
+  const searchResults = query.trim()
+    ? searchableItems.filter((item) => item.label.toLowerCase().includes(query.trim().toLowerCase()))
+    : []
+
+  useEffect(() => {
+    function handleShortcut(event: KeyboardEvent) {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault()
+        searchInputRef.current?.focus()
+      }
+    }
+
+    window.addEventListener('keydown', handleShortcut)
+
+    return () => window.removeEventListener('keydown', handleShortcut)
+  }, [])
+
+  function goTo(path: string) {
+    navigate(path)
+    setQuery('')
+    searchInputRef.current?.blur()
+  }
+
+  function handleSearchSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const firstMatch = searchResults[0]
+
+    if (firstMatch?.path) {
+      goTo(firstMatch.path)
+    }
+  }
 
   return (
     <header className="topbar">
-      <label className="search-box">
+      <form className="search-box" onSubmit={handleSearchSubmit}>
         <Search size={18} />
-        <input aria-label="Search" placeholder="Search anything..." />
+        <input
+          aria-label="Search pages"
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="Search pages..."
+          ref={searchInputRef}
+          value={query}
+        />
         <kbd>Ctrl</kbd>
         <kbd>K</kbd>
-      </label>
+        {searchResults.length ? (
+          <div className="search-results" role="listbox">
+            {searchResults.map((item) => (
+              <button key={item.label} onClick={() => item.path && goTo(item.path)} type="button">
+                <item.icon size={16} />
+                <span>{item.label}</span>
+              </button>
+            ))}
+          </div>
+        ) : null}
+      </form>
 
       <div className="topbar-cluster">
         <button className="date-button" onClick={() => navigate('/calendar')} type="button">
@@ -58,7 +112,7 @@ export function DashboardTopbar() {
           onClick={() => navigate('/settings')}
           type="button"
         >
-          <Avatar compact />
+          <Avatar alt={profile?.displayName || 'Profile picture'} compact src={profile?.avatarUrl} />
           <ChevronDown size={15} />
         </button>
       </div>

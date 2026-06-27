@@ -7,6 +7,7 @@ export type UserProfile = {
 }
 
 export type ProfileInput = {
+  avatarUrl?: string | null
   displayName: string
   timezone: string
 }

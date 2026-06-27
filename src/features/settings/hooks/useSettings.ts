@@ -3,8 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '../../auth/hooks/useAuth'
 import { buildDataExport, getProfile, updateProfile } from '../services/settingsApi'
 import type { ProfileInput } from '../types/settings'
-
-const settingsQueryKey = ['settings', 'profile']
+import { profileQueryKey } from './useUserProfile'
 
 export function useSettings() {
   const { user } = useAuth()
@@ -13,13 +12,14 @@ export function useSettings() {
   const profileQuery = useQuery({
     enabled: Boolean(user),
     queryFn: () => getProfile(user!.id),
-    queryKey: [...settingsQueryKey, user?.id],
+    queryKey: [...profileQueryKey, user?.id],
   })
 
   const updateProfileMutation = useMutation({
     mutationFn: (input: ProfileInput) => updateProfile(user!.id, input),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: [...settingsQueryKey, user?.id] })
+      void queryClient.invalidateQueries({ queryKey: [...profileQueryKey, user?.id] })
+      void queryClient.invalidateQueries({ queryKey: ['dashboard-overview', user?.id] })
     },
   })
 

@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { Bell, Download, Palette, Shield, UserRound } from 'lucide-react'
 
+import { Avatar } from '../../../shared/components/Avatar'
 import { useNotifications } from '../../../shared/hooks/useNotifications'
 import { useThemeStore, type ThemeName } from '../../../stores/themeStore'
 import { useSettings } from '../hooks/useSettings'
@@ -41,10 +42,11 @@ export function SettingsPage() {
           {isLoading ? <p className="finance-empty">Loading profile...</p> : null}
           {profileError ? <p className="auth-error">{profileError.message}</p> : null}
           <ProfileForm
+            defaultAvatarUrl={profile?.avatarUrl ?? null}
             defaultDisplayName={profile?.displayName || user?.email || ''}
             defaultTimezone={profile?.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone}
             isSaving={isSavingProfile}
-            key={`${profile?.id ?? user?.id}-${profile?.displayName ?? ''}-${profile?.timezone ?? ''}`}
+            key={`${profile?.id ?? user?.id}-${profile?.displayName ?? ''}-${profile?.timezone ?? ''}-${profile?.avatarUrl ?? ''}`}
             onSubmit={updateProfile}
           />
         </section>
@@ -109,16 +111,19 @@ export function SettingsPage() {
 }
 
 function ProfileForm({
+  defaultAvatarUrl,
   defaultDisplayName,
   defaultTimezone,
   isSaving,
   onSubmit,
 }: {
+  defaultAvatarUrl: string | null
   defaultDisplayName: string
   defaultTimezone: string
   isSaving: boolean
-  onSubmit: (input: { displayName: string; timezone: string }) => Promise<unknown>
+  onSubmit: (input: { avatarUrl?: string | null; displayName: string; timezone: string }) => Promise<unknown>
 }) {
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(defaultAvatarUrl)
   const [displayName, setDisplayName] = useState(defaultDisplayName)
   const [formMessage, setFormMessage] = useState('')
   const [timezone, setTimezone] = useState(defaultTimezone)
@@ -127,12 +132,51 @@ function ProfileForm({
     event.preventDefault()
     setFormMessage('')
 
-    await onSubmit({ displayName, timezone })
+    await onSubmit({ avatarUrl, displayName, timezone })
     setFormMessage('Profile saved.')
+  }
+
+  async function handleAvatarChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0]
+
+    if (!file) {
+      return
+    }
+
+    if (!file.type.startsWith('image/')) {
+      setFormMessage('Choose an image file for your profile picture.')
+      return
+    }
+
+    if (file.size > 900_000) {
+      setFormMessage('Choose an image under 900 KB for now.')
+      return
+    }
+
+    setFormMessage('')
+    setAvatarUrl(await readFileAsDataUrl(file))
   }
 
   return (
     <form className="settings-form" onSubmit={handleProfileSubmit}>
+      <div className="profile-photo-editor">
+        <Avatar alt={displayName || 'Profile picture'} src={avatarUrl} />
+        <div>
+          <strong>Profile picture</strong>
+          <p>Upload a square image under 900 KB. It will appear in the sidebar and topbar.</p>
+          <div className="profile-photo-actions">
+            <label className="ghost-select profile-upload-control">
+              Upload photo
+              <input accept="image/*" onChange={handleAvatarChange} type="file" />
+            </label>
+            {avatarUrl ? (
+              <button className="ghost-select" onClick={() => setAvatarUrl(null)} type="button">
+                Remove
+              </button>
+            ) : null}
+          </div>
+        </div>
+      </div>
       <label className="auth-field">
         Display name
         <input
@@ -157,6 +201,16 @@ function ProfileForm({
       </button>
     </form>
   )
+}
+
+function readFileAsDataUrl(file: File) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader()
+
+    reader.addEventListener('load', () => resolve(String(reader.result)))
+    reader.addEventListener('error', () => reject(reader.error))
+    reader.readAsDataURL(file)
+  })
 }
 
 function PanelHeading({

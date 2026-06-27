@@ -43,6 +43,7 @@ export async function updateProfile(userId: string, input: ProfileInput) {
   const { data, error } = await supabase
     .from('profiles')
     .upsert({
+      avatar_url: input.avatarUrl ?? null,
       display_name: input.displayName,
       id: userId,
       timezone: input.timezone,

@@ -812,6 +812,18 @@ p {
   pointer-events: none;
 }
 
+.avatar-photo {
+  background: var(--panel-soft);
+}
+
+.avatar-photo img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
 .portrait span {
   position: absolute;
   display: block;
@@ -895,25 +907,28 @@ p {
 }
 
 .topbar {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) auto;
+  align-items: center;
   justify-content: space-between;
-  gap: 18px;
-  min-height: 50px;
-  padding-bottom: 8px;
+  gap: 16px;
+  min-height: 58px;
+  padding: 4px 0 10px;
   border-bottom: 1px solid var(--border);
 }
 
 .search-box {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
-  width: min(500px, 100%);
-  height: 50px;
+  width: min(560px, 100%);
+  height: 48px;
   padding: 0 16px;
   border: 1px solid var(--border);
-  border-radius: 16px;
-  background:
-    linear-gradient(145deg, rgba(28, 39, 59, 0.72), rgba(12, 19, 32, 0.92)), rgba(16, 24, 39, 0.86);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+  background: var(--panel);
+  box-shadow: none;
   transition:
     border-color 160ms ease,
     box-shadow 160ms ease,
@@ -921,17 +936,14 @@ p {
 }
 
 .search-box:focus-within {
-  border-color: rgba(96, 165, 250, 0.36);
-  background:
-    linear-gradient(145deg, rgba(37, 99, 235, 0.12), rgba(12, 19, 32, 0.94)), rgba(16, 24, 39, 0.9);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 0 0 3px rgba(59, 130, 246, 0.08);
+  border-color: var(--border-strong);
+  background: var(--panel-strong);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 .search-box > svg {
   flex: 0 0 auto;
-  color: #cbd5e1;
+  color: var(--muted);
 }
 
 .search-box input {
@@ -964,8 +976,43 @@ kbd {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
+.search-results {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  left: 0;
+  z-index: 30;
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel-strong);
+  box-shadow: var(--shadow);
+}
+
+.search-results button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  border: 0;
+  border-radius: 9px;
+  color: var(--text);
+  background: transparent;
+  text-align: left;
+}
+
+.search-results button:hover,
+.search-results button:focus-visible {
+  outline: none;
+  background: var(--accent-soft);
+}
+
 .topbar-cluster {
-  gap: 14px;
+  align-items: center;
+  gap: 10px;
 }
 
 .date-button,
@@ -978,16 +1025,15 @@ kbd {
 .wide-action {
   border: 1px solid var(--border);
   color: var(--text);
-  background:
-    linear-gradient(145deg, rgba(25, 36, 56, 0.7), rgba(9, 15, 25, 0.72)), rgba(15, 23, 42, 0.72);
+  background: var(--panel);
   cursor: pointer;
 }
 
 .date-button {
   gap: 12px;
-  min-height: 50px;
+  min-height: 48px;
   padding: 0 15px;
-  border-radius: 15px;
+  border-radius: 14px;
 }
 
 .date-button > svg,
@@ -1015,7 +1061,7 @@ kbd {
 .period-button,
 .customize-button {
   gap: 9px;
-  min-height: 48px;
+  min-height: 46px;
   padding: 0 16px;
   border-radius: 14px;
   font-weight: 700;
@@ -1063,8 +1109,9 @@ kbd {
 .profile-button {
   gap: 8px;
   min-height: 50px;
-  padding: 0 9px 0 0;
+  padding: 0 9px 0 2px;
   border-radius: 999px;
+  align-items: center;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
     0 12px 26px rgba(0, 0, 0, 0.14);
@@ -1075,8 +1122,8 @@ kbd {
 }
 
 .top-avatar {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
 }
 
 .greeting-row {
@@ -1396,6 +1443,23 @@ kbd {
   margin-bottom: 6px;
 }
 
+.widget-gallery-help {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.widget-gallery-help span {
+  padding: 9px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--muted);
+  background: var(--panel-soft);
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+}
+
 .widget-gallery-list {
   display: grid;
   gap: 10px;
@@ -1418,6 +1482,16 @@ kbd {
 .widget-gallery-item:disabled {
   cursor: default;
   opacity: 0.58;
+}
+
+.widget-gallery-item.added {
+  background: var(--success-soft);
+}
+
+.widget-gallery-item b {
+  flex: 0 0 auto;
+  color: var(--green);
+  font-size: 12px;
 }
 
 .widget-empty-state {
@@ -1872,6 +1946,55 @@ kbd {
 .settings-form {
   display: grid;
   gap: 14px;
+}
+
+.profile-photo-editor {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel-soft);
+}
+
+.profile-photo-editor .avatar {
+  width: 64px;
+  height: 64px;
+}
+
+.profile-photo-editor strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.profile-photo-editor p {
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.profile-photo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.profile-upload-control {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding-inline: 12px;
+  font-weight: 800;
+}
+
+.profile-upload-control input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
 }
 
 .settings-success {
@@ -5008,7 +5131,6 @@ kbd {
   color: currentColor;
 }
 
-.search-box,
 .settings-status-row,
 .privacy-list span,
 .theme-option.active,
@@ -5028,6 +5150,32 @@ kbd {
 .mood-analysis-result__chips span,
 .weekly-data-sources span {
   border-color: var(--border);
+  color: var(--accent-text);
+  background: var(--accent-soft);
+}
+
+.search-box {
+  border-color: var(--border);
+  color: var(--text);
+  background: var(--panel);
+}
+
+.topbar .date-button,
+.topbar .period-button,
+.topbar .bell-button,
+.topbar .profile-button {
+  color: var(--text);
+  background: var(--panel);
+}
+
+.topbar .search-box > svg,
+.topbar .bell-button svg,
+.topbar .profile-button svg {
+  color: var(--muted);
+}
+
+.topbar .date-button > svg,
+.topbar .period-button > svg {
   color: var(--accent-text);
   background: var(--accent-soft);
 }
