@@ -510,7 +510,7 @@ p {
 .app-shell {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr);
-  width: max-content;
+  width: 100%;
   min-width: 100%;
   min-height: 100vh;
 }
@@ -5818,24 +5818,21 @@ label,
 
   .topbar-cluster {
     grid-column: 1 / -1;
-    overflow-x: auto;
-    flex-wrap: nowrap;
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) repeat(3, 44px);
+    align-items: center;
     width: 100%;
-    padding: 6px 2px 8px;
-    scrollbar-width: none;
-  }
-
-  .topbar-cluster::-webkit-scrollbar {
-    display: none;
+    gap: 8px;
+    padding: 6px 0 8px;
   }
 
   .topbar-cluster > button {
+    min-width: 0;
     min-height: 42px;
     border-radius: 999px;
   }
 
   .date-button {
-    flex: 1 1 280px;
     justify-content: center;
     min-width: 0;
     max-width: none;
@@ -5854,15 +5851,14 @@ label,
   }
 
   .period-button {
-    flex: 1 1 190px;
     justify-content: center;
+    min-width: 0;
     padding-inline: 12px;
   }
 
   .bell-button,
   .profile-button,
   .logout-button {
-    flex: 0 0 44px;
     width: 44px;
     height: 44px;
     min-height: 44px;
@@ -5884,6 +5880,13 @@ label,
 
   .logout-button span {
     display: none;
+  }
+
+  .date-button strong,
+  .period-button {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .greeting-row {
@@ -5926,7 +5929,8 @@ label,
   }
 
   .topbar-cluster {
-    margin-inline: -2px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) repeat(3, 42px);
+    gap: 7px;
   }
 
   .date-button span {
@@ -6015,7 +6019,7 @@ label,
   }
 
   .date-button {
-    max-width: min(72vw, 250px);
+    max-width: none;
   }
 
   .finance-layout,
@@ -6040,5 +6044,27 @@ label,
 
   .streak-row {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .topbar-cluster {
+    grid-template-columns: minmax(0, 1fr) repeat(3, 42px);
+  }
+
+  .date-button {
+    grid-column: 1 / -1;
+  }
+
+  .period-button {
+    grid-column: 1 / 2;
+  }
+
+  .bell-button,
+  .profile-button,
+  .logout-button {
+    width: 42px;
+    height: 42px;
+    min-height: 42px;
   }
 }
