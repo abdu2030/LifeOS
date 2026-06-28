@@ -84,5 +84,5 @@ export function getWidgetDefinition(widgetId: WidgetId) {
 }
 
 export function getDefaultWidgetLayouts() {
-  return defaultWidgetIds.map((widgetId) => widgetRegistry[widgetId].defaultLayout)
+  return defaultWidgetIds.map((widgetId) => ({ ...widgetRegistry[widgetId].defaultLayout }))
 }

@@ -1406,7 +1406,13 @@ kbd {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 18px;
+}
+
+.widget-toolbar > div:first-child {
+  flex: 1 1 420px;
+  min-width: 0;
 }
 
 .widget-toolbar h2 {
@@ -1423,7 +1429,21 @@ kbd {
 .widget-toolbar-actions {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  flex: 1 1 420px;
+  flex-wrap: wrap;
   gap: 10px;
+}
+
+.widget-toolbar-actions .auth-error {
+  max-width: min(100%, 320px);
+}
+
+.widget-toolbar-actions .ghost-select {
+  max-width: none;
+  min-height: 46px;
+  padding-inline: 16px;
+  white-space: nowrap;
 }
 
 .widget-dashboard-layout {
@@ -5963,6 +5983,17 @@ label,
   .module-grid,
   .theme-picker {
     grid-template-columns: 1fr;
+  }
+
+  .widget-toolbar-actions {
+    justify-content: stretch;
+    width: 100%;
+  }
+
+  .widget-toolbar-actions .compact-action,
+  .widget-toolbar-actions .ghost-select {
+    justify-content: center;
+    width: 100%;
   }
 
   .goal-row {
