@@ -1,11 +1,13 @@
 import { createClient } from '@supabase/supabase-js'
 
-export const supabaseUrl =
-  import.meta.env.VITE_SUPABASE_URL || import.meta.env.NEXT_PUBLIC_SUPABASE_URL
-export const supabaseAnonKey =
+export const supabaseUrl = normalizeEnvValue(
+  import.meta.env.VITE_SUPABASE_URL || import.meta.env.NEXT_PUBLIC_SUPABASE_URL,
+)
+export const supabaseAnonKey = normalizeEnvValue(
   import.meta.env.VITE_SUPABASE_ANON_KEY ||
-  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
-  import.meta.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+    import.meta.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+)
 
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey)
 
@@ -22,10 +24,6 @@ export function getSupabaseConfigurationError() {
     return 'Supabase URL looks invalid. Use the project URL from Supabase Project Settings > API.'
   }
 
-  if (!supabaseAnonKey.startsWith('eyJ') && !supabaseAnonKey.startsWith('sb_publishable_')) {
-    return 'Supabase key looks invalid. Use the anon public key or publishable key from the same Supabase project.'
-  }
-
   return null
 }
 
@@ -40,3 +38,7 @@ export const supabase = createClient(
     },
   },
 )
+
+function normalizeEnvValue(value: string | undefined) {
+  return value?.trim().replace(/^(['"])(.*)\1$/, '$2') ?? ''
+}

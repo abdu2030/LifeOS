@@ -26,6 +26,9 @@ Vite reads these values at build time. After adding or changing them in Vercel,
 redeploy the project. A deployment built before the variables were fixed will
 continue to use the old values.
 
+Paste values into Vercel without wrapping quotes. For example, use
+`sb_publishable_...`, not `"sb_publishable_..."`.
+
 If Supabase labels the public key as a publishable key, this alias is also
 accepted:
 
