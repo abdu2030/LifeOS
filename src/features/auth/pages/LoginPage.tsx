@@ -3,6 +3,8 @@ import { Link, Navigate, useLocation } from 'react-router-dom'
 
 import { AuthLayout } from '../components/AuthLayout'
 import { useAuth } from '../hooks/useAuth'
+import { getFriendlyAuthErrorMessage } from '../services/authService'
+import { getSupabaseConfigurationError } from '../../../lib/supabase'
 
 type LocationState = {
   from?: {
@@ -14,6 +16,7 @@ export function LoginPage() {
   const { isAuthenticated, isLoading, login, loginWithGoogle } = useAuth()
   const location = useLocation()
   const from = (location.state as LocationState | null)?.from?.pathname ?? '/'
+  const configurationError = getSupabaseConfigurationError()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [formError, setFormError] = useState('')
@@ -26,12 +29,18 @@ export function LoginPage() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setFormError('')
+
+    if (configurationError) {
+      setFormError(configurationError)
+      return
+    }
+
     setIsSubmitting(true)
 
     const { error } = await login({ email, password })
 
     if (error) {
-      setFormError(error.message)
+      setFormError(getFriendlyAuthErrorMessage(error))
     }
 
     setIsSubmitting(false)
@@ -39,10 +48,16 @@ export function LoginPage() {
 
   async function handleGoogleLogin() {
     setFormError('')
+
+    if (configurationError) {
+      setFormError(configurationError)
+      return
+    }
+
     const { error } = await loginWithGoogle()
 
     if (error) {
-      setFormError(error.message)
+      setFormError(getFriendlyAuthErrorMessage(error))
     }
   }
 

@@ -55,3 +55,15 @@ export function subscribeToAuthChanges(
 ) {
   return supabase.auth.onAuthStateChange(onChange)
 }
+
+export function getFriendlyAuthErrorMessage(error: { message?: string } | null | undefined) {
+  if (!error?.message) {
+    return ''
+  }
+
+  if (error.message.toLowerCase().includes('invalid api key')) {
+    return 'Supabase rejected the API key. Use the anon public key or publishable key from the same Supabase project as VITE_SUPABASE_URL, then restart the dev server.'
+  }
+
+  return error.message
+}

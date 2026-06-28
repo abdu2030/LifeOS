@@ -3,9 +3,12 @@ import { Link, Navigate } from 'react-router-dom'
 
 import { AuthLayout } from '../components/AuthLayout'
 import { useAuth } from '../hooks/useAuth'
+import { getFriendlyAuthErrorMessage } from '../services/authService'
+import { getSupabaseConfigurationError } from '../../../lib/supabase'
 
 export function RegisterPage() {
   const { isAuthenticated, isLoading, loginWithGoogle, register } = useAuth()
+  const configurationError = getSupabaseConfigurationError()
   const [displayName, setDisplayName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -21,12 +24,18 @@ export function RegisterPage() {
     event.preventDefault()
     setFormError('')
     setSuccessMessage('')
+
+    if (configurationError) {
+      setFormError(configurationError)
+      return
+    }
+
     setIsSubmitting(true)
 
     const { error } = await register({ displayName, email, password })
 
     if (error) {
-      setFormError(error.message)
+      setFormError(getFriendlyAuthErrorMessage(error))
     } else {
       setSuccessMessage('Account created. Check your email to confirm your LifeOS login.')
     }
@@ -36,10 +45,16 @@ export function RegisterPage() {
 
   async function handleGoogleLogin() {
     setFormError('')
+
+    if (configurationError) {
+      setFormError(configurationError)
+      return
+    }
+
     const { error } = await loginWithGoogle()
 
     if (error) {
-      setFormError(error.message)
+      setFormError(getFriendlyAuthErrorMessage(error))
     }
   }
 

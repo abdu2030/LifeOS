@@ -15,6 +15,11 @@ VITE_SUPABASE_ANON_KEY=your-anon-key-here
 VITE_AUTH_REDIRECT_URL=http://localhost:5173/auth/callback
 ```
 
+`VITE_SUPABASE_ANON_KEY` must be the anon public key or publishable key from the
+same Supabase project as `VITE_SUPABASE_URL`. If these values come from
+different projects, sign in will fail with `Invalid API key`. After changing
+`.env`, restart the Vite dev server.
+
 If your Supabase dashboard or template gives you `NEXT_PUBLIC_SUPABASE_URL` and
 `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, copy those values into the matching `VITE_`
 variables for local Vite development. The app client also accepts the `NEXT_PUBLIC_`
