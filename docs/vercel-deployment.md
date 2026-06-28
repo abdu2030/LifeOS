@@ -22,6 +22,17 @@ VITE_SUPABASE_ANON_KEY=your-supabase-publishable-or-anon-key
 VITE_AUTH_REDIRECT_URL=https://your-vercel-domain.vercel.app/auth/callback
 ```
 
+Vite reads these values at build time. After adding or changing them in Vercel,
+redeploy the project. A deployment built before the variables were fixed will
+continue to use the old values.
+
+If Supabase labels the public key as a publishable key, this alias is also
+accepted:
+
+```env
+VITE_SUPABASE_PUBLISHABLE_KEY=your-supabase-publishable-key
+```
+
 The app also accepts these compatibility names if needed:
 
 ```env

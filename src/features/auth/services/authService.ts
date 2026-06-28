@@ -6,7 +6,9 @@ function getAuthRedirectUrl() {
     return import.meta.env.VITE_AUTH_REDIRECT_URL
   }
 
-  return globalThis.location?.origin ?? 'http://localhost:5173'
+  const origin = globalThis.location?.origin ?? 'http://localhost:5173'
+
+  return `${origin}/auth/callback`
 }
 
 export function signUpWithEmail({ displayName, email, password }: SignUpCredentials) {
