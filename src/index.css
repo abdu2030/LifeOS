@@ -5786,9 +5786,15 @@ label,
 
   .date-button {
     flex: 1 1 280px;
+    justify-content: center;
     min-width: 0;
     max-width: none;
     padding-inline: 12px;
+  }
+
+  .date-button span {
+    justify-items: center;
+    text-align: center;
   }
 
   .date-button > svg,
@@ -5799,6 +5805,7 @@ label,
 
   .period-button {
     flex: 1 1 190px;
+    justify-content: center;
     padding-inline: 12px;
   }
 
