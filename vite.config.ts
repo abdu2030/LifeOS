@@ -70,9 +70,11 @@ export default defineConfig({
         ],
       },
       workbox: {
+        clientsClaim: true,
         cleanupOutdatedCaches: true,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webmanifest,woff2}'],
         navigateFallback: '/index.html',
+        skipWaiting: true,
         runtimeCaching: [
           {
             handler: 'NetworkFirst',
@@ -111,13 +113,14 @@ export default defineConfig({
               ['font', 'image', 'script', 'style'].includes(request.destination),
           },
           {
-            handler: 'StaleWhileRevalidate',
+            handler: 'NetworkFirst',
             options: {
               cacheName: 'lifeos-pages',
               expiration: {
                 maxAgeSeconds: 60 * 60 * 24 * 7,
                 maxEntries: 40,
               },
+              networkTimeoutSeconds: 3,
             },
             urlPattern: ({ request }) => request.mode === 'navigate',
           },

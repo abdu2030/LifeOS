@@ -26,6 +26,12 @@ Vite reads these values at build time. After adding or changing them in Vercel,
 redeploy the project. A deployment built before the variables were fixed will
 continue to use the old values.
 
+If the deployed site still shows an old auth/configuration message after a
+successful redeploy, clear the site data or unregister the service worker once
+from the browser devtools. The app is configured to prefer fresh navigation
+responses, but an already-installed old service worker can serve an old bundle
+until the browser updates it.
+
 Paste values into Vercel without wrapping quotes. For example, use
 `sb_publishable_...`, not `"sb_publishable_..."`.
 
