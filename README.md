@@ -1,81 +1,164 @@
 # LifeOS
 
-LifeOS is a privacy-first personal operating system dashboard for finance, habits, journaling, goals, planning, and weekly insights. The current app focuses on a polished dashboard experience while the codebase is being organized for long-term feature growth.
+LifeOS is a privacy-first personal operating system dashboard for managing money,
+habits, journaling, goals, planning, weekly insights, widgets, settings, and
+offline sync from one responsive PWA.
 
-## Current Features
+## Features
 
-- Dark-first dashboard UI with finance, habits, journal mood, goals, insights, focus tasks, expenses, and reminders.
-- Feature-owned seed data and services for dashboard, tasks, habits, and planner reminders.
-- Shared avatar and dashboard card header components.
-- TanStack Query provider and Supabase client foundation for Auth and future data access.
-- Supabase SQL schema with row-level security policies for LifeOS data modules.
-- PWA manifest configuration for offline-friendly app behavior.
+- Authenticated app shell with responsive sidebar navigation, topbar search,
+  profile controls, and theme support.
+- Dashboard overview cards for finance, habits, journal mood, goals, weekly
+  insights, focus tasks, expenses, and reminders.
+- Custom widget dashboard with drag, resize, add, remove, reset layout, and
+  local fallback persistence when the remote layout table is unavailable.
+- Finance tools for transactions, categories, CSV import, cashflow charts,
+  category breakdowns, daily spending, and transaction type summaries.
+- Habit tracking with daily check-ins, streaks, freeze-token support, heatmaps,
+  and notifications.
+- Encrypted journal workflow with rich text editing, mood analysis, tags,
+  search, mood ring, and timeline views.
+- Goals module with hierarchy, milestones, progress, habit linking, and an
+  interactive tree view.
+- Calendar and planning views for events and reminders.
+- Weekly insights reports backed by Supabase functions.
+- Offline provider, queued sync services, PWA manifest, and service worker
+  configuration.
+- Settings, files, and plugin/module overview pages.
 
-See [ROADMAP.md](./ROADMAP.md) for the milestone plan we will build against.
-See [docs/supabase-setup.md](./docs/supabase-setup.md) for Supabase project, schema, RLS, and Auth setup.
-See [docs/vercel-deployment.md](./docs/vercel-deployment.md) for Vercel launch steps and the production QA checklist.
+## Tech Stack
 
-## Architecture
+- React 19, TypeScript, Vite, and React Router.
+- Supabase Auth, database, row-level security, and Edge Functions.
+- TanStack Query for server state.
+- Zustand for lightweight UI state.
+- TipTap for journal editing.
+- Recharts and D3 for charts and visualizations.
+- React Grid Layout for the custom widget dashboard.
+- Vitest, ESLint, Prettier, and TypeScript project checks.
 
-LifeOS uses a feature-based clean architecture with a service layer. UI components render the interface, hooks prepare feature state for pages, and services own data access or seed data until real storage/API calls are connected.
+## Project Structure
 
 ```txt
 src/
-  App.tsx
+  app/
+    layout/
+    routes/
   features/
+    auth/
     dashboard/
-      components/
-      data/
-      hooks/
-      pages/
-      services/
-      types/
+    files/
+    finance/
+    goals/
     habits/
-      data/
-      services/
-      types/
+    insights/
+    journal/
+    offline/
     planner/
-      data/
-      services/
-      types/
+    plugins/
+    settings/
     tasks/
-      data/
-      services/
-      types/
-  shared/
-    components/
-  providers/
+    widgets/
   lib/
+  providers/
+  shared/
+  stores/
+  types/
+supabase/
+  functions/
+  migrations/
+tests/
 ```
 
-### Module Ownership
-
-- `features/dashboard` owns the dashboard page, layout sections, dashboard navigation data, and the overview hook.
-- `features/tasks` owns focus task types, seed data, and task retrieval services.
-- `features/habits` owns habit heatmap types, seed data, and habit summary services.
-- `features/planner` owns reminder types, seed data, and reminder retrieval services.
-- `shared/components` stores reusable UI primitives used across features.
+Each feature owns its pages, hooks, services, components, and types where
+possible. Shared UI primitives live in `src/shared`, app-wide providers live in
+`src/providers`, and Supabase access is routed through service modules rather
+than page components.
 
 ## Local Development
 
+Install dependencies:
+
 ```bash
 npm install
+```
+
+Create a local environment file:
+
+```bash
+cp .env.example .env
+```
+
+Fill in the Supabase values:
+
+```env
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key-here
+VITE_AUTH_REDIRECT_URL=http://localhost:5173/auth/callback
+VITE_GEMINI_API_KEY=your-gemini-api-key-here
+```
+
+Start the development server:
+
+```bash
 npm run dev
 ```
 
-Copy `.env.example` to `.env` when Supabase and Gemini credentials are ready.
+Open:
 
-## Useful Checks
+```txt
+http://localhost:5173
+```
+
+## Supabase Setup
+
+Run the migrations in order:
+
+```txt
+supabase/migrations/001_initial_schema.sql
+supabase/migrations/002_widget_layouts.sql
+supabase/migrations/003_habit_freeze_tokens.sql
+supabase/migrations/004_goal_details.sql
+supabase/migrations/005_weekly_report_markdown.sql
+```
+
+Then configure Supabase Auth redirect URLs:
+
+```txt
+http://localhost:5173/auth/callback
+https://your-production-domain/auth/callback
+```
+
+More setup detail is in [docs/supabase-setup.md](./docs/supabase-setup.md).
+
+## Scripts
 
 ```bash
+npm run dev
 npm run type-check
-npm run qa
-npm run test
-npm run format:check
-npm run build
 npm run lint
+npm run test
+npm run build
+npm run qa
+npm run format:check
+npm run format
 ```
+
+`npm run qa` runs type-check, lint, tests, and production build.
+
+## Deployment
+
+The app is configured for Vercel as a Vite SPA. See
+[docs/vercel-deployment.md](./docs/vercel-deployment.md) for build settings,
+environment variables, Supabase Auth URLs, Edge Function notes, and launch QA.
+
+## Roadmap
+
+See [ROADMAP.md](./ROADMAP.md) for the planned build direction and product
+principles.
 
 ## Git Workflow
 
-Make small, focused commits that contain real source changes. Keep feature logic inside its feature folder, move reusable UI into `shared/components`, and route data access through service files rather than directly from page components.
+Keep commits small and focused. Every commit should contain a real source,
+documentation, or configuration improvement and should describe the actual
+change made.
