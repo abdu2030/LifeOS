@@ -5990,10 +5990,17 @@ label,
     width: 100%;
   }
 
+  .widget-toolbar-actions > span,
+  .widget-toolbar-actions .auth-error {
+    flex: 1 0 100%;
+  }
+
   .widget-toolbar-actions .compact-action,
   .widget-toolbar-actions .ghost-select {
+    flex: 1 1 0;
     justify-content: center;
-    width: 100%;
+    min-width: 0;
+    width: auto;
   }
 
   .goal-row {
