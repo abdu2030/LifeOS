@@ -5768,12 +5768,54 @@ label,
 
   .topbar-cluster {
     grid-column: 1 / -1;
-    flex-wrap: wrap;
+    overflow-x: auto;
+    flex-wrap: nowrap;
     width: 100%;
+    padding: 1px 2px 8px;
+    scrollbar-width: none;
+  }
+
+  .topbar-cluster::-webkit-scrollbar {
+    display: none;
+  }
+
+  .topbar-cluster > button {
+    flex: 0 0 auto;
+    min-height: 42px;
+    border-radius: 999px;
   }
 
   .date-button {
-    min-width: min(100%, 260px);
+    min-width: 0;
+    max-width: 270px;
+    padding-inline: 12px;
+  }
+
+  .date-button > svg,
+  .period-button > svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .period-button {
+    padding-inline: 12px;
+  }
+
+  .bell-button,
+  .profile-button,
+  .logout-button {
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+  }
+
+  .profile-button {
+    gap: 0;
+  }
+
+  .logout-button span {
+    display: none;
   }
 
   .greeting-row {
@@ -5816,18 +5858,7 @@ label,
   }
 
   .topbar-cluster {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .topbar-cluster .date-button,
-  .topbar-cluster .logout-button {
-    grid-column: 1 / -1;
-  }
-
-  .topbar-cluster .bell-button,
-  .topbar-cluster .profile-button {
-    width: 100%;
+    margin-inline: -2px;
   }
 
   .date-button span {
@@ -5911,11 +5942,12 @@ label,
   }
 
   .search-box,
-  .customize-button,
-  .date-button,
-  .period-button,
-  .logout-button {
+  .customize-button {
     width: 100%;
+  }
+
+  .date-button {
+    max-width: min(72vw, 250px);
   }
 
   .finance-layout,
