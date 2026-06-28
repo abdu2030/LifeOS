@@ -5771,7 +5771,7 @@ label,
     overflow-x: auto;
     flex-wrap: nowrap;
     width: 100%;
-    padding: 1px 2px 8px;
+    padding: 6px 2px 8px;
     scrollbar-width: none;
   }
 
@@ -5780,14 +5780,14 @@ label,
   }
 
   .topbar-cluster > button {
-    flex: 0 0 auto;
     min-height: 42px;
     border-radius: 999px;
   }
 
   .date-button {
+    flex: 1 1 280px;
     min-width: 0;
-    max-width: 270px;
+    max-width: none;
     padding-inline: 12px;
   }
 
@@ -5798,16 +5798,27 @@ label,
   }
 
   .period-button {
+    flex: 1 1 190px;
     padding-inline: 12px;
   }
 
   .bell-button,
   .profile-button,
   .logout-button {
+    flex: 0 0 44px;
     width: 44px;
     height: 44px;
     min-height: 44px;
     padding: 0;
+  }
+
+  .bell-button span {
+    top: 3px;
+    right: 4px;
+    width: 18px;
+    height: 18px;
+    border-width: 2px;
+    font-size: 10px;
   }
 
   .profile-button {
