@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 
 import { useAuth } from '../../features/auth/hooks/useAuth'
@@ -8,6 +9,24 @@ import { navItems } from '../../features/dashboard/data/dashboardData'
 export function AppLayout() {
   const { isAuthenticated, isLoading } = useAuth()
   const location = useLocation()
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
+  useEffect(() => {
+    document.body.classList.toggle('nav-drawer-open', isSidebarOpen)
+
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setIsSidebarOpen(false)
+      }
+    }
+
+    window.addEventListener('keydown', handleEscape)
+
+    return () => {
+      document.body.classList.remove('nav-drawer-open')
+      window.removeEventListener('keydown', handleEscape)
+    }
+  }, [isSidebarOpen])
 
   if (isLoading) {
     return (
@@ -28,9 +47,19 @@ export function AppLayout() {
 
   return (
     <main className="app-shell">
-      <DashboardSidebar navItems={navItems} />
+      <button
+        aria-label="Close navigation menu"
+        className={isSidebarOpen ? 'sidebar-scrim visible' : 'sidebar-scrim'}
+        onClick={() => setIsSidebarOpen(false)}
+        type="button"
+      />
+      <DashboardSidebar
+        isOpen={isSidebarOpen}
+        navItems={navItems}
+        onNavigate={() => setIsSidebarOpen(false)}
+      />
       <section className="workspace">
-        <DashboardTopbar />
+        <DashboardTopbar onMenuClick={() => setIsSidebarOpen(true)} />
         <Outlet />
       </section>
     </main>

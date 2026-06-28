@@ -1,4 +1,4 @@
-import { BarChart3, Bell, CalendarDays, ChevronDown, LogOut, Search } from 'lucide-react'
+import { BarChart3, Bell, CalendarDays, ChevronDown, LogOut, Menu, Search } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -8,7 +8,11 @@ import { useAuth } from '../../auth/hooks/useAuth'
 import { useUserProfile } from '../../settings/hooks/useUserProfile'
 import { navItems } from '../data/dashboardData'
 
-export function DashboardTopbar() {
+type DashboardTopbarProps = {
+  onMenuClick?: () => void
+}
+
+export function DashboardTopbar({ onMenuClick }: DashboardTopbarProps) {
   const navigate = useNavigate()
   const searchInputRef = useRef<HTMLInputElement>(null)
   const [query, setQuery] = useState('')
@@ -66,6 +70,15 @@ export function DashboardTopbar() {
 
   return (
     <header className="topbar">
+      <button
+        aria-label="Open navigation menu"
+        className="menu-button"
+        onClick={onMenuClick}
+        type="button"
+      >
+        <Menu size={20} />
+      </button>
+
       <form className="search-box" onSubmit={handleSearchSubmit}>
         <Search size={18} />
         <input

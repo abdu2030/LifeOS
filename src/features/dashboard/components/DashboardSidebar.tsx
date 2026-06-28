@@ -9,10 +9,12 @@ import { Avatar } from '../../../shared/components/Avatar'
 import type { NavItem } from '../types/dashboard'
 
 type DashboardSidebarProps = {
+  isOpen?: boolean
   navItems: NavItem[]
+  onNavigate?: () => void
 }
 
-export function DashboardSidebar({ navItems }: DashboardSidebarProps) {
+export function DashboardSidebar({ isOpen = false, navItems, onNavigate }: DashboardSidebarProps) {
   const { logout, user } = useAuth()
   const navigate = useNavigate()
   const [isLoggingOut, setIsLoggingOut] = useState(false)
@@ -31,7 +33,7 @@ export function DashboardSidebar({ navItems }: DashboardSidebarProps) {
   }
 
   return (
-    <aside className="sidebar" aria-label="Primary navigation">
+    <aside className={isOpen ? 'sidebar open' : 'sidebar'} aria-label="Primary navigation">
       <section className="brand">
         <div className="brand-mark">
           <svg viewBox="0 0 48 32" aria-hidden="true">
@@ -46,7 +48,12 @@ export function DashboardSidebar({ navItems }: DashboardSidebarProps) {
 
       <nav className="nav-list">
         {navItems.map((item, index) => (
-          <NavEntry item={item} key={item.label} showDivider={index === 8} />
+          <NavEntry
+            item={item}
+            key={item.label}
+            onNavigate={onNavigate}
+            showDivider={index === 8}
+          />
         ))}
       </nav>
 
@@ -93,10 +100,11 @@ function getDisplayName(email?: string, metadata?: Record<string, unknown>) {
 
 type NavEntryProps = {
   item: NavItem
+  onNavigate?: () => void
   showDivider: boolean
 }
 
-function NavEntry({ item, showDivider }: NavEntryProps) {
+function NavEntry({ item, onNavigate, showDivider }: NavEntryProps) {
   const content = (
     <>
       <item.icon size={20} />
@@ -109,6 +117,7 @@ function NavEntry({ item, showDivider }: NavEntryProps) {
     return (
       <NavLink
         className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
+        onClick={onNavigate}
         to={item.path}
       >
         {content}

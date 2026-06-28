@@ -472,6 +472,11 @@ p {
   min-height: 100vh;
 }
 
+.sidebar-scrim,
+.menu-button {
+  display: none;
+}
+
 .sidebar {
   position: sticky;
   top: 0;
@@ -1016,6 +1021,7 @@ p {
   display: grid;
   align-content: start;
   gap: 14px;
+  min-width: 0;
   padding: 8px 24px 28px;
 }
 
@@ -1028,6 +1034,17 @@ p {
   min-height: 58px;
   padding: 4px 0 10px;
   border-bottom: 1px solid var(--border);
+}
+
+.menu-button {
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  color: var(--text);
+  background: var(--panel);
+  cursor: pointer;
 }
 
 .search-box {
@@ -5434,6 +5451,7 @@ kbd {
 .nav-item,
 .ghost-select,
 .customize-button,
+.menu-button,
 .period-button,
 .date-button,
 .bell-button,
@@ -5507,6 +5525,7 @@ kbd {
 
 .topbar .date-button,
 .topbar .period-button,
+.topbar .menu-button,
 .topbar .bell-button,
 .topbar .profile-button,
 .topbar .logout-button {
@@ -5515,6 +5534,7 @@ kbd {
 }
 
 .topbar .search-box > svg,
+.topbar .menu-button svg,
 .topbar .bell-button svg,
 .topbar .profile-button svg,
 .topbar .logout-button svg {
@@ -5689,29 +5709,76 @@ label,
     grid-template-columns: 1fr;
   }
 
+  body.nav-drawer-open {
+    overflow: hidden;
+  }
+
+  .sidebar-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: block;
+    border: 0;
+    background: rgba(2, 6, 23, 0.56);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+  }
+
+  .sidebar-scrim.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .sidebar {
-    position: static;
-    height: auto;
-    max-height: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 90;
+    width: min(86vw, 340px);
+    height: 100dvh;
+    max-height: 100dvh;
+    border-right: 1px solid var(--border);
+    transform: translateX(-104%);
+    transition: transform 220ms ease;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
   }
 
   .workspace {
     gap: 17px;
+    padding-top: 10px;
   }
 
   .nav-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: 1fr;
   }
 
-  .topbar,
-  .greeting-row {
-    align-items: flex-start;
-    flex-direction: column;
+  .topbar {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .menu-button {
+    display: grid;
   }
 
   .topbar-cluster {
+    grid-column: 1 / -1;
     flex-wrap: wrap;
     width: 100%;
+  }
+
+  .date-button {
+    min-width: min(100%, 260px);
+  }
+
+  .greeting-row {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .module-grid {
@@ -5732,6 +5799,45 @@ label,
   .sidebar,
   .workspace {
     padding: 16px;
+  }
+
+  .topbar {
+    align-items: start;
+    padding-bottom: 14px;
+  }
+
+  .search-box {
+    min-width: 0;
+    padding-inline: 12px;
+  }
+
+  .search-box kbd {
+    display: none;
+  }
+
+  .topbar-cluster {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .topbar-cluster .date-button,
+  .topbar-cluster .logout-button {
+    grid-column: 1 / -1;
+  }
+
+  .topbar-cluster .bell-button,
+  .topbar-cluster .profile-button {
+    width: 100%;
+  }
+
+  .date-button span {
+    min-width: 0;
+  }
+
+  .date-button strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .nav-list,
@@ -5810,6 +5916,14 @@ label,
   .period-button,
   .logout-button {
     width: 100%;
+  }
+
+  .finance-layout,
+  .goal-detail-hero,
+  .journal-entry,
+  .metric-tile,
+  .transaction-row {
+    min-width: 0;
   }
 
   .auth-hero-top {
