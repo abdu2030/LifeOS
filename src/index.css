@@ -305,19 +305,20 @@ p {
 .auth-nav {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 5px;
+  gap: 4px;
+  padding: 4px;
   border: 1px solid rgba(148, 163, 184, 0.14);
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.38);
+  background: rgba(15, 23, 42, 0.5);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .auth-nav a {
   display: inline-flex;
   align-items: center;
-  min-height: 34px;
-  padding: 0 12px;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 18px;
   border-radius: 999px;
   color: var(--muted);
   font-size: 13px;
@@ -332,6 +333,15 @@ p {
 .auth-nav a:hover {
   color: var(--text);
   background: rgba(96, 165, 250, 0.16);
+}
+
+.auth-nav a.active,
+.auth-nav a[aria-current='page'] {
+  color: var(--button-text);
+  background: var(--accent-gradient);
+  box-shadow:
+    0 12px 26px rgba(37, 99, 235, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 
 .auth-brand .brand-mark {

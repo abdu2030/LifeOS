@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 type AuthLayoutProps = PropsWithChildren<{
   eyebrow: string
@@ -24,8 +24,8 @@ export function AuthLayout({ children, eyebrow, subtitle, title }: AuthLayoutPro
             </span>
           </Link>
           <nav className="auth-nav" aria-label="Authentication">
-            <Link to="/login">Sign in</Link>
-            <Link to="/register">Create account</Link>
+            <NavLink to="/login">Sign in</NavLink>
+            <NavLink to="/register">Create account</NavLink>
           </nav>
         </div>
         <div>
