@@ -127,7 +127,6 @@
 html {
   min-width: 320px;
   min-height: 100%;
-  overflow-x: hidden;
   background: var(--bg);
 }
 
@@ -136,7 +135,6 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
-  overflow-x: hidden;
   background:
     radial-gradient(circle at 18% 4%, rgba(72, 111, 255, 0.18), transparent 28rem),
     radial-gradient(circle at 78% 14%, rgba(124, 58, 237, 0.13), transparent 30rem),
@@ -512,7 +510,7 @@ p {
 .app-shell {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr);
-  width: 100%;
+  width: max-content;
   min-width: 100%;
   min-height: 100vh;
 }
